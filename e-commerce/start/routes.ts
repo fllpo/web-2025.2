@@ -7,38 +7,64 @@
 |
 */
 
+import { HttpContext } from '@adonisjs/core/http'
 import router from '@adonisjs/core/services/router'
 
-router.on('/').render('pages/home').as('home')
+const produtos = [
+  {
+    id: 1,
+    nome: 'Produto 1',
+    descricao: 'Descrição do Produto 1',
+    preco: 10.0,
+    imagem: 'https://placehold.co/150',
+  },
+  {
+    id: 2,
+    nome: 'Produto 2',
+    descricao: 'Descrição do Produto 2',
+    preco: 20.0,
+    imagem: 'https://placehold.co/150',
+  },
+  {
+    id: 3,
+    nome: 'Produto 3',
+    descricao: 'Descrição do Produto 3',
+    preco: 30.0,
+    imagem: 'https://placehold.co/150',
+  },
+  {
+    id: 4,
+    nome: 'Produto 4',
+    descricao: 'Descrição do Produto 4',
+    preco: 40.0,
+    imagem: 'https://placehold.co/150',
+  },
+]
 
 router
-  .get('/produtos', async ({ view }) => {
-    const collections = [
-      { nome: 'Produto 1', descricao: 'Descrição do Produto 1', preco: 10.0 },
-      { nome: 'Produto 2', descricao: 'Descrição do Produto 2', preco: 20.0 },
-      { nome: 'Produto 3', descricao: 'Descrição do Produto 3', preco: 30.0 },
-      { nome: 'Produto 4', descricao: 'Descrição do Produto 4', preco: 40.0 },
-    ]
-    return view.render('pages/produtos', { collections })
+  .get('/', async ({ view }) => {
+    return view.render('pages/produtos', { produtos })
   })
   .as('produtos')
 
 router
-  .get('/produtos/:id', async ({ params, view }) => {
-    const produto = {
-      id: params.id,
-      nome: `Produto ${params.id}`,
-      descricao: `Descrição detalhada do Produto ${params.id}`,
-      preco: Number.parseFloat(params.id) * 10.0,
-    }
-    return view.render('pages/produtos', { produto })
+  .get('/login', async ({ view }) => {
+    return view.render('pages/login')
   })
-  .as('produtos.show')
+  .as('login')
 
-router.get('/login', async ({ view }) => {
-  return view.render('pages/login')
+router.get('/cadastrar', async ({ view }) => {
+  return view.render('pages/cadastrar')
 })
 
-router.get('/registrar', async ({ view }) => {
-  return view.render('pages/registrar')
-})
+router
+  .get('/produto/:id', async ({ view, params }: HttpContext) => {
+    const produtoId = Number(params.id)
+
+    for (const produto of produtos) {
+      if (produto.id === produtoId) {
+        return view.render('pages/produto', { produto })
+      }
+    }
+  })
+  .as('produto')

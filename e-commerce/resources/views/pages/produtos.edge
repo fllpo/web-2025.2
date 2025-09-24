@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>E-commerce</title>
-    <link rel="stylesheet" href="/css/style.css" />
+    <!--<link rel="stylesheet" href="/css/style.css" />-->
 </head>
 
 <body>
@@ -14,24 +14,25 @@
         <h2> Olá Usuário</h2>
         <nav>
             <a href={{route('produtos')}}>Produtos</a>
-            <a href="/login">Entre ou cadastre-se</a>
+            <a href={{route('login')}}>Entre ou cadastre-se</a>
         </nav>
     </header>
     <main>
 
-        <section class="lista-produto">
-            <article class="item-produto">
-                <div>
-                    @each(item in collections)
-                    <a href={{route('produtos.show',{nome: '123' })}}>
-                        <h2>{{ item.nome }}</h2>
-                    </a>
-                    <a href="#"><img src="{{ item.imagem }}" alt="Imagem do Produto" /></a>
-                    <p>{{ item.descricao }}</p>
-                    <span class="preco">R${{ item.preco }}</span>
-                </div>
-                @end
-            </article>
+        <section class=" lista-produto">
+
+            <div class="item-produto">
+                @each(item in produtos)
+                <a href={{route('produto',{id: item.id })}}>
+                    <h2>{{ item.nome }}</h2>
+                </a>
+                <a href="{{route('produto',{id: item.id })}}"><img src="{{ item.imagem }}"
+                        alt="Imagem do Produto" /></a>
+                <p>{{ item.descricao }}</p>
+                <span class="preco">R${{ item.preco }}</span>
+            </div>
+            @end
+
 
         </section>
     </main>

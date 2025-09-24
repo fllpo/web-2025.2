@@ -12,19 +12,22 @@
     <header>
         <h1>E-commerce</h1>
         <nav>
-            <a href="/">Home</a>
-            <a href="/produtos">Produtos</a>
+            <!--<a href="/">Home</a>-->
+            <a href={{route('produtos')}}>Produtos</a>
         </nav>
     </header>
     <main>
-        <h2>Crie sua conta:</h2>
+        <h2>Entre:</h2>
+
         <div>
-            <label for="name">E-mail:</label>
-            <input type="text" label="email" id="email" name="email" placeholder="fulano@email.com" title="teste" />
-            <label for="name">Senha:</label>
-            <input type="password" name="senha" placeholder="********" />
-            <button type="submit">Entrar</button>
-            <a href="/registrar">Criar conta</a>
+            <form action="/login" method="POST">
+                <label for="email">E-mail:</label>
+                <input type="text" label="email" id="email" name="email" placeholder="fulano@email.com" title="teste" />
+                <label for="senha">Senha:</label>
+                <input type="password" name="senha" placeholder="********" />
+                <button type="submit">Entrar</button>
+                <a href="/cadastrar">Criar conta</a>
+            </form>
         </div>
 
 </html>
