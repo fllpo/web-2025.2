@@ -4,8 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Produto</title>
-    <link rel="stylesheet" href="/css/style.css" />
+    <title>{{ produto.nome }} - E-commerce</title>
     @vite('resources/css/app.css')
 </head>
 
@@ -13,18 +12,25 @@
     <header>
         <h1>E-commerce</h1>
         <nav>
-            <a href={{route('produtos.listar')}}>Produtos</a>
+            <a href="{{ route('produtos.listar') }}">Produtos</a>
         </nav>
     </header>
 
-    <div class="item-produto">
-        <h2>{{ produto.nome }}</h2>
-        <img src="{{ produto.imagem }}" alt="Imagem do Produto" />
-        <p>{{ produto.descricao }}</p>
-        <span class="preco">R${{ produto.preco }}</span>
+    <main>
+        <div class="item-produto">
+            <h2>{{ produto.nome }}</h2>
+            <img src="{{ produto.imagem }}" alt="Imagem do Produto {{ produto.nome }}" />
+            <div class="info-produto">
+                <p>{{ produto.descricao }}</p>
+                <span class="preco">R$ {{ produto.preco.toFixed(2) }}</span>
 
-    </div>
-
+                <div class="acoes">
+                    <button class="btn btn-comprar">Adicionar ao Carrinho</button>
+                    <a href="{{ route('produtos.listar') }}" class="btn btn-voltar">Voltar aos Produtos</a>
+                </div>
+            </div>
+        </div>
+    </main>
 </body>
 
 </html>

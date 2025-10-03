@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>E-commerce</title>
+    <title>E-commerce - Login</title>
     @vite('resources/css/app.css')
 </head>
 
@@ -12,21 +12,29 @@
     <header>
         <h1>E-commerce</h1>
         <nav>
-            <a href={{route('produtos.listar')}}>Produtos</a>
+            <a href="{{ route('produtos.listar') }}">Produtos</a>
         </nav>
     </header>
-    <main>
 
+    <main>
         <div>
-            <form action="/usuario/login" method="POST">
+            <form action="{{ route('usuario.login') }}" method="POST">
+
                 <h1>Login</h1>
+
                 <label for="email">E-mail:</label>
-                <input type="text" label="email" id="email" name="email" placeholder="fulano@email.com" title="teste" />
+                <input type="email" id="email" name="email" placeholder="fulano@email.com" autocomplete="email"
+                    required />
+
                 <label for="senha">Senha:</label>
-                <input type="password" name="senha" placeholder="********" />
+                <input type="password" id="senha" name="senha" placeholder="********" autocomplete="current-password"
+                    required />
+
                 <button type="submit">Entrar</button>
-                <a href="/usuario/cadastrar">Criar conta</a>
+                <a href="{{ route('usuario.formulario') }}">Criar conta</a>
             </form>
         </div>
+    </main>
+</body>
 
 </html>

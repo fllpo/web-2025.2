@@ -4,38 +4,37 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>E-commerce</title>
+    <title>E-commerce - Produtos</title>
     @vite('resources/css/app.css')
 </head>
 
 <body>
     <header>
         <h1>E-commerce</h1>
-        <h2> Olá Usuário</h2> <!-- só usuário logado -->
+        <h3>Olá Usuário</h3> <!-- só usuário logado -->
         <nav>
-            <a href={{route('produtos.listar')}}>Produtos</a>
-            <a href={{route('produto.criar')}}>ADMIN: Cadastrar novo produto</a> <!-- só adm logado -->
-
-            <a href={{route('usuario.login')}}>Entre ou cadastre-se</a>
+            <a href="{{ route('produtos.listar') }}">Produtos</a>
+            <a href="{{ route('produto.criar') }}">ADMIN: Cadastrar novo produto</a> <!-- só adm logado -->
+            <a href="{{ route('usuario.login') }}">Entre ou cadastre-se</a>
         </nav>
     </header>
+
     <main>
-
         <section class="lista-produto">
-
             @each(item in produtos)
-            <a href={{route('produto.detalhe',{id: item.id })}}>
-                <h2>{{ item.nome }}</h2>
-            </a>
-            <a href={{route('produto.detalhe',{id: item.id })}}><img src="{{ item.imagem }}"
-                    alt="Imagem do Produto" /></a>
-            <p>{{ item.descricao }}</p>
-            <span class="preco">R${{ item.preco }}</span>
-
-            @end
-
-
+            <div class="produto-item">
+                <a href="{{ route('produto.detalhe', { id: item.id }) }}">
+                    <h2>{{ item.nome }}</h2>
+                </a>
+                <a href="{{ route('produto.detalhe', { id: item.id }) }}">
+                    <img src="{{ item.imagem }}" alt="Imagem do Produto {{ item.nome }}" />
+                </a>
+                <p>{{ item.descricao }}</p>
+                <span class="preco">R$ {{ item.preco.toFixed(2) }}</span>
+            </div>
+            @endeach
         </section>
     </main>
-
 </body>
+
+</html>
