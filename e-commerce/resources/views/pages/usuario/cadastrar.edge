@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>E-commerce</title>
-    <!--<link rel="stylesheet" href="/css/style.css" />-->
+    @vite('resources/css/app.css')
 
     <script>
 
@@ -110,6 +110,8 @@
             }
         })
     </script>
+
+
 </head>
 
 <body>
@@ -117,15 +119,15 @@
         <h1>E-commerce</h1>
         <nav>
             <!--<a href="/">Home</a>-->
-            <a href={{route('produtos')}}>Produtos</a>
+            <a href={{route('produtos.listar')}}>Produtos</a>
         </nav>
     </header>
     <main>
 
-        <h2>Crie sua conta:</h2>
-        <form action="/cadastrar" method="POST">
+        <form action="/usuario/cadastrar/" method="POST">
 
             <div>
+                <h1>Crie sua conta</h1>
                 <h3>Dados pessoais</h3>
 
                 <label for="nome">Nome completo:</label>
@@ -164,7 +166,7 @@
                 <h3>Dados de acesso</h3>
 
                 <label for="email">E-mail:</label>
-                <input type="text" label="email" id="email" name="email" placeholder="fulano@email.com"
+                <input type="email" label="email" id="email" name="email" placeholder="fulano@email.com"
                     autocomplete="on" required />
 
                 <label for="senha">Senha:</label>
@@ -174,12 +176,9 @@
                 <input type="password" id="senhaConfirmacao" name="senhaConfirmacao" placeholder="********" required />
 
                 <button type="submit">Cadastrar</button>
+                <a href="/usuario/login">Já tenho uma conta</a>
             </div>
-
-
         </form>
-        <div>
-            <a href="/login">Já tenho uma conta</a>
-        </div>
+    </main>
 
 </html>

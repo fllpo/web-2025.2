@@ -6,13 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Produto</title>
     <link rel="stylesheet" href="/css/style.css" />
+    @vite('resources/css/app.css')
 </head>
 
 <body>
     <header>
         <h1>E-commerce</h1>
         <nav>
-            <a href={{route('produtos')}}>Produtos</a>
+            <a href={{route('produtos.listar')}}>Produtos</a>
         </nav>
     </header>
 

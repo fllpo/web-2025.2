@@ -5,28 +5,27 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>E-commerce</title>
-    <link rel="stylesheet" href="/css/style.css" />
+    @vite('resources/css/app.css')
 </head>
 
 <body>
     <header>
         <h1>E-commerce</h1>
         <nav>
-            <!--<a href="/">Home</a>-->
-            <a href={{route('produtos')}}>Produtos</a>
+            <a href={{route('produtos.listar')}}>Produtos</a>
         </nav>
     </header>
     <main>
-        <h2>Entre:</h2>
 
         <div>
-            <form action="/login" method="POST">
+            <form action="/usuario/login" method="POST">
+                <h1>Login</h1>
                 <label for="email">E-mail:</label>
                 <input type="text" label="email" id="email" name="email" placeholder="fulano@email.com" title="teste" />
                 <label for="senha">Senha:</label>
                 <input type="password" name="senha" placeholder="********" />
                 <button type="submit">Entrar</button>
-                <a href="/cadastrar">Criar conta</a>
+                <a href="/usuario/cadastrar">Criar conta</a>
             </form>
         </div>
 

@@ -8,3 +8,130 @@ body {
   height: 100%;
   width: 100%;
 }
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  color: #333;
+}
+header {
+  background-color: #35424a;
+  color: #ffffff;
+  padding: 10px 0;
+  text-align: right;
+}
+header h1 {
+  margin: 0;
+}
+.item-produto {
+  background-color: #ffffff;
+  border: 1px solid #dddddd;
+  border-radius: 5px;
+  padding: 20px;
+  margin: 20px auto;
+  max-width: 600px;
+  text-align: center;
+}
+.item-produto img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 5px;
+}
+.item-produto h2 {
+  margin: 10px 0;
+} 
+.item-produto p {
+  font-size: 16px;
+  margin: 10px 0;
+}
+.item-produto .preco {
+  font-size: 20px;
+  color: #0ba0ce;
+  font-weight: bold;
+}
+.item-produto button {
+  background-color: #35424a;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.item-produto button:hover {
+  background-color: #0ba0ce;
+}
+a {
+  text-decoration: none;
+  color: inherit;
+}
+a:hover {
+  color: #0ba0ce;
+}
+nav {
+  margin-top: 10px;
+}
+nav a {
+  margin: 0 10px;
+  color: #ffffff;
+  font-weight: bold;
+}
+nav a:hover {
+  color: #0ba0ce;
+}
+
+form {
+  margin: 20px auto;
+  max-width: 600px;
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 5px;
+  border: 1px solid #dddddd;
+}
+form label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+form input[type="text"],
+form input[type="email"],
+form input[type="password"],
+form input[type="number"],
+form input[type="tel"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #dddddd;
+  border-radius: 5px;
+  box-sizing: border-box;
+
+}
+form button {
+  background-color: #35424a;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+form button:hover {
+  background-color: #0ba0ce;
+}
+form h3, form h2, form h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+
+
+textarea {
+  width: 100%;
+  height: 100px;
+  padding: 10px;
+  border: 1px solid #dddddd;
+  border-radius: 5px;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  resize: none
+}
