@@ -10,6 +10,7 @@ export default class extends BaseSchema {
       table.string('descricao').notNullable()
       table.decimal('preco', 10, 2).notNullable()
       table.string('imagem', 500).nullable()
+      table.integer('quantidade').nullable()
       table.timestamp('created_at').notNullable()
       table.timestamp('updated_at').nullable()
     })

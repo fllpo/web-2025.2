@@ -15,6 +15,9 @@ export default class Produto extends BaseModel {
   declare preco: number
 
   @column()
+  declare quantidade: number
+
+  @column()
   declare imagem: string
 
   @column.dateTime({ autoCreate: true })
