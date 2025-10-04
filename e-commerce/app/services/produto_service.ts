@@ -13,11 +13,18 @@ export class ProdutoService {
     return await Produto.find(id)
   }
 
-  async criar(dados: { nome: string; descricao: string; preco: number; imagem?: string }) {
+  async criar(dados: {
+    nome: string
+    descricao: string
+    preco: number
+    quantidade: number
+    imagem?: string
+  }) {
     return await Produto.create({
       nome: dados.nome,
       descricao: dados.descricao,
       preco: dados.preco,
+      quantidade: dados.quantidade,
       imagem: dados.imagem || 'https://placehold.co/400',
     })
   }
@@ -28,6 +35,7 @@ export class ProdutoService {
       nome?: string
       descricao?: string
       preco?: number
+      quantidade?: number
       imagem?: string
     }
   ) {
@@ -58,7 +66,7 @@ export class ProdutoService {
     return await Produto.query().where('nome', 'ILIKE', `%${nome}%`).exec()
   }
 
-  validarDados(dados: { nome: string; descricao: string; preco: number }) {
+  validarDados(dados: { nome: string; descricao: string; preco: number; quantidade: number }) {
     const erros = []
 
     if (!dados.nome || dados.nome.trim().length < 2) {
@@ -71,6 +79,10 @@ export class ProdutoService {
     if (!dados.preco || dados.preco <= 0) {
       erros.push('Preço deve ser maior que zero')
     }
+    if (!dados.quantidade || dados.quantidade <= 0) {
+      erros.push('Quantidade deve ser maior que zero')
+    }
+
     return erros
   }
 }

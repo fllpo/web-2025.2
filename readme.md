@@ -31,30 +31,40 @@ yarn install
 
 ## Configuração do ambiente
 
-1. Crie um arquivo .env na raiz (caso ainda não exista).
-2. Copie o conteúdo de .env.example (ou modelo) para .env.
-3. Ajuste as variáveis conforme o ambiente local, por exemplo:
+### 1. Crie um arquivo .env na raiz (caso ainda não exista).
+### 2. Copie o conteúdo de .env.example (ou modelo) para .env.
+### 3. Ajuste as variáveis conforme o ambiente local, por exemplo:
 
 ```bash
+TZ=America/Sao_Paulo
 PORT=3333
 HOST=0.0.0.0
 NODE_ENV=development
 APP_KEY=alguma_chave_secreta
 
-# Exemplo de configurações para Postgres
+# Exemplo de configurações para PostgresSQL
 
 DB_CONNECTION=pg
-PG_HOST=127.0.0.1
-PG_PORT=5432
-PG_USER=seu_usuario
-PG_PASSWORD=sua_senha
-PG_DB_NAME=nome_do_banco
+DB_HOST=localhost
+DB_PORT=5432
+DB_USER=postgres
+DB_PASSWORD=sua_senha
+DB_DATABASE=loja_virtual
 ```
 
-### Gere a APP_KEY (se necessário):
-```
-node ace generate:key
-```
+## Configurando o banco de dados
+
+### 1. Crie o banco de dados no PostgreSQL
+``CREATE DATABASE loja_virtual;``
+### 2. Execute as migrations para criar as tabelas:
+``node ace migration:run``
+
+### 3. Popule o banco com os dados iniciais:
+
+``node ace db:seed``
+
+O seeder criará produtos de exemplo para você testar a aplicação.
+
 ## Como rodar o projeto
 
 Para iniciar o servidor com Hot Module Reloading (HMR):

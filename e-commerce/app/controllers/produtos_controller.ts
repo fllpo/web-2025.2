@@ -30,7 +30,7 @@ export default class ProdutosController {
   // Cria um novo produto
   async store({ request, response, session }: HttpContext) {
     try {
-      const dados = request.only(['nome', 'descricao', 'preco', 'imagem'])
+      const dados = request.only(['nome', 'descricao', 'preco', 'imagem', 'quantidade'])
 
       const erros = this.produtoService.validarDados(dados)
 
@@ -44,6 +44,7 @@ export default class ProdutosController {
         descricao: dados.descricao,
         preco: Number(dados.preco),
         imagem: dados.imagem,
+        quantidade: Number(dados.quantidade),
       })
 
       session.flash('success', 'Produto criado com sucesso!')

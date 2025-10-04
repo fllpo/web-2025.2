@@ -21,7 +21,7 @@ router
   .group(() => {
     router.get('/novo', [ProdutosController, 'create']).as('produto.novo')
 
-    router.post('/novo', [ProdutosController, 'create']).as('produto.criar')
+    router.post('/novo', [ProdutosController, 'store']).as('produto.criar')
 
     router.get('/:id', [ProdutosController, 'show']).as('produto.detalhe')
 
