@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title || "E-commerce" }}</title>
+
+    @if ($slots.meta)
+    {{{ await $slots.meta() }}}
+    @endif
+
+    @vite('resources/css/app.css')
+
+    @if($slots.headScripts)
+    {{{await $slots.headScripts() }}}
+    @endif
+
+</head>
+
+<body>
+
+    @include('components/header')
+
+    <main>
+        @include('components/flash_messages')
+        {{{ await $slots.main() }}}
+    </main>
+
+
+    @include('components/footer')
+
+    @if ($slots.scripts)
+    {{{ await $slots.scripts() }}}
+    @endif
+</body>
+
+</html>

@@ -1,40 +1,22 @@
-<!DOCTYPE html>
-<html lang="pt-br">
+@layout.app({title:"Login"})
 
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>E-commerce - Login</title>
-    @vite('resources/css/app.css')
-</head>
+@slot('main')
+<div>
+    <form action="{{route('usuario.criar')}}" method="POST">
 
-<body>
-    <header>
-        <h1>E-commerce</h1>
-        <nav>
-            <a href="{{ route('produto.listar') }}">Produtos</a>
-        </nav>
-    </header>
+        <h1>Login</h1>
 
-    <main>
-        <div>
-            <form action="{{route('usuario.criar')}}" method="POST">
+        <label for="email">E-mail:</label>
+        <input type="email" id="email" name="email" placeholder="fulano@email.com" autocomplete="email" required />
 
-                <h1>Login</h1>
+        <label for="senha">Senha:</label>
+        <input type="password" id="senha" name="senha" placeholder="********" autocomplete="current-password"
+            required />
 
-                <label for="email">E-mail:</label>
-                <input type="email" id="email" name="email" placeholder="fulano@email.com" autocomplete="email"
-                    required />
+        <button type="submit">Entrar</button>
+        <a href="{{ route('usuario.cadastrar') }}">Criar conta</a>
+    </form>
+</div>
+@end
 
-                <label for="senha">Senha:</label>
-                <input type="password" id="senha" name="senha" placeholder="********" autocomplete="current-password"
-                    required />
-
-                <button type="submit">Entrar</button>
-                <a href="{{ route('usuario.cadastrar') }}">Criar conta</a>
-            </form>
-        </div>
-    </main>
-</body>
-
-</html>
+@end

@@ -8,17 +8,9 @@ export default class ProdutosController {
   async index({ view }: HttpContext) {
     try {
       const produtos = await this.produtoService.listarTodos()
-      console.log('Produtos encontrados:', produtos.length) // Debug
-
-      return view.render('pages/produtos/produtos', {
-        produtos: produtos || [],
-      })
+      return view.render('pages/produtos/produtos', { produtos })
     } catch (error) {
-      console.error('Erro no controller:', error)
-      // Renderiza a página mesmo com erro, mas com array vazio
-      return view.render('pages/produtos/produtos', {
-        produtos: [],
-      })
+      return view.render('pages/produtos/produtos', { produtos: [] })
     }
   }
 

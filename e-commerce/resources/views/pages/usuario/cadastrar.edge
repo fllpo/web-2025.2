@@ -1,178 +1,170 @@
-<!DOCTYPE html>
-<html lang="pt-br">
+@layout.app({title:"Cadastrar-se"})
 
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>E-commerce - Cadastro</title>
-    @vite('resources/css/app.css')
+@slot('headScripts')
+<script>
+    function limpa_formulario_cep() {
+        document.getElementById('logradouro').value = "";
+        document.getElementById('bairro').value = "";
+        document.getElementById('cidade').value = "";
+        document.getElementById('estado').value = "";
+    }
 
-    <script>
-        function limpa_formulario_cep() {
-            document.getElementById('logradouro').value = "";
-            document.getElementById('bairro').value = "";
-            document.getElementById('cidade').value = "";
-            document.getElementById('estado').value = "";
+    function callback(conteudo) {
+        if (!("erro" in conteudo)) {
+            document.getElementById('logradouro').value = conteudo.logradouro;
+            document.getElementById('bairro').value = conteudo.bairro;
+            document.getElementById('cidade').value = conteudo.localidade;
+            document.getElementById('estado').value = conteudo.uf;
+        } else {
+            limpa_formulario_cep();
+            alert("CEP não encontrado.");
         }
+    }
 
-        function callback(conteudo) {
-            if (!("erro" in conteudo)) {
-                document.getElementById('logradouro').value = conteudo.logradouro;
-                document.getElementById('bairro').value = conteudo.bairro;
-                document.getElementById('cidade').value = conteudo.localidade;
-                document.getElementById('estado').value = conteudo.uf;
+    function pesquisaCEP(valor) {
+        var cep = valor.replace(/\D/g, '');
+
+        if (cep !== "") {
+            var validacep = /^[0-9]{8}$/;
+
+            if (validacep.test(cep)) {
+                document.getElementById('logradouro').value = "...";
+                document.getElementById('bairro').value = "...";
+                document.getElementById('cidade').value = "...";
+                document.getElementById('estado').value = "...";
+
+                var script = document.createElement('script');
+                script.src = 'https://viacep.com.br/ws/' + cep + '/json/?callback=callback';
+                document.body.appendChild(script);
             } else {
                 limpa_formulario_cep();
-                alert("CEP não encontrado.");
+                alert("Formato de CEP inválido.");
             }
+        } else {
+            limpa_formulario_cep();
         }
+    }
 
-        function pesquisaCEP(valor) {
-            var cep = valor.replace(/\D/g, '');
+</script>
+@end
 
-            if (cep !== "") {
-                var validacep = /^[0-9]{8}$/;
 
-                if (validacep.test(cep)) {
-                    document.getElementById('logradouro').value = "...";
-                    document.getElementById('bairro').value = "...";
-                    document.getElementById('cidade').value = "...";
-                    document.getElementById('estado').value = "...";
+@slot('main')
+<form action="{{ route('usuario.criar') }}" method="POST">
 
-                    var script = document.createElement('script');
-                    script.src = 'https://viacep.com.br/ws/' + cep + '/json/?callback=callback';
-                    document.body.appendChild(script);
-                } else {
-                    limpa_formulario_cep();
-                    alert("Formato de CEP inválido.");
+    <div>
+        <h1>Crie sua conta</h1>
+        <h3>Dados pessoais</h3>
+
+        <label for="nome">Nome completo:</label>
+        <input type="text" id="nome" name="nome" placeholder="Fulano Sicrano" required />
+
+        <label for="telefone">Telefone:</label>
+        <input type="tel" id="telefone" name="telefone" placeholder="(xx) xxxxx-xxxx"
+            pattern="\([0-9]{2}\) [0-9]{5}-[0-9]{4}" maxlength="15" required />
+    </div>
+
+    <div>
+        <h3>Endereço</h3>
+
+        <label for="cep">CEP:</label>
+        <input type="text" id="cep" name="cep" size="10" maxlength="9" placeholder="00000-000"
+            pattern="[0-9]{5}-[0-9]{3}" onblur="pesquisaCEP(this.value);" required />
+
+        <label for="logradouro">Logradouro:</label>
+        <input type="text" id="logradouro" name="logradouro" placeholder="Rua das Flores" required />
+
+        <label for="numero">Número:</label>
+        <input type="text" id="numero" name="numero" placeholder="00" required />
+
+        <label for="bairro">Bairro:</label>
+        <input type="text" id="bairro" name="bairro" placeholder="Bosque" required />
+
+        <label for="cidade">Cidade:</label>
+        <input type="text" id="cidade" name="cidade" placeholder="Nova Iguaçu" required />
+
+        <label for="estado">Estado:</label>
+        <input type="text" id="estado" name="estado" placeholder="RJ" maxlength="2" required />
+    </div>
+
+    <div>
+        <h3>Dados de acesso</h3>
+
+        <label for="email">E-mail:</label>
+        <input type="email" id="email" name="email" placeholder="fulano@email.com" autocomplete="email" required />
+
+        <label for="senha">Senha:</label>
+        <input type="password" id="senha" name="senha" placeholder="********" minlength="8" required />
+
+        <label for="senhaConfirmacao">Repita a senha:</label>
+        <input type="password" id="senhaConfirmacao" name="senhaConfirmacao" placeholder="********" required />
+
+        <button type="submit">Cadastrar</button>
+        <a href="{{ route('usuario.login') }}">Já tenho uma conta</a>
+
+    </div>
+</form>
+@end
+
+@slot('scripts')
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Formatação do CEP
+        var cepInput = document.getElementById('cep');
+        if (cepInput) {
+            cepInput.addEventListener('input', (e) => {
+                let v = e.target.value.replace(/\D/g, '').slice(0, 8);
+                if (v.length > 5) {
+                    v = v.slice(0, 5) + '-' + v.slice(5);
                 }
-            } else {
-                limpa_formulario_cep();
-            }
+                e.target.value = v;
+            });
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            // Formatação do CEP
-            var cepInput = document.getElementById('cep');
-            if (cepInput) {
-                cepInput.addEventListener('input', (e) => {
-                    let v = e.target.value.replace(/\D/g, '').slice(0, 8);
-                    if (v.length > 5) {
-                        v = v.slice(0, 5) + '-' + v.slice(5);
-                    }
-                    e.target.value = v;
-                });
-            }
+        // Formatação do telefone
+        var telefoneInput = document.getElementById('telefone');
+        if (telefoneInput) {
+            telefoneInput.addEventListener('input', (e) => {
+                let v = e.target.value.replace(/\D/g, '').slice(0, 11);
 
-            // Formatação do telefone
-            var telefoneInput = document.getElementById('telefone');
-            if (telefoneInput) {
-                telefoneInput.addEventListener('input', (e) => {
-                    let v = e.target.value.replace(/\D/g, '').slice(0, 11);
+                if (v.length > 0) {
+                    v = '(' + v;
+                }
+                if (v.length > 3) {
+                    v = v.slice(0, 3) + ') ' + v.slice(3);
+                }
+                if (v.length > 10) {
+                    v = v.slice(0, 10) + '-' + v.slice(10);
+                }
+                e.target.value = v;
+            });
+        }
 
-                    if (v.length > 0) {
-                        v = '(' + v;
-                    }
-                    if (v.length > 3) {
-                        v = v.slice(0, 3) + ') ' + v.slice(3);
-                    }
-                    if (v.length > 10) {
-                        v = v.slice(0, 10) + '-' + v.slice(10);
-                    }
-                    e.target.value = v;
-                });
-            }
+        // Validação de senha
+        var senhaInput = document.getElementById('senha');
+        var senhaConfirmacaoInput = document.getElementById('senhaConfirmacao');
 
-            // Validação de senha
-            var senhaInput = document.getElementById('senha');
-            var senhaConfirmacaoInput = document.getElementById('senhaConfirmacao');
+        if (senhaInput && senhaConfirmacaoInput) {
+            senhaConfirmacaoInput.addEventListener('input', (e) => {
+                if (e.target.value !== senhaInput.value) {
+                    senhaConfirmacaoInput.setCustomValidity('As senhas não coincidem.');
+                } else {
+                    senhaConfirmacaoInput.setCustomValidity('');
+                }
+            });
 
-            if (senhaInput && senhaConfirmacaoInput) {
-                senhaConfirmacaoInput.addEventListener('input', (e) => {
-                    if (e.target.value !== senhaInput.value) {
-                        senhaConfirmacaoInput.setCustomValidity('As senhas não coincidem.');
-                    } else {
-                        senhaConfirmacaoInput.setCustomValidity('');
-                    }
-                });
+            // Também validar quando a senha principal mudar
+            senhaInput.addEventListener('input', () => {
+                if (senhaConfirmacaoInput.value !== senhaInput.value) {
+                    senhaConfirmacaoInput.setCustomValidity('As senhas não coincidem.');
+                } else {
+                    senhaConfirmacaoInput.setCustomValidity('');
+                }
+            });
+        }
+    });
 
-                // Também validar quando a senha principal mudar
-                senhaInput.addEventListener('input', () => {
-                    if (senhaConfirmacaoInput.value !== senhaInput.value) {
-                        senhaConfirmacaoInput.setCustomValidity('As senhas não coincidem.');
-                    } else {
-                        senhaConfirmacaoInput.setCustomValidity('');
-                    }
-                });
-            }
-        });
-    </script>
-</head>
-
-<body>
-    <header>
-        <h1>E-commerce</h1>
-        <nav>
-            <a href="{{ route('produto.listar') }}">Produtos</a>
-        </nav>
-    </header>
-
-    <main>
-        <form action="{{ route('usuario.criar') }}" method="POST">
-
-            <div>
-                <h1>Crie sua conta</h1>
-                <h3>Dados pessoais</h3>
-
-                <label for="nome">Nome completo:</label>
-                <input type="text" id="nome" name="nome" placeholder="Fulano Sicrano" required />
-
-                <label for="telefone">Telefone:</label>
-                <input type="tel" id="telefone" name="telefone" placeholder="(xx) xxxxx-xxxx"
-                    pattern="\([0-9]{2}\) [0-9]{5}-[0-9]{4}" maxlength="15" required />
-            </div>
-
-            <div>
-                <h3>Endereço</h3>
-
-                <label for="cep">CEP:</label>
-                <input type="text" id="cep" name="cep" size="10" maxlength="9" placeholder="00000-000"
-                    pattern="[0-9]{5}-[0-9]{3}" onblur="pesquisaCEP(this.value);" required />
-
-                <label for="logradouro">Logradouro:</label>
-                <input type="text" id="logradouro" name="logradouro" placeholder="Rua das Flores" required />
-
-                <label for="numero">Número:</label>
-                <input type="text" id="numero" name="numero" placeholder="00" required />
-
-                <label for="bairro">Bairro:</label>
-                <input type="text" id="bairro" name="bairro" placeholder="Bosque" required />
-
-                <label for="cidade">Cidade:</label>
-                <input type="text" id="cidade" name="cidade" placeholder="Nova Iguaçu" required />
-
-                <label for="estado">Estado:</label>
-                <input type="text" id="estado" name="estado" placeholder="RJ" maxlength="2" required />
-            </div>
-
-            <div>
-                <h3>Dados de acesso</h3>
-
-                <label for="email">E-mail:</label>
-                <input type="email" id="email" name="email" placeholder="fulano@email.com" autocomplete="email"
-                    required />
-
-                <label for="senha">Senha:</label>
-                <input type="password" id="senha" name="senha" placeholder="********" minlength="8" required />
-
-                <label for="senhaConfirmacao">Repita a senha:</label>
-                <input type="password" id="senhaConfirmacao" name="senhaConfirmacao" placeholder="********" required />
-
-                <button type="submit">Cadastrar</button>
-
-            </div>
-        </form>
-    </main>
-</body>
-
-</html>
+</script>
+@end
+@end

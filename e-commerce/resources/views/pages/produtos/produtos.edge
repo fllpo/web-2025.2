@@ -1,43 +1,21 @@
-<!DOCTYPE html>
-<html lang="pt-br">
+@layout.app({ title: "E-commerce" })
 
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>E-commerce - Produtos</title>
-</head>
+@slot('main')
+<h1>Lista de Produtos</h1>
 
-<body>
-    <header>
-        <h1>E-commerce</h1>
-        <nav>
-            <a href="{{route('produto.listar')}}">Produtos</a>
-            <a href="{{route('produto.novo')}}">ADMIN: Cadastrar novo produto</a>
-            <a href="{{route('usuario.login')}}">Entre ou cadastre-se</a>
-        </nav>
-    </header>
+<div>
+    @if(produtos && produtos.length > 0)
+    @each(produto in produtos)
+    @include('components/produto_card')
+</div>
 
-    <main>
-        <h2>Lista de Produtos</h2>
+@endeach
+@else
 
-        <section class="lista-produto">
-            @if(produtos && produtos.length > 0)
-            @each(produto in produtos)
-            <div class="produto-item">
-                <a href="{{route('produto.detalhe',{id:produto.id})}}">
-                    <h3>{{ produto.nome }}</h3>
-                </a>
-                <img src="{{ produto.imagem }}" alt="{{ produto.nome }}" width="200" />
-                <p>{{ produto.descricao }}</p>
-                <strong>R$ {{ produto.preco }}</strong>
-            </div>
-            @endeach
-            @else
-            <p>Nenhum produto cadastrado no momento.</p>
-            <a href="{{route('produto.novo')}}">Cadastrar primeiro produto</a>
-            @endif
-        </section>
-    </main>
-</body>
+@include('components/lista_vazia')
 
-</html>
+@endif
+
+@endslot
+
+@end

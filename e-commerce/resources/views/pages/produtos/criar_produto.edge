@@ -1,50 +1,32 @@
-<!DOCTYPE html>
-<html lang="pt-br">
+@layout.app({title:"Cadastrar Produto"})
 
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Criar Produto - E-commerce</title>
-    @vite('resources/css/app.css')
-</head>
+@slot('main')
+<form action="{{ route('produto.criar') }}" method="POST">
 
-<body>
-    <header>
-        <h1>E-commerce</h1>
-        <nav>
-            <a href="{{ route('produto.listar') }}">Produtos</a>
-        </nav>
-    </header>
+    <h2 class="form-title">Cadastrar Novo Produto</h2>
 
-    <main>
-        <form action="{{ route('produto.criar') }}" method="POST">
+    <div class="form-group">
+        <label for="nome">Nome do Produto:</label>
+        <input type="text" id="nome" name="nome" placeholder="Ex: Ração Au au Mix" required />
+    </div>
 
-            <h2 class="form-title">Cadastrar Novo Produto</h2>
+    <div class="form-group">
+        <label for="descricao">Descrição:</label>
+        <textarea id="descricao" name="descricao" placeholder="Descreva as características do produto"
+            required></textarea>
+    </div>
 
-            <div class="form-group">
-                <label for="nome">Nome do Produto:</label>
-                <input type="text" id="nome" name="nome" placeholder="Ex: Ração Au au Mix" required />
-            </div>
+    <div class="form-group">
+        <label for="preco">Preço (R$):</label>
+        <input type="number" id="preco" name="preco" step="0.01" min="0" placeholder="0.00" required />
+    </div>
 
-            <div class="form-group">
-                <label for="descricao">Descrição:</label>
-                <textarea id="descricao" name="descricao" placeholder="Descreva as características do produto"
-                    required></textarea>
-            </div>
+    <div class="form-group">
+        <label for="quantidade">Quantidade em Estoque:</label>
+        <input type="number" id="quantidade" name="quantidade" min="0" placeholder="0" required />
+    </div>
 
-            <div class="form-group">
-                <label for="preco">Preço (R$):</label>
-                <input type="number" id="preco" name="preco" step="0.01" min="0" placeholder="0.00" required />
-            </div>
-
-            <div class="form-group">
-                <label for="quantidade">Quantidade em Estoque:</label>
-                <input type="number" id="quantidade" name="quantidade" min="0" placeholder="0" required />
-            </div>
-
-            <button type="submit">Cadastrar Produto</button>
-        </form>
-    </main>
-</body>
-
-</html>
+    <button type="submit">Cadastrar Produto</button>
+</form>
+@end
+@end

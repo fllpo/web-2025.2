@@ -7,11 +7,18 @@ html,
 body {
   height: 100%;
   width: 100%;
+
+}
+main{
+  flex: 1 0 auto;
 }
 body {
   font-family: Arial, sans-serif;
   background-color: #f4f4f4;
   color: #333;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 header {
   background-color: #35424a;
@@ -45,7 +52,7 @@ header h1 {
 }
 .item-produto .preco {
   font-size: 20px;
-  color: #0ba0ce;
+
   font-weight: bold;
 }
 .item-produto button {
@@ -135,3 +142,14 @@ textarea {
   font-size: 16px;
   resize: none
 }
+
+footer {
+        background: #333;
+        color: white;
+        text-align: center;
+        padding: 1rem;
+        flex-shrink: 0;
+    }
+
+
+

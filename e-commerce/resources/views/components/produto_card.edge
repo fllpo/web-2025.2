@@ -1,0 +1,8 @@
+<div class="produto-item">
+    <a href="{{ route('produto.detalhe', { id: produto.id }) }}">
+        <h3>{{ produto.nome }}</h3>
+    </a>
+    <img src="{{ produto.imagem }}" alt="{{ produto.nome }}" width="200" />
+    <p>{{ produto.descricao }}</p>
+    <strong>R$ {{ produto.preco }}</strong>
+</div>
