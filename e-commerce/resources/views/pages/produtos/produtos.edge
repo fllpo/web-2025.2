@@ -1,18 +1,15 @@
 @layout.app({ title: "E-commerce" })
 
 @slot('main')
-<h1>Lista de Produtos</h1>
 
-<div>
-    @if(produtos && produtos.length > 0)
-    @each(produto in produtos)
-    @include('components/produto_card')
-</div>
-
-@endeach
+@if(produtos && produtos.length > 0)
+@include('components/produto_card')
 @else
 
-@include('components/lista_vazia')
+<div class="lista-vazia">
+    <p>Nenhum produto cadastrado no momento.</p>
+    <a href="{{ route('produto.novo') }}">Cadastrar primeiro produto</a>
+</div>
 
 @endif
 

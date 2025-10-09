@@ -1,26 +1,33 @@
-<div class="produtos-container">
-    @each(produto in produtos)
-    <div class="produto-item">
+@layout.app({title: produto.nome})
+
+@slot('main')
+<div class="produto-container">
+    <div class="item-produto">
+
+
         @if(produto.imagem)
         <img src="{{ produto.imagem }}" alt="Imagem do Produto {{ produto.nome }}" />
         @else
         <img src="https://placehold.co/150" alt="Imagem do Produto {{ produto.nome }}" />
         @endif
 
-        <a href="{{ route('produto.detalhe', { id: produto.id }) }}">
+        <h2>{{ produto.nome }}
+            @if(produto.tipo)
+            {{produto.tipo}}
+        </h2>
+        @end
 
-            <h2>{{ produto.nome }}
-                @if(produto.tipo)
-                {{ produto.tipo }}
-                @end
-            </h2>
-        </a>
 
         <p class="preco">R$ {{ produto.preco_pix }}</p>
+
 
         @!button({
         text:"Adicionar ao carrinho"
         })
+
+
+
+
 
         <!-- Botão  aparece quando usuário é admin -->
         @if(auth.user && auth.user.is_admin)
@@ -32,7 +39,11 @@
         </a>
         @endif
 
-    </div>
-    @end
 
+
+
+    </div>
 </div>
+
+@end
+@end

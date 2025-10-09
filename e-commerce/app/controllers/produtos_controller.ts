@@ -22,7 +22,16 @@ export default class ProdutosController {
   // Cria um novo produto
   async store({ request, response, session }: HttpContext) {
     try {
-      const dados = request.only(['nome', 'descricao', 'preco', 'imagem', 'quantidade'])
+      const dados = request.only([
+        'nome',
+        'tipo',
+        'animal',
+        'peso_saco',
+        'quantidade',
+        'preco_pix',
+        'preco_cartao',
+        'imagem',
+      ])
 
       const erros = this.produtoService.validarDados(dados)
 
@@ -33,9 +42,12 @@ export default class ProdutosController {
 
       await this.produtoService.criar({
         nome: dados.nome,
-        descricao: dados.descricao,
-        preco: Number(dados.preco),
+        tipo: dados.tipo,
+        animal: dados.animal,
+        preco_pix: Number(dados.preco_pix),
+        preco_cartao: Number(dados.preco_cartao),
         imagem: dados.imagem,
+        peso_saco: Number(dados.peso_saco),
         quantidade: Number(dados.quantidade),
       })
 
@@ -50,12 +62,12 @@ export default class ProdutosController {
   // Mostra um produto específico
   async show({ params, view, response }: HttpContext) {
     try {
-      const produto = await this.produtoService.buscaPorID(Number(params.id))
+      const produto = await this.produtoService.buscaPorID(params.id)
 
       if (!produto) {
         return view.render('pages/errors/not_found', { message: 'Produto não encontrado' })
       }
-      return view.render('pages/produtos/produto', { produto })
+      return view.render('pages/produtos/produto_detalhe', { produto })
     } catch (error) {
       return response.redirect().toRoute('produtos.listar')
     }
@@ -63,7 +75,7 @@ export default class ProdutosController {
   // TODO
   async edit({ params, view, response }: HttpContext) {
     try {
-      const produto = await this.produtoService.buscaPorID(Number(params.id))
+      const produto = await this.produtoService.buscaPorID(params.id)
 
       if (!produto) {
         return view.render('pages/errors/not_found', { message: 'Produto não encontrado' })
@@ -79,13 +91,26 @@ export default class ProdutosController {
   //Atualiza um produto
   async update({ params, request, response, session }: HttpContext) {
     try {
-      const dados = request.only(['nome', 'descricao', 'preco', 'imagem'])
+      const dados = request.only([
+        'nome',
+        'tipo',
+        'animal',
+        'peso_saco',
+        'quantidade',
+        'preco_pix',
+        'preco_cartao',
+        'imagem',
+      ])
 
-      const produto = await this.produtoService.atualizar(Number(params.id), {
+      const produto = await this.produtoService.atualizar(params.id, {
         nome: dados.nome,
-        descricao: dados.descricao,
-        preco: dados.preco,
+        tipo: dados.tipo,
+        animal: dados.animal,
+        preco_pix: Number(dados.preco_pix),
+        preco_cartao: Number(dados.preco_cartao),
         imagem: dados.imagem,
+        peso_saco: Number(dados.peso_saco),
+        quantidade: Number(dados.quantidade),
       })
 
       if (!produto) {
@@ -103,7 +128,7 @@ export default class ProdutosController {
 
   async destroy({ params, response, session }: HttpContext) {
     try {
-      const deletado = await this.produtoService.deletar(Number(params.id))
+      const deletado = await this.produtoService.deletar(params.id)
       if (!deletado) {
         session.flash('error', 'Produto não encontrado')
       } else {

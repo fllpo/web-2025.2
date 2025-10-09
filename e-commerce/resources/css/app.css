@@ -1,155 +1,240 @@
+:root {
+  /* 🎨 Paleta de cores moderna */
+  --azul-principal: #2563eb;
+  --azul-secundario: #1e40af;
+  --branco: #ffffff;
+  --cinza-claro: #f8fafc;
+  --cinza-borda: #e2e8f0;
+  --texto-principal: #1e293b;
+  --sombra: rgba(0, 0, 0, 0.08);
+  --radius: 1rem;
+  --transicao: all 0.25s ease;
+}
+
 * {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 
-html,
-body {
+html, body {
   height: 100%;
   width: 100%;
-
-}
-main{
-  flex: 1 0 auto;
-}
-body {
-  font-family: Arial, sans-serif;
-  background-color: #f4f4f4;
-  color: #333;
+  font-family: "Inter", sans-serif;
+  background-color: var(--cinza-claro);
+  color: var(--texto-principal);
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  line-height: 1.5;
 }
+
+
 header {
-  background-color: #35424a;
-  color: #ffffff;
-  padding: 10px 0;
+  position: sticky;
+  top: 0;
+  background-color: var(--azul-principal);
+  color: var(--branco);
+  padding: 1rem 2rem;
   text-align: right;
+  z-index: 1000;
+  box-shadow: 0 2px 10px var(--sombra);
 }
+
 header h1 {
   margin: 0;
+  font-size: 1.5rem;
+  letter-spacing: 1px;
 }
-.item-produto {
-  background-color: #ffffff;
-  border: 1px solid #dddddd;
-  border-radius: 5px;
-  padding: 20px;
-  margin: 20px auto;
-  max-width: 600px;
-  text-align: center;
-}
-.item-produto img {
-  max-width: 100%;
-  height: auto;
-  border-radius: 5px;
-}
-.item-produto h2 {
-  margin: 10px 0;
-} 
-.item-produto p {
-  font-size: 16px;
-  margin: 10px 0;
-}
-.item-produto .preco {
-  font-size: 20px;
 
-  font-weight: bold;
-}
-.item-produto button {
-  background-color: #35424a;
-  color: #ffffff;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-}
-.item-produto button:hover {
-  background-color: #0ba0ce;
-}
-a {
-  text-decoration: none;
-  color: inherit;
-}
-a:hover {
-  color: #0ba0ce;
-}
 nav {
-  margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
 }
-nav a {
-  margin: 0 10px;
-  color: #ffffff;
+
+.logo {
+  font-weight: 800;
+  font-size: 2rem;
+  color: var(--branco);
+}
+
+.nav-links a:last-child {
+    margin-right: 0;
+}
+
+.nav-links a {
+  margin: 0 12px;
+  margin-right: 1rem;
+  color: var(--branco);
+  font-weight: 600;
+  text-transform: lowercase;
+  text-decoration: none; 
+  transition: var(--transicao);    
+}
+
+.nav-links a:hover {
+  color: #bfdbfe;
+  text-decoration: none;
+}
+
+main {
+  flex: 1 0 auto;
+  padding: 2rem;
+}
+
+.produtos-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.produto-item {
+  flex: 1 1 260px;
+  max-width: 320px;
+  margin: 10px;
+  background-color: var(--branco);
+  border: 1px solid var(--cinza-borda);
+  border-radius: var(--radius);
+  padding: 0.5rem;
+  text-align: center;
+  box-shadow: 0 4px 10px var(--sombra);
+  transition: var(--transicao);
+}
+
+.produto-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
+}
+
+.produto-item img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: var(--radius);
+}
+
+.produto-item h2, .produto-item a {
+  margin: 0.5rem 0;
+  font-size: 1.25rem;
+  color:black;
+  text-decoration: none;
+}
+
+.produto-item p {
+  font-size: 0.95rem;
+  margin: 0.5rem 0;
+}
+
+.produto-item .preco {
+  display: inline-block;
+  color: black;
   font-weight: bold;
+  font-size: xx-large;
+  margin-top: 0.75rem;
+  padding: 0.4rem 0.8rem;
+  border-radius: 8px;
 }
-nav a:hover {
-  color: #0ba0ce;
+
+button {
+  background-color: var(--azul-principal);
+  color: var(--branco);
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem 1.5rem;
+  margin: 2px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: var(--transicao);
 }
+
+button:hover,
+.produto-item button:hover {
+  background-color: var(--azul-secundario);
+  transform: scale(1.03);
+}
+
 
 form {
-  margin: 20px auto;
+  margin: 2rem auto;
   max-width: 600px;
-  background-color: #ffffff;
-  padding: 20px;
-  border-radius: 5px;
-  border: 1px solid #dddddd;
+  background-color: var(--branco);
+  padding: 2rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--cinza-borda);
+  box-shadow: 0 2px 10px var(--sombra);
 }
+
+form h1, form h2, form h3{
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
 form label {
   display: block;
-  margin-bottom: 5px;
-  font-weight: bold;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
 }
 
 form input[type="text"],
 form input[type="email"],
 form input[type="password"],
 form input[type="number"],
-form input[type="tel"] {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 10px;
-  border: 1px solid #dddddd;
-  border-radius: 5px;
-  box-sizing: border-box;
-
-}
-form button {
-  background-color: #35424a;
-  color: #ffffff;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-}
-form button:hover {
-  background-color: #0ba0ce;
-}
-form h3, form h2, form h1 {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-
-
+form input[type="tel"],
 textarea {
   width: 100%;
-  height: 100px;
-  padding: 10px;
-  border: 1px solid #dddddd;
-  border-radius: 5px;
-  box-sizing: border-box;
-  margin-bottom: 10px;
-  font-family: Arial, sans-serif;
-  font-size: 16px;
-  resize: none
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  border: 1px solid var(--cinza-borda);
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: inherit;
+  transition: var(--transicao);
+}
+
+form input:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--azul-principal);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+}
+
+textarea {
+  resize: none;
+  height: 120px;
 }
 
 footer {
-        background: #333;
-        color: white;
-        text-align: center;
-        padding: 1rem;
-        flex-shrink: 0;
-    }
+  border-top: 2px solid var(--cinza-borda);
+  text-align: center;
+  padding: 1.5rem;
+  background-color: black  ;
+  box-shadow: 0 -2px 8px var(--sombra);
+  flex-shrink: 0;
+  color:white;
 
+}
+footer a{
+  color: white;
+  text-decoration: none;
+}
 
+@media (max-width: 768px) {
+  header {
+    text-align: center;
+  }
 
+  nav a {
+    display: inline-block;
+    margin: 8px;
+  }
+
+  .produto-item {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+}

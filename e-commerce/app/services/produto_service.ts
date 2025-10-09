@@ -15,16 +15,22 @@ export class ProdutoService {
 
   async criar(dados: {
     nome: string
-    descricao: string
-    preco: number
+    tipo?: string
+    animal: string
+    peso_saco: number
     quantidade: number
+    preco_pix: number
+    preco_cartao: number
     imagem?: string
   }) {
     return await Produto.create({
       nome: dados.nome,
-      descricao: dados.descricao,
-      preco: dados.preco,
+      preco_pix: dados.preco_pix,
+      preco_cartao: dados.preco_cartao,
       quantidade: dados.quantidade,
+      tipo: dados.tipo,
+      animal: dados.animal,
+      peso_saco: dados.peso_saco,
       imagem: dados.imagem || 'https://placehold.co/400',
     })
   }
@@ -33,9 +39,12 @@ export class ProdutoService {
     id: number,
     dados: {
       nome?: string
-      descricao?: string
-      preco?: number
+      tipo?: string
+      animal?: string
+      peso_saco?: number
       quantidade?: number
+      preco_pix?: number
+      preco_cartao?: number
       imagem?: string
     }
   ) {
@@ -65,18 +74,25 @@ export class ProdutoService {
   async buscarPorNome(nome: string) {
     return await Produto.query().where('nome', 'ILIKE', `%${nome}%`).exec()
   }
-
-  validarDados(dados: { nome: string; descricao: string; preco: number; quantidade: number }) {
+  // TODO
+  validarDados(dados: {
+    nome: string
+    preco_pix: number
+    preco_cartao: number
+    quantidade: number
+  }) {
     const erros = []
 
     if (!dados.nome || dados.nome.trim().length < 2) {
       erros.push('Nome deve ter pelo menos 2 caracteres')
     }
 
-    if (!dados.descricao || dados.descricao.trim().length < 10) {
-      erros.push('Descrição deve ter pelo menos 10 caracteres')
-    }
-    if (!dados.preco || dados.preco <= 0) {
+    if (
+      !dados.preco_pix ||
+      dados.preco_pix <= 0 ||
+      !dados.preco_cartao ||
+      dados.preco_cartao <= 0
+    ) {
       erros.push('Preço deve ser maior que zero')
     }
     if (!dados.quantidade || dados.quantidade <= 0) {

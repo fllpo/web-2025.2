@@ -1,8 +1,16 @@
 <header>
-    <h1>E-commerce</h1>
     <nav>
-        <a href="{{ route('produto.listar') }}">Produtos</a>
-        <a href="{{ route('produto.novo') }}">ADMIN: Cadastrar novo produto</a>
-        <a href="{{ route('usuario.login') }}">Entre ou cadastre-se</a>
+        <span class="logo">E-commerce</span>
+        <div class="nav-links">
+            <a href="{{ route('produto.listar') }}">Produtos</a>
+            <a>Categorias</a>
+            @if(auth.user && auth.user.is_admin)
+            @endif
+            <a href="{{ route('produto.novo') }}">Cadastrar novo produto</a>
+            <a>Sobre</a>
+            <a>Contato</a>
+            <a href="{{ route('usuario.login') }}">Entre ou cadastre-se</a>
+            <a>Carrinho</a>
+        </div>
     </nav>
 </header>

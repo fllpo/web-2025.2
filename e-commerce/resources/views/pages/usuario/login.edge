@@ -1,22 +1,5 @@
 @layout.app({title:"Login"})
-
 @slot('main')
-<div>
-    <form action="{{route('usuario.criar')}}" method="POST">
-
-        <h1>Login</h1>
-
-        <label for="email">E-mail:</label>
-        <input type="email" id="email" name="email" placeholder="fulano@email.com" autocomplete="email" required />
-
-        <label for="senha">Senha:</label>
-        <input type="password" id="senha" name="senha" placeholder="********" autocomplete="current-password"
-            required />
-
-        <button type="submit">Entrar</button>
-        <a href="{{ route('usuario.cadastrar') }}">Criar conta</a>
-    </form>
-</div>
+@include('components/usuario/formulario_login')
 @end
-
 @end
