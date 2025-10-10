@@ -4,30 +4,25 @@
 <div class="produto-container">
     <div class="item-produto">
 
-
         @if(produto.imagem)
         <img src="{{ produto.imagem }}" alt="Imagem do Produto {{ produto.nome }}" />
         @else
         <img src="https://placehold.co/150" alt="Imagem do Produto {{ produto.nome }}" />
         @endif
 
-        <h2>{{ produto.nome }}
+        <h2>
+            {{ produto.nome }}
             @if(produto.tipo)
-            {{produto.tipo}}
+            {{ produto.tipo }}
+            @end
         </h2>
-        @end
 
 
         <p class="preco">R$ {{ produto.preco_pix }}</p>
 
-
         @!button({
         text:"Adicionar ao carrinho"
         })
-
-
-
-
 
         <!-- Botão  aparece quando usuário é admin -->
         @if(auth.user && auth.user.is_admin)
@@ -38,9 +33,6 @@
             })
         </a>
         @endif
-
-
-
 
     </div>
 </div>

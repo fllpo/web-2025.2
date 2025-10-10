@@ -1,33 +1,73 @@
-<form action="{{ route('produto.criar') }}" method="POST">
+<form action="{{ route('produto.criar') }}" method="POST" enctype="multipart/form-data">
 
-    <h2 class="form-title">Cadastrar Novo Produto</h2>
 
-    <div class="form-group">
-        <label for="nome">Nome do Produto:</label>
-        <input type="text" id="nome" name="nome" placeholder="Ex: Ração Au au Mix" required />
+
+    <h2>Cadastrar Novo Produto</h2>
+
+    <div>
+        <label for="nome">Nome do Produto*:</label>
+        <input type="text" id="nome" name="nome" placeholder="Ex: Au-au" required />
     </div>
 
-    <div class="form-group">
-        <label for="nome">Tipo:</label>
-        <input type="text" id="tipo" name="nome" placeholder="Ex: Ração Au au Mix" required />
+    <div>
+        <label for="tipo">Tipo:</label>
+        <input type="text" id="tipo" name="tipo" placeholder="Ex: Mix" />
     </div>
 
-
-    <div class="form-group">
-        <label for="descricao">Descrição:</label>
-        <textarea id="descricao" name="descricao" placeholder="Descreva as características do produto"
-            required></textarea>
+    <div>
+        <label for="animal">Animal*:</label>
+        <select id="animal" name="animal" required>
+            <option value="" disabled selected>Selecione um animal</option>
+            <option value="Cachorro">Cachorro</option>
+            <option value="Gato">Gato</option>
+            <option value="Galinha">Galinha</option>
+            <option value="Coelho">Coelho</option>
+        </select>
     </div>
 
-    <div class="form-group">
-        <label for="preco">Preço (R$):</label>
-        <input type="number" id="preco" name="preco" step="0.01" min="0" placeholder="0.00" required />
+    <div>
+        <label for="peso_saco">Peso por saco (Kg)*:</label>
+        <input type="number" id="peso_saco" name="peso_saco" min="10" placeholder="0.00" required />
     </div>
 
-    <div class="form-group">
-        <label for="quantidade">Quantidade em Estoque:</label>
-        <input type="number" id="quantidade" name="quantidade" min="0" placeholder="0" required />
+    <div>
+        <label for="preco_pix">Preço (R$)*:</label>
+        <input type="number" id="preco_pix" name="preco_pix" step="0.01" min="40" placeholder="0.00" required />
+    </div>
+
+    <div>
+        <label for="quantidade">Quantidade em Estoque*:</label>
+        <input type="number" id="quantidade" name="quantidade" min="1" placeholder="0" required />
+    </div>
+
+    <div>
+        <label for="imagem">Foto do produto:</label>
+        <input type="file" id="imagem" name="imagem" accept="image/png, image/jpeg, image/webp" />
+        <div id="preview-container" style="margin-top:10px;">
+            <img id="preview" src="" alt="Preview da imagem"
+                style="display:none; max-width:150px; border:1px solid #ccc; padding:5px;" />
+        </div>
     </div>
 
     <button type="submit">Cadastrar Produto</button>
 </form>
+
+<script>
+    const imagemInput = document.getElementById('imagem');
+    const preview = document.getElementById('preview');
+
+    imagemInput.addEventListener('change', function () {
+        const file = this.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+            }
+            reader.readAsDataURL(file);
+        } else {
+            preview.src = '';
+            preview.style.display = 'none';
+        }
+    });
+</script>

@@ -1,38 +1,79 @@
 <div class="produtos-container">
     @each(produto in produtos)
-    <div class="produto-item">
+    <div class="produto-item" id="produto-{{ produto.id }}">
+
+        {{-- Imagem do produto --}}
         @if(produto.imagem)
         <img src="{{ produto.imagem }}" alt="Imagem do Produto {{ produto.nome }}" />
         @else
         <img src="https://placehold.co/150" alt="Imagem do Produto {{ produto.nome }}" />
-        @endif
+        @end
 
+        {{-- Nome e tipo --}}
         <a href="{{ route('produto.detalhe', { id: produto.id }) }}">
-
-            <h2>{{ produto.nome }}
+            <h2>
+                {{ produto.nome }}
                 @if(produto.tipo)
                 {{ produto.tipo }}
                 @end
             </h2>
         </a>
 
+        {{-- Preço --}}
         <p class="preco">R$ {{ produto.preco_pix }}</p>
 
+        {{-- Botão Adicionar ao carrinho --}}
         @!button({
         text:"Adicionar ao carrinho"
         })
 
-        <!-- Botão  aparece quando usuário é admin -->
+        {{-- Botões de edição e deleção para admins --}}
         @if(auth.user && auth.user.is_admin)
-        <a href="{{ route('produto.editar', { id: produto.id }) }}">
-            @!button({
-            text:"Editar Produto",
-            style:"background-color:orange;",
-            })
-        </a>
-        @endif
+        @end
+
+        {{-- Editar Produto --}}
+        @!button({
+        text: "Editar Produto",
+        style: "background-color:orange; color:white;",
+        onclick: `editarProduto('${produto.id}')`
+        })
+
+        {{-- Deletar Produto --}}
+        @!button({
+        text: "Deletar",
+        style: "background-color:red; color:white;",
+        onclick: `deletarProduto('${produto.id}')`
+        })
 
     </div>
     @end
-
 </div>
+
+<script>
+    // Redireciona para a página de edição
+    function editarProduto(id) {
+        window.location.href = `/produtos/${id}/editar`;
+    }
+
+    // Deleta o produto via fetch e remove da tela dinamicamente
+    async function deletarProduto(id) {
+        if (!confirm('Tem certeza que deseja deletar este produto?')) return;
+
+        try {
+            const response = await fetch(`/produtos/${id}`, { method: 'DELETE' });
+            const data = await response.json();
+
+            if (response.ok) {
+                alert(data.message);
+                // Remove o elemento da tela
+                const produtoDiv = document.getElementById(`produto-${id}`);
+                if (produtoDiv) produtoDiv.remove();
+            } else {
+                alert(data.message || 'Erro ao deletar produto');
+            }
+        } catch (error) {
+            console.error('Erro na requisição:', error);
+            alert('Erro ao deletar produto');
+        }
+    }
+</script>

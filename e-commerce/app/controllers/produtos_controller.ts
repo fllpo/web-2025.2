@@ -1,10 +1,9 @@
 import type { HttpContext } from '@adonisjs/core/http'
 import { ProdutoService } from '#services/produto_service'
-
 export default class ProdutosController {
   private produtoService = new ProdutoService()
 
-  //Lista todos os produtos
+  //Lista todos os produtos OK
   async index({ view }: HttpContext) {
     try {
       const produtos = await this.produtoService.listarTodos()
@@ -14,12 +13,12 @@ export default class ProdutosController {
     }
   }
 
-  // Formulário Criação
+  // Formulário Criação OK
   async create({ view }: HttpContext) {
     return view.render('pages/produtos/criar_produto')
   }
 
-  // Cria um novo produto
+  // Cria um novo produto OK
   async store({ request, response, session }: HttpContext) {
     try {
       const dados = request.only([
@@ -29,8 +28,7 @@ export default class ProdutosController {
         'peso_saco',
         'quantidade',
         'preco_pix',
-        'preco_cartao',
-        'imagem',
+        //'preco_cartao',
       ])
 
       const erros = this.produtoService.validarDados(dados)
@@ -45,10 +43,10 @@ export default class ProdutosController {
         tipo: dados.tipo,
         animal: dados.animal,
         preco_pix: Number(dados.preco_pix),
-        preco_cartao: Number(dados.preco_cartao),
-        imagem: dados.imagem,
+        //preco_cartao: Number(dados.preco_cartao),
         peso_saco: Number(dados.peso_saco),
         quantidade: Number(dados.quantidade),
+        //imagem,
       })
 
       session.flash('success', 'Produto criado com sucesso!')
@@ -88,7 +86,7 @@ export default class ProdutosController {
     }
   }
 
-  //Atualiza um produto
+  //TODO Atualiza um produto
   async update({ params, request, response, session }: HttpContext) {
     try {
       const dados = request.only([
@@ -98,8 +96,8 @@ export default class ProdutosController {
         'peso_saco',
         'quantidade',
         'preco_pix',
-        'preco_cartao',
-        'imagem',
+        //'preco_cartao',
+        //'imagem',
       ])
 
       const produto = await this.produtoService.atualizar(params.id, {
@@ -107,8 +105,8 @@ export default class ProdutosController {
         tipo: dados.tipo,
         animal: dados.animal,
         preco_pix: Number(dados.preco_pix),
-        preco_cartao: Number(dados.preco_cartao),
-        imagem: dados.imagem,
+        //preco_cartao: Number(dados.preco_cartao),
+        //imagem: dados.imagem,
         peso_saco: Number(dados.peso_saco),
         quantidade: Number(dados.quantidade),
       })
@@ -126,19 +124,19 @@ export default class ProdutosController {
     }
   }
 
+  //Apaga um produto do banco de dados
   async destroy({ params, response, session }: HttpContext) {
     try {
-      const deletado = await this.produtoService.deletar(params.id)
-      if (!deletado) {
-        session.flash('error', 'Produto não encontrado')
-      } else {
-        session.flash('success', 'Produto deletado com sucesso')
+      const produto = await this.produtoService.buscaPorID(params.id)
+
+      if (!produto) {
+        return response.status(404).json({ message: 'Produto não encontrado' })
       }
 
-      return response.redirect().toRoute('produtos.listar')
-    } catch (error) {
-      session.flash('erro', 'Erro ao deletar produto')
-      return response.redirect().back()
+      await produto.delete()
+      return response.status(200).json({ message: 'Produto deletado com sucesso' })
+    } catch (e) {
+      console.log(e)
     }
   }
 }

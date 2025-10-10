@@ -1,4 +1,5 @@
 import Produto from '#models/produto'
+import { UUID } from 'node:crypto'
 
 export class ProdutoService {
   async listarTodos() {
@@ -9,7 +10,7 @@ export class ProdutoService {
     return await Produto.query().paginate(pagina, limite)
   }
 
-  async buscaPorID(id: number) {
+  async buscaPorID(id: string) {
     return await Produto.find(id)
   }
 
@@ -20,23 +21,23 @@ export class ProdutoService {
     peso_saco: number
     quantidade: number
     preco_pix: number
-    preco_cartao: number
+    //preco_cartao: number
     imagem?: string
   }) {
     return await Produto.create({
       nome: dados.nome,
       preco_pix: dados.preco_pix,
-      preco_cartao: dados.preco_cartao,
+      //preco_cartao: dados.preco_cartao,
       quantidade: dados.quantidade,
       tipo: dados.tipo,
       animal: dados.animal,
       peso_saco: dados.peso_saco,
-      imagem: dados.imagem || 'https://placehold.co/400',
+      // imagem: dados.imagem || 'https://placehold.co/150',
     })
   }
 
   async atualizar(
-    id: number,
+    id: string,
     dados: {
       nome?: string
       tipo?: string
@@ -44,8 +45,8 @@ export class ProdutoService {
       peso_saco?: number
       quantidade?: number
       preco_pix?: number
-      preco_cartao?: number
-      imagem?: string
+      //preco_cartao?: number
+      //imagem?: string
     }
   ) {
     const produto = await Produto.find(id)
@@ -60,13 +61,9 @@ export class ProdutoService {
     return produto
   }
 
-  async deletar(id: number) {
+  async deletar(id: string) {
     const produto = await Produto.find(id)
-
-    if (!produto) {
-      return false
-    }
-
+    if (!produto) return false
     await produto.delete()
     return true
   }
@@ -78,7 +75,7 @@ export class ProdutoService {
   validarDados(dados: {
     nome: string
     preco_pix: number
-    preco_cartao: number
+    //preco_cartao: number
     quantidade: number
   }) {
     const erros = []
@@ -87,14 +84,10 @@ export class ProdutoService {
       erros.push('Nome deve ter pelo menos 2 caracteres')
     }
 
-    if (
-      !dados.preco_pix ||
-      dados.preco_pix <= 0 ||
-      !dados.preco_cartao ||
-      dados.preco_cartao <= 0
-    ) {
+    if (!dados.preco_pix || dados.preco_pix <= 0) {
       erros.push('Preço deve ser maior que zero')
     }
+
     if (!dados.quantidade || dados.quantidade <= 0) {
       erros.push('Quantidade deve ser maior que zero')
     }

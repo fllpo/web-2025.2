@@ -12,10 +12,6 @@ import router from '@adonisjs/core/services/router'
 const ProdutosController = () => import('#controllers/produtos_controller')
 const UsuariosController = () => import('#controllers/usuarios_controller')
 
-// ==========================================================================
-// ROTAS - PRODUTOS
-// ==========================================================================
-
 router.get('/', [ProdutosController, 'index']).as('produto.listar')
 router
   .group(() => {

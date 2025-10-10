@@ -1,7 +1,10 @@
 :root {
-  /* 🎨 Paleta de cores moderna */
-  --azul-principal: #2563eb;
-  --azul-secundario: #1e40af;
+  
+  --azul-principal: #2463eb;
+  --azul-secundario: #132a76;
+  --azul-sombra: #2563eb33;
+  --laranja-principal: #f97415;
+  --laranja-secundario: #c75605;
   --branco: #ffffff;
   --cinza-claro: #f8fafc;
   --cinza-borda: #e2e8f0;
@@ -29,16 +32,16 @@ html, body {
   line-height: 1.5;
 }
 
-
 header {
   position: sticky;
   top: 0;
-  background-color: var(--azul-principal);
+  background-color: var(--azul-secundario);
   color: var(--branco);
-  padding: 1rem 2rem;
+  padding: 0.01rem 2rem;
   text-align: right;
   z-index: 1000;
   box-shadow: 0 2px 10px var(--sombra);
+  
 }
 
 header h1 {
@@ -57,7 +60,7 @@ nav {
 .logo {
   font-weight: 800;
   font-size: 2rem;
-  color: var(--branco);
+  color: var(--laranja-principal);
 }
 
 .nav-links a:last-child {
@@ -85,11 +88,12 @@ main {
 }
 
 .produtos-container {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fill,minmax(250px,1fr));
   gap: 20px;
   justify-content: center;
-  align-items: flex-start;
+  max-width: 1280px;
+  margin: 0 auto;
 }
 
 .produto-item {
@@ -104,6 +108,7 @@ main {
   box-shadow: 0 4px 10px var(--sombra);
   transition: var(--transicao);
 }
+
 
 .produto-item:hover {
   transform: translateY(-5px);
@@ -185,6 +190,8 @@ form input[type="email"],
 form input[type="password"],
 form input[type="number"],
 form input[type="tel"],
+form input[type="tel"],
+form input[type="file"],
 textarea {
   width: 100%;
   padding: 0.75rem;
@@ -196,11 +203,56 @@ textarea {
   transition: var(--transicao);
 }
 
+input[type="file"]::file-selector-button {
+  background-color: var(--laranja-principal);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.5rem 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-right: 0.6rem;
+  transition: background-color 0.2s ease;
+}
+
+/* Efeito hover do botão */
+input[type="file"]::file-selector-button:hover {
+  background-color: var(--laranja-secundario);
+}
+
 form input:focus,
 textarea:focus {
   outline: none;
   border-color: var(--azul-principal);
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+  box-shadow: 0 0 0 3px var(--azul-sombra);
+}
+
+
+form select {
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  border: 1px solid var(--cinza-borda);
+  border-radius: 8px;
+  background-color: var(--branco);
+  font-size: 1rem;
+  color: #333;
+  appearance: none; 
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+form select:hover {
+  border-color: #888;
+}
+
+form select:focus {
+  outline: none;
+  border-color: var(--azul-principal);
+  box-shadow: 0 0 0 3px var(--azul-sombra);
+}
+
+form option[disabled] {
+  color: #888;
 }
 
 textarea {
@@ -211,7 +263,7 @@ textarea {
 footer {
   border-top: 2px solid var(--cinza-borda);
   text-align: center;
-  padding: 1.5rem;
+  padding:  1.5rem;
   background-color: black  ;
   box-shadow: 0 -2px 8px var(--sombra);
   flex-shrink: 0;
