@@ -2,14 +2,14 @@
     @each(produto in produtos)
     <div class="produto-item" id="produto-{{ produto.id }}">
 
-        {{-- Imagem do produto --}}
+
         @if(produto.imagem)
-        <img src="{{ produto.imagem }}" alt="Imagem do Produto {{ produto.nome }}" />
+        <img src="/resources/images/uploads/produtos/{{ produto.imagem }}" alt="Imagem do Produto {{ produto.nome }}" />
         @else
         <img src="https://placehold.co/150" alt="Imagem do Produto {{ produto.nome }}" />
         @end
 
-        {{-- Nome e tipo --}}
+
         <a href="{{ route('produto.detalhe', { id: produto.id }) }}">
             <h2>
                 {{ produto.nome }}
@@ -19,10 +19,10 @@
             </h2>
         </a>
 
-        {{-- Preço --}}
+
         <p class="preco">R$ {{ produto.preco_pix }}</p>
 
-        {{-- Botão Adicionar ao carrinho --}}
+
         @!button({
         text:"Adicionar ao carrinho"
         })

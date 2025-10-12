@@ -32,7 +32,7 @@ export class ProdutoService {
       tipo: dados.tipo,
       animal: dados.animal,
       peso_saco: dados.peso_saco,
-      // imagem: dados.imagem || 'https://placehold.co/150',
+      imagem: dados.imagem || 'https://placehold.co/150',
     })
   }
 
@@ -46,7 +46,7 @@ export class ProdutoService {
       quantidade?: number
       preco_pix?: number
       //preco_cartao?: number
-      //imagem?: string
+      imagem?: string
     }
   ) {
     const produto = await Produto.find(id)

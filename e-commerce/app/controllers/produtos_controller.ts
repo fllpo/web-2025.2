@@ -1,5 +1,7 @@
 import type { HttpContext } from '@adonisjs/core/http'
 import { ProdutoService } from '#services/produto_service'
+import app from '@adonisjs/core/services/app'
+import { cuid } from '@adonisjs/core/helpers'
 export default class ProdutosController {
   private produtoService = new ProdutoService()
 
@@ -38,6 +40,21 @@ export default class ProdutosController {
         return response.redirect().back()
       }
 
+      const imagem = request.file('imagem', {
+        size: '2mb',
+        extnames: ['jpg', 'jpeg', 'png', 'webp'],
+      })
+
+      if (!imagem?.isValid) return response.badRequest({ errors: imagem?.errors })
+
+      try {
+        await imagem.move(app.makePath('/resources/images/uploads/produtos'), {
+          name: `${cuid()}.${imagem.extname}`,
+        })
+      } catch (e) {
+        console.log(e)
+      }
+
       await this.produtoService.criar({
         nome: dados.nome,
         tipo: dados.tipo,
@@ -46,12 +63,13 @@ export default class ProdutosController {
         //preco_cartao: Number(dados.preco_cartao),
         peso_saco: Number(dados.peso_saco),
         quantidade: Number(dados.quantidade),
-        //imagem,
+        imagem: imagem.fileName,
       })
 
       session.flash('success', 'Produto criado com sucesso!')
-      return response.redirect().toRoute('produtos.listar')
+      return response.redirect().toRoute('produto.listar')
     } catch (error) {
+      console.log(error)
       session.flash('error', 'Erro ao criar produto')
       return response.redirect().back()
     }
