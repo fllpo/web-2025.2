@@ -1,27 +1,25 @@
 import type { HttpContext } from '@adonisjs/core/http'
 import { ProdutoService } from '#services/produto_service'
-import app from '@adonisjs/core/services/app'
-import { cuid } from '@adonisjs/core/helpers'
+
 export default class ProdutosController {
   private produtoService = new ProdutoService()
 
-  //Lista todos os produtos OK
   async index({ view }: HttpContext) {
     try {
       const produtos = await this.produtoService.listarTodos()
+      //const produtos = await this.produtoService.listarPaginado()
       return view.render('pages/produtos/produtos', { produtos })
     } catch (error) {
       return view.render('pages/produtos/produtos', { produtos: [] })
     }
   }
 
-  // Formulário Criação OK
   async create({ view }: HttpContext) {
     return view.render('pages/produtos/criar_produto')
   }
 
   // Cria um novo produto OK
-  async store({ request, response, session }: HttpContext) {
+  async store({ request, response }: HttpContext) {
     try {
       const dados = request.only([
         'nome',
@@ -33,26 +31,38 @@ export default class ProdutosController {
         //'preco_cartao',
       ])
 
+      //TODO
+      /*
       const erros = this.produtoService.validarDados(dados)
 
       if (erros.length > 0) {
-        session.flash('errors', erros)
-        return response.redirect().back()
-      }
+        return response.status(422).json({
+          status: 'error',
+          message: 'Erro de validação',
+          errors: erros,
+        })
+      }*/
 
       const imagem = request.file('imagem', {
         size: '2mb',
         extnames: ['jpg', 'jpeg', 'png', 'webp'],
       })
 
-      if (!imagem?.isValid) return response.badRequest({ errors: imagem?.errors })
-
-      try {
-        await imagem.move(app.makePath('/resources/images/uploads/produtos'), {
-          name: `${cuid()}.${imagem.extname}`,
+      if (imagem && !imagem.isValid)
+        return response.status(422).json({
+          status: 'error',
+          message: 'Arquivo inválido',
+          erros: imagem.errors,
         })
-      } catch (e) {
-        console.log(e)
+
+      let nomeImagem
+      try {
+        nomeImagem = await this.produtoService.salvarImagem(imagem)
+      } catch (error) {
+        return response.status(500).json({
+          status: 'error',
+          message: 'Erro ao fazer upload da imagem',
+        })
       }
 
       await this.produtoService.criar({
@@ -63,50 +73,66 @@ export default class ProdutosController {
         //preco_cartao: Number(dados.preco_cartao),
         peso_saco: Number(dados.peso_saco),
         quantidade: Number(dados.quantidade),
-        imagem: imagem.fileName,
+        imagem: nomeImagem || undefined,
       })
 
-      session.flash('success', 'Produto criado com sucesso!')
-      return response.redirect().toRoute('produto.listar')
+      return response.status(201).redirect().toRoute('produto.listar')
     } catch (error) {
       console.log(error)
-      session.flash('error', 'Erro ao criar produto')
-      return response.redirect().back()
+      return response.status(500).json({
+        status: 'error',
+        message: 'Erro ao criar produto',
+      })
     }
   }
 
   // Mostra um produto específico
   async show({ params, view, response }: HttpContext) {
     try {
-      const produto = await this.produtoService.buscaPorID(params.id)
+      const produto = await this.produtoService.buscarPorID(params.id)
 
       if (!produto) {
-        return view.render('pages/errors/not_found', { message: 'Produto não encontrado' })
+        return view.render('pages/errors/not_found', {
+          message: 'Produto não encontrado',
+        })
       }
       return view.render('pages/produtos/produto_detalhe', { produto })
     } catch (error) {
-      return response.redirect().toRoute('produtos.listar')
+      return response.status(500).json({
+        status: 'error',
+        message: 'Erro ao buscar o produto',
+      })
     }
   }
   // TODO
   async edit({ params, view, response }: HttpContext) {
     try {
-      const produto = await this.produtoService.buscaPorID(params.id)
+      const produto = await this.produtoService.buscarPorID(params.id)
 
       if (!produto) {
         return view.render('pages/errors/not_found', { message: 'Produto não encontrado' })
       }
       return view.render('pages/produtos/editar_produto', { produto })
     } catch (error) {
-      return view.render('pages/errors/server_error', {
-        message: 'Erro ao carregar produto',
+      return response.status(500).json({
+        status: 'error',
+        message: 'Erro ao buscar o produto',
       })
     }
   }
 
   //TODO Atualiza um produto
-  async update({ params, request, response, session }: HttpContext) {
+  async update({ params, request, response }: HttpContext) {
     try {
+      const produto = await this.produtoService.buscarPorID(params.id)
+
+      if (!produto) {
+        return response.status(404).json({
+          status: 'error',
+          message: 'Produto não encontrado',
+        })
+      }
+
       const dados = request.only([
         'nome',
         'tipo',
@@ -115,46 +141,84 @@ export default class ProdutosController {
         'quantidade',
         'preco_pix',
         //'preco_cartao',
-        //'imagem',
       ])
 
-      const produto = await this.produtoService.atualizar(params.id, {
+      //TODO
+      /*
+      const erros = this.produtoService.validarDados(dados)
+      if (erros.length > 0) {
+        return response.status(422).json({
+          status: 'error',
+          message: 'Erro de validação',
+          errors: erros,
+        })
+      }*/
+
+      const imagem = request.file('imagem', {
+        size: '2mb',
+        extnames: ['jpg', 'jpeg', 'png', 'webp'],
+      })
+
+      if (imagem && imagem.isValid) {
+        return response.status(422).json({
+          status: 'error',
+          message: 'Arquivo inválido',
+          erros: imagem.errors,
+        })
+      }
+
+      let nomeImagem: string | null | undefined = produto.imagem
+
+      if (imagem) {
+        try {
+          if (produto.imagem) {
+            nomeImagem = await this.produtoService.substituirImagemProduto(produto.imagem, imagem)
+          }
+        } catch (error) {
+          return response.status(500).json({
+            status: 'error',
+            message: 'Erro ao fazer upload da imagem',
+          })
+        }
+      }
+
+      await this.produtoService.atualizar(params.id, {
         nome: dados.nome,
         tipo: dados.tipo,
         animal: dados.animal,
         preco_pix: Number(dados.preco_pix),
         //preco_cartao: Number(dados.preco_cartao),
-        //imagem: dados.imagem,
         peso_saco: Number(dados.peso_saco),
         quantidade: Number(dados.quantidade),
+        imagem: nomeImagem || undefined,
       })
 
-      if (!produto) {
-        session.flash('error', 'Produto não encontrado')
-        return response.redirect().back()
-      }
-
-      session.flash('success', 'Produto atualizado com sucesso!')
       response.redirect().toRoute('produto.detalhe', { id: params.id })
     } catch (error) {
-      session.flash('error', 'Erro ao atualizar produto')
-      response.redirect().back()
+      return response.status(500).json({
+        status: 'error',
+        message: 'Erro ao atualizar produto',
+      })
     }
   }
 
-  //Apaga um produto do banco de dados
-  async destroy({ params, response, session }: HttpContext) {
+  async destroy({ params, response }: HttpContext) {
     try {
-      const produto = await this.produtoService.buscaPorID(params.id)
+      const deletado = await this.produtoService.deletarProduto(params.id)
 
-      if (!produto) {
-        return response.status(404).json({ message: 'Produto não encontrado' })
+      if (!deletado) {
+        return response.status(404).json({
+          status: 'error',
+          message: 'Produto não encontrado',
+        })
       }
 
-      await produto.delete()
-      return response.status(200).json({ message: 'Produto deletado com sucesso' })
-    } catch (e) {
-      console.log(e)
+      return response.redirect().toRoute('produto.listar')
+    } catch (error) {
+      return response.status(500).json({
+        status: 'error',
+        message: 'Erro ao deletar produto',
+      })
     }
   }
 }

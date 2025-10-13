@@ -215,7 +215,6 @@ input[type="file"]::file-selector-button {
   transition: background-color 0.2s ease;
 }
 
-/* Efeito hover do botão */
 input[type="file"]::file-selector-button:hover {
   background-color: var(--laranja-secundario);
 }
@@ -261,19 +260,34 @@ textarea {
 }
 
 footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border-top: 2px solid var(--cinza-borda);
-  text-align: center;
-  padding:  1.5rem;
-  background-color: black  ;
+  padding: 1.5rem;
+  background-color: black;
   box-shadow: 0 -2px 8px var(--sombra);
-  flex-shrink: 0;
-  color:white;
-
+  color: white;
+  position: relative; 
 }
-footer a{
+
+footer img {
+  position: absolute;
+  right: 20px; /* canto direito */
+}
+
+footer p {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin: 0;
+}
+
+footer a {
   color: white;
   text-decoration: none;
 }
+
 
 @media (max-width: 768px) {
   header {
