@@ -59,13 +59,10 @@
     "@adonisjs/static": "^1.1.1",
     "@adonisjs/vite": "^4.0.0",
     "@vinejs/vine": "^3.0.1",
-    "autoprefixer": "^10.4.21",
     "edge.js": "^6.2.1",
     "luxon": "^3.7.2",
     "pg": "^8.16.3",
-    "postcss": "^8.5.6",
-    "reflect-metadata": "^0.2.2",
-    "tailwindcss": "^4.1.14"
+    "reflect-metadata": "^0.2.2"
   },
   "hotHook": {
     "boundaries": [

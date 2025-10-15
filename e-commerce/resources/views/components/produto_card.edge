@@ -50,12 +50,11 @@
 </div>
 
 <script>
-    // Redireciona para a página de edição
+
     function editarProduto(id) {
         window.location.href = `/produtos/${id}/editar`;
     }
 
-    // Deleta o produto via fetch e remove da tela dinamicamente
     async function deletarProduto(id) {
         if (!confirm('Tem certeza que deseja deletar este produto?')) return;
 
@@ -68,6 +67,8 @@
                 // Remove o elemento da tela
                 const produtoDiv = document.getElementById(`produto-${id}`);
                 if (produtoDiv) produtoDiv.remove();
+
+
             } else {
                 alert(data.message || 'Erro ao deletar produto');
             }

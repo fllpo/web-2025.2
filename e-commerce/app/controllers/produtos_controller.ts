@@ -76,13 +76,10 @@ export default class ProdutosController {
         imagem: nomeImagem || undefined,
       })
 
-      return response.status(201).redirect().toRoute('produto.listar')
+      return response.redirect().toRoute('produto.listar')
     } catch (error) {
       console.log(error)
-      return response.status(500).json({
-        status: 'error',
-        message: 'Erro ao criar produto',
-      })
+      return response.redirect().back()
     }
   }
 
@@ -98,10 +95,8 @@ export default class ProdutosController {
       }
       return view.render('pages/produtos/produto_detalhe', { produto })
     } catch (error) {
-      return response.status(500).json({
-        status: 'error',
-        message: 'Erro ao buscar o produto',
-      })
+      console.log(error)
+      return response.redirect().back()
     }
   }
   // TODO
@@ -114,10 +109,8 @@ export default class ProdutosController {
       }
       return view.render('pages/produtos/editar_produto', { produto })
     } catch (error) {
-      return response.status(500).json({
-        status: 'error',
-        message: 'Erro ao buscar o produto',
-      })
+      console.log(error)
+      return response.redirect().back()
     }
   }
 
@@ -175,10 +168,8 @@ export default class ProdutosController {
             nomeImagem = await this.produtoService.substituirImagemProduto(produto.imagem, imagem)
           }
         } catch (error) {
-          return response.status(500).json({
-            status: 'error',
-            message: 'Erro ao fazer upload da imagem',
-          })
+          console.log(error)
+          return response.redirect().back()
         }
       }
 
@@ -195,10 +186,8 @@ export default class ProdutosController {
 
       response.redirect().toRoute('produto.detalhe', { id: params.id })
     } catch (error) {
-      return response.status(500).json({
-        status: 'error',
-        message: 'Erro ao atualizar produto',
-      })
+      console.log(error)
+      return response.redirect().back()
     }
   }
 
@@ -213,8 +202,12 @@ export default class ProdutosController {
         })
       }
 
-      return response.redirect().toRoute('produto.listar')
+      return response.status(200).json({
+        status: 'success',
+        message: 'Produto deletado com sucesso',
+      })
     } catch (error) {
+      console.log(error)
       return response.status(500).json({
         status: 'error',
         message: 'Erro ao deletar produto',
