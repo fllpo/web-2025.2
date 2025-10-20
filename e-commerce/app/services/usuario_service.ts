@@ -1,6 +1,14 @@
 import Usuario from '#models/usuario'
-
+import hash from '@adonisjs/core/services/hash'
 export class UsuarioService {
+  async buscarPorEmail(email: string) {
+    return Usuario.findBy('email', email)
+  }
+
+  async verificarSenha(senhaPlain: string, senhaHash: string) {
+    return hash.verify(senhaPlain, senhaHash)
+  }
+
   async criar(dados: {
     nome: string
     telefone: string
@@ -9,9 +17,11 @@ export class UsuarioService {
     numero: number
     cidade: string
     estado: string
+    bairro: string
     email: string
     senha: string
   }) {
+    const senhaHash = await hash.make(dados.senha)
     return Usuario.create({
       nome: dados.nome,
       telefone: dados.telefone,
@@ -20,51 +30,9 @@ export class UsuarioService {
       numero: dados.numero,
       cidade: dados.cidade,
       estado: dados.estado,
+      bairro: dados.bairro,
       email: dados.email,
-      senha: dados.senha,
+      senha: senhaHash,
     })
-  }
-
-  async atualizar(
-    id: number,
-    dados: {
-      telefone?: string
-      cep?: string
-      logradouro?: string
-      numero?: number
-      cidade?: string
-      estado?: string
-      senha?: string
-    }
-  ) {
-    const usuario = await Usuario.find(id)
-
-    if (!usuario) {
-      return null
-    }
-
-    usuario.merge(dados)
-    await usuario.save()
-
-    return usuario
-  }
-  // TODO
-  async validarDados(dados: {
-    nome: string
-    telefone: string
-    cep: string
-    logradouro: string
-    numero: number
-    cidade: string
-    estado: string
-    email: string
-    senha: string
-  }) {
-    const erros = []
-
-    if (!dados.nome || dados.nome.trim().length < 2) {
-      erros.push('Nome deve ter pelo menos 2 caracteres')
-    }
-    return erros
   }
 }

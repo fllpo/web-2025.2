@@ -2,5 +2,5 @@
     placeholder="{{ $props.placeholder ?? '' }}" {{ $props.required ? 'required' : '' }} {{ $props.pattern ?
     `pattern="${$props.pattern}" ` : '' }} {{ $props.maxlength ? `maxlength="${$props.maxlength}" ` : '' }} {{
     $props.minlength ? `minlength="${$props.minlength}" ` : '' }} {{ $props.size ? `size="${$props.size}" ` : '' }} {{
-    $props.autocomplete ? `autocomplete="${$props.autocomplete}" ` : '' }} {{{ $props.onblur ?
-    `onblur="${$props.onblur}" ` : '' }}} />
+    $props.autocomplete ? `autocomplete="${$props.autocomplete}" ` : '' }} {{ $props.inputmode ?
+    `inputmode="${$props.inputmode}" ` : '' }} {{{ $props.onblur ? `onblur="${$props.onblur}" ` : '' }}} />

@@ -1,6 +1,6 @@
 import type { HttpContext } from '@adonisjs/core/http'
 import { ProdutoService } from '#services/produto_service'
-
+import { criarProdutoValidator } from '#validators/produto'
 export default class ProdutosController {
   private produtoService = new ProdutoService()
 
@@ -21,27 +21,7 @@ export default class ProdutosController {
   // Cria um novo produto OK
   async store({ request, response }: HttpContext) {
     try {
-      const dados = request.only([
-        'nome',
-        'tipo',
-        'animal',
-        'peso_saco',
-        'quantidade',
-        'preco_pix',
-        //'preco_cartao',
-      ])
-
-      //TODO
-      /*
-      const erros = this.produtoService.validarDados(dados)
-
-      if (erros.length > 0) {
-        return response.status(422).json({
-          status: 'error',
-          message: 'Erro de validação',
-          errors: erros,
-        })
-      }*/
+      const dados = await request.validateUsing(criarProdutoValidator)
 
       const imagem = request.file('imagem', {
         size: '2mb',
