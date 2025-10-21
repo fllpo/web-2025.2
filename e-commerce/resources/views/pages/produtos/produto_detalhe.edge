@@ -5,10 +5,12 @@
     <div class="item-produto">
 
         @if(produto.imagem)
-        <img src="{{ produto.imagem }}" alt="Imagem do Produto {{ produto.nome }}" />
+        <img src="{{asset('resources/images/uploads/produtos/') + produto.imagem }}"
+            alt="Imagem do Produto {{ produto.nome }}" />
         @else
         <img src="https://placehold.co/150" alt="Imagem do Produto {{ produto.nome }}" />
         @endif
+
 
         <h2>
             {{ produto.nome }}

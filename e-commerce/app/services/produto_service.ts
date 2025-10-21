@@ -3,6 +3,7 @@ import { cuid } from '@adonisjs/core/helpers'
 import app from '@adonisjs/core/services/app'
 import path from 'node:path'
 import fs from 'node:fs/promises'
+import sharp from 'sharp'
 
 export class ProdutoService {
   async listarTodos() {
@@ -27,10 +28,17 @@ export class ProdutoService {
     }
 
     try {
-      const novoNome = `${cuid()}.${arquivo.extname}`
-      await arquivo.move(app.makePath('resources/images/uploads/produtos'), {
-        name: novoNome,
-      })
+      const novoNome = `${cuid()}.webp`
+      const caminho = path.join(app.makePath('resources/images/uploads/produtos'), novoNome)
+
+      await sharp(arquivo.tmpPath!)
+        .resize(800, 800, {
+          fit: 'contain',
+          background: { r: 255, g: 255, b: 255, alpha: 1 },
+        })
+        .webp({ quality: 85 })
+        .toFile(caminho)
+
       return novoNome
     } catch (error) {
       console.log('Erro ao salvar a imagem', error)
@@ -119,30 +127,4 @@ export class ProdutoService {
 
     return produto
   }
-
-  // TODO
-  /*
-  validarDados(dados: {
-    nome: string
-    preco_pix: number
-    //preco_cartao: number
-    quantidade: number
-  }) {
-    const erros = []
-
-    if (!dados.nome || dados.nome.trim().length < 2) {
-      erros.push('Nome deve ter pelo menos 2 caracteres')
-    }
-
-    if (!dados.preco_pix || dados.preco_pix <= 0) {
-      erros.push('Preço deve ser maior que zero')
-    }
-
-    if (!dados.quantidade || dados.quantidade <= 0) {
-      erros.push('Quantidade deve ser maior que zero')
-    }
-
-    return erros
-  }
-  */
 }
