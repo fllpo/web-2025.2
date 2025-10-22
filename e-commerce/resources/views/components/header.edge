@@ -1,15 +1,28 @@
 <header>
     <nav>
+        @if(auth.isAuthenticated)
+        <span class="logo">Olá {{auth.user.nome.split(' ')[0]}}!</span>
+        @else
         <span class="logo">E-commerce</span>
-        <div class="nav-links">
-            <a href="{{ route('produto.listar') }}">Produtos</a>
-            <a>Categorias</a>
-            @if(auth.user && auth.user.is_admin)
-            @endif
-            <a href="{{ route('produto.novo') }}">Cadastrar novo produto</a>
+        @end
 
+        <div class="nav-links">
+
+            <a href="{{ route('produto.listar') }}">Produtos</a>
+
+            @if(auth.isAuthenticated && auth.user.isAdmin)
+            <a href="{{ route('produto.novo') }}">Cadastrar novo produto</a>
+            @endif
+
+
+            @if(!auth.isAuthenticated)
             <a href="{{ route('usuario.login') }}">Entre ou cadastre-se</a>
+            @else
+            <a>Meu perfil</a>
             <a>Carrinho</a>
+            <a href="{{ route('usuario.logout') }}">Sair</a>
+            @end
+
         </div>
     </nav>
 </header>

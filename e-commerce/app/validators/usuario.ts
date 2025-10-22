@@ -10,14 +10,14 @@ export const criarUsuarioValidator = vine.compile(
     cidade: vine.string().minLength(2).maxLength(100),
     bairro: vine.string().minLength(2).maxLength(100),
     estado: vine.string().minLength(2).maxLength(2),
-    email: vine.string().email(),
+    email: vine.string().email().trim(),
     senha: vine.string().minLength(6).maxLength(100),
   })
 )
 
 export const loginUsuarioValidator = vine.compile(
   vine.object({
-    email: vine.string().email(),
+    email: vine.string().email().trim(),
     senha: vine.string().minLength(6).maxLength(100),
   })
 )

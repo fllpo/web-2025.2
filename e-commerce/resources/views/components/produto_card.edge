@@ -27,23 +27,23 @@
         text:"Adicionar ao carrinho"
         })
 
-        {{-- Botões de edição e deleção para admins --}}
-        @if(auth.user && auth.user.is_admin)
-        @end
 
-        {{-- Editar Produto --}}
+        @if(auth.isAuthenticated && auth.user.isAdmin)
+
+
         @!button({
         text: "Editar Produto",
         style: "background-color:orange; color:white;",
         onclick: `editarProduto('${produto.id}')`
         })
 
-        {{-- Deletar Produto --}}
         @!button({
         text: "Deletar",
         style: "background-color:red; color:white;",
         onclick: `deletarProduto('${produto.id}')`
         })
+        @end
+
 
     </div>
     @end
@@ -63,12 +63,8 @@
             const data = await response.json();
 
             if (response.ok) {
-                alert(data.message);
-                // Remove o elemento da tela
                 const produtoDiv = document.getElementById(`produto-${id}`);
                 if (produtoDiv) produtoDiv.remove();
-
-
             } else {
                 alert(data.message || 'Erro ao deletar produto');
             }

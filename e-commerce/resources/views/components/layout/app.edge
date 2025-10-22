@@ -10,7 +10,7 @@
     {{{ await $slots.meta() }}}
     @endif
 
-    @vite('resources/css/app.css')
+    @vite('resources/css/app.css','resources/js/app.js')
 
     @if($slots.headScripts)
     {{{await $slots.headScripts() }}}

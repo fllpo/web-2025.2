@@ -1,13 +1,9 @@
 import type { HttpContext } from '@adonisjs/core/http'
 import { UsuarioService } from '#services/usuario_service'
-import { criarUsuarioValidator, loginUsuarioValidator } from '#validators/usuario'
+import { criarUsuarioValidator } from '#validators/usuario'
 
 export default class UsuariosController {
   private usuarioService = new UsuarioService()
-
-  async login({ view }: HttpContext) {
-    return view.render('pages/usuario/login')
-  }
 
   async signin({ view }: HttpContext) {
     return view.render('pages/usuario/cadastrar')
@@ -17,9 +13,16 @@ export default class UsuariosController {
     try {
       const dados = await request.validateUsing(criarUsuarioValidator)
 
+      console.log('🔴 DADOS RECEBIDOS NO CONTROLLER:')
+      console.log('Email:', dados.email)
+      console.log('Senha:', dados.senha)
+      console.log('Tamanho senha:', dados.senha.length)
+      console.log('Começa com $scrypt?', dados.senha.startsWith('$scrypt'))
+
       const usuarioExistente = await this.usuarioService.buscarPorEmail(dados.email)
+
       if (usuarioExistente) {
-        return response.badRequest('Email já cadastrado.')
+        return response.badRequest('Usuário já cadastrado.')
       }
 
       await this.usuarioService.criar(dados)
@@ -32,35 +35,5 @@ export default class UsuariosController {
       console.error(error)
     }
     return response.internalServerError('Erro no servidor.')
-  }
-
-  async authenticate({ request, response, auth }: HttpContext) {
-    try {
-      const dados = await request.validateUsing(loginUsuarioValidator)
-
-      const usuario = await this.usuarioService.buscarPorEmail(dados.email)
-      if (!usuario) {
-        return response.unauthorized('Credenciais inválidas. E-mail')
-      }
-      const senhaValida = await this.usuarioService.verificarSenha(dados.senha, usuario.senha)
-      if (!senhaValida) {
-        return response.unauthorized('Credenciais inválidas. Senha')
-      }
-
-      await auth.use('web').login(usuario)
-
-      return response.redirect().toRoute('produto.listar')
-    } catch (error) {
-      if (error.messages) {
-        return response.badRequest('Erro ao autenticar usuário.')
-      }
-      console.error(error)
-    }
-    return response.internalServerError('Erro no servidor.')
-  }
-
-  async logout({ auth, response }: HttpContext) {
-    await auth.use('web').logout()
-    return response.redirect().toRoute('usuario.login')
   }
 }

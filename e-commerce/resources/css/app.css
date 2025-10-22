@@ -1,3 +1,7 @@
+/*@import "tailwindcss";
+@source "../views";*/
+
+
 :root {
   
   --azul-principal: #2463eb;
@@ -106,12 +110,10 @@ main {
   padding: 0.5rem;
   text-align: center;
   box-shadow: 0 4px 10px var(--sombra);
-  transition: var(--transicao);
+  
 }
 
-
 .produto-item:hover {
-  transform: translateY(-5px);
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
 }
 
