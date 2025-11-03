@@ -1,28 +1,57 @@
 <header>
-    <nav>
-        @if(auth.isAuthenticated)
-        <span class="logo">Olá {{auth.user.nome.split(' ')[0]}}!</span>
-        @else
-        <span class="logo">E-commerce</span>
-        @end
+  <nav>
+    <span class="logo">PetBuy</span>
+    <div class="nav-links">
+      <a href="{{ route('produto.listar') }}">Produtos</a>
+      
+      @if(auth.isAuthenticated && auth.user.isAdmin)
+        <a href="{{ route('produto.novo') }}">Cadastrar novo produto</a>
+      @endif
 
-        <div class="nav-links">
+      @if(!auth.isAuthenticated)
+        <a href="{{ route('usuario.login') }}">Entre</a>
+        <a href="{{ route('usuario.login') }}">Cadastre-se</a>
+      @else
+        <a href="#">Carrinho</a>
 
-            <a href="{{ route('produto.listar') }}">Produtos</a>
-
-            @if(auth.isAuthenticated && auth.user.isAdmin)
-            <a href="{{ route('produto.novo') }}">Cadastrar novo produto</a>
-            @endif
-
-
-            @if(!auth.isAuthenticated)
-            <a href="{{ route('usuario.login') }}">Entre ou cadastre-se</a>
-            @else
-            <a>Meu perfil</a>
-            <a>Carrinho</a>
-            <a href="{{ route('usuario.logout') }}">Sair</a>
+        <div class="dropdown">
+          
+            @if(auth.user)
+                @if(auth.user.foto_perfil) 
+                <img src="{{asset('resources/images/uploads/usuario/') + usuario.foto_perfilS }}"
+                    alt="Imagem do Usuário {{ usuario.nome }}" />
+                @else
+                <img 
+                    class="profile-avatar dropdown-trigger" 
+                    src="https://placehold.co/40" 
+                    alt="Menu do usuário"
+                >
+                @end
             @end
 
+            <div class="dropdown-content">
+            
+            <div class="dropdown-header">
+                <div class="dropdown-header-name">{{ auth.user.nome }}</div>
+                <div class="dropdown-header-email">{{ auth.user.email }}</div>
+            </div>
+            
+            <ul class="dropdown-links">
+                <li>
+                <a href="#">Meu Perfil</a>
+                </li>
+                <li>
+                <a href="#">Configurações</a>
+                </li>
+            </ul>
+            
+            <div class="dropdown-footer">
+                <a href="{{ route('usuario.logout') }}">Sair</a>
+            </div>
+
+          </div>
         </div>
-    </nav>
+        @end
+    </div>
+  </nav>
 </header>

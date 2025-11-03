@@ -306,3 +306,103 @@ footer a {
     max-width: 100%;
   }
 }
+
+/* <style> */
+  /* --- O Contêiner Principal --- */
+  .dropdown {
+    position: relative;
+    display: inline-block;
+    vertical-align: middle; /* Alinha o ícone com os links */
+  }
+
+  /* --- O Gatilho (Avatar) --- */
+  .profile-avatar {
+    width: 40px;  /* Equivalente ao 'w-10 h-10' */
+    height: 40px;
+    border-radius: 50%; /* Equivalente ao 'rounded-full' */
+    cursor: pointer;
+  }
+
+  /* --- O Conteúdo (O menu em si) --- */
+  .dropdown-content {
+    display: none; /* Começa escondido ('hidden') */
+    position: absolute;
+    z-index: 10;
+    right: 0;
+    min-width: 176px; /* Equivalente ao 'w-44' */
+    
+    background-color: white;
+    border-radius: 8px; /* Equivalente ao 'rounded-lg' */
+    
+    /* Equivalente ao 'shadow-sm' e 'divide-y' */
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    border: 1px solid #f3f4f6; /* Uma borda leve */
+  }
+
+  /* --- Seção 1: Cabeçalho do Menu (Nome/Email) --- */
+  .dropdown-header {
+    padding: 12px 16px; /* Equivalente ao 'px-4 py-3' */
+    font-size: 0.875rem; /* Equivalente ao 'text-sm' */
+    color: #1f2937; /* 'text-gray-900' */
+  }
+  
+  .dropdown-header-name {
+    font-weight: 500; /* 'font-medium' */
+  }
+
+  .dropdown-header-email {
+    color: #6b7280; /* 'text-gray-600' */
+    /* Para o efeito 'truncate' (corta o texto se for longo) */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  /* --- Seção 2: Lista de Links --- */
+  .dropdown-links {
+    list-style: none; /* Remove bolinhas da lista */
+    margin: 0;
+    padding: 8px 0; /* Equivalente ao 'py-2' */
+    /* A linha divisória 'divide-y' */
+    border-top: 1px solid #f3f4f6; 
+  }
+  
+  /* --- Seção 3: Rodapé do Menu (Sair) --- */
+  .dropdown-footer {
+    padding: 4px 0; /* Equivalente ao 'py-1' */
+    /* A linha divisória 'divide-y' */
+    border-top: 1px solid #f3f4f6;
+  }
+
+  /* --- Estilo COMUM para todos os links do menu --- */
+  .dropdown-links a,
+  .dropdown-footer a {
+    display: block; /* Ocupa a linha inteira */
+    padding: 8px 16px; /* 'px-4 py-2' */
+    font-size: 0.875rem; /* 'text-sm' */
+    color: #374151; /* 'text-gray-700' */
+    text-decoration: none;
+  }
+
+  /* O Efeito HOVER na linha inteira */
+  .dropdown-links a:hover,
+  .dropdown-footer a:hover {
+    background-color: #f3f4f6; /* 'hover:bg-gray-100' */
+  }
+
+  /* --- A MÁGICA (Escolha UMA) --- */
+  
+  /* Opção 1: Mostrar com HOVER (CSS Puro) */
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+  
+  /* Opção 2: Mostrar com CLIQUE (JS) - RECOMENDADO */
+  /* Para usar esta, adicione a classe 'show' no CSS */
+  /*
+  .dropdown-content.show {
+    display: block;
+  }
+  */
+  
+/* </style> */
