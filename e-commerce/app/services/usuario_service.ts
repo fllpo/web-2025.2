@@ -2,6 +2,7 @@ import Usuario from '#models/usuario'
 import app from '@adonisjs/core/services/app'
 import { cuid } from '@adonisjs/core/helpers'
 import path from 'node:path'
+import fs from 'node:fs/promises'
 import sharp from 'sharp'
 
 export class UsuarioService {
@@ -33,6 +34,26 @@ export class UsuarioService {
     }
   }
 
+  private async deletarImagemPerfil(nomeArquivo: string): Promise<void> {
+    try {
+      const caminhoImagem = path.join(
+        app.makePath('resources/images/uploads/usuario'),
+        nomeArquivo
+      )
+      await fs.unlink(caminhoImagem)
+    } catch (error) {
+      console.error(`Erro ao deletar imagem ${nomeArquivo}:`, error)
+    }
+  }
+
+  async substituirImagemPerfil(imagemAntiga: string, novoArquivo: any): Promise<string | null> {
+    if (imagemAntiga) {
+      await this.deletarImagemPerfil(imagemAntiga)
+    }
+
+    return await this.salvarImagem(novoArquivo)
+  }
+
   async criar(dados: any) {
     return Usuario.create(dados)
   }
@@ -53,12 +74,9 @@ export class UsuarioService {
       fotoPerfil?: string
     }
   ) {
-    // const produto = await Produto.find(id)
     const usuario = await Usuario.find(id)
 
-    if (!usuario) {
-      return null
-    }
+    if (!usuario) {return null}
 
     usuario.merge(dados)
     await usuario.save()

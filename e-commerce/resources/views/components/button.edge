@@ -1,3 +1,8 @@
-<button type="{{ type || 'button' }}" style="{{ style || '' }}" onclick="{{ onclick || ''}}">
-    {{ text || '' }}
+<button
+  type="{{ type || 'button' }}"
+  class="{{ classes || '' }}"  <-- CORRIGIDO
+  style="{{ style || '' }}"
+  onclick="{{ onclick || ''}}"
+>
+  {{ text || '' }}
 </button>

@@ -1,6 +1,6 @@
 <header>
   <nav>
-    <span class="logo">PetBuy</span>
+    <a href="{{ route('produto.listar')}}"><span class="logo">PetBuy</span></a>
     <div class="nav-links">
       <a href="{{ route('produto.listar') }}">Produtos</a>
       
@@ -16,10 +16,19 @@
 
         <div class="dropdown">
           
+          {{-- /uploads/usuarios/{{ usuario.fotoPerfil }} --}}
+          {{-- <img src="{{asset('resources/images/uploads/usuario/') + usuario.foto_perfilS }}" --}}
+
             @if(auth.user)
-                @if(auth.user.foto_perfil) 
-                <img src="{{asset('resources/images/uploads/usuario/') + usuario.foto_perfilS }}"
-                    alt="Imagem do Usuário {{ usuario.nome }}" />
+                {{-- @if(auth.user.foto_perfil) 
+                <img src="/uploads/usuarios/{{ usuario.fotoPerfil }}" 
+                    alt="Imagem do Usuário {{ usuario.nome }}" /> --}}
+                @if(auth.user.fotoPerfil) 
+                <img 
+                  class="profile-avatar dropdown-trigger" {{-- Mantendo sua classe --}}
+                  src="/uploads/usuarios/{{ auth.user.fotoPerfil }}" 
+                  alt="Imagem do Usuário {{ auth.user.nome }}" 
+                />
                 @else
                 <img 
                     class="profile-avatar dropdown-trigger" 
@@ -38,16 +47,16 @@
             
             <ul class="dropdown-links">
                 <li>
-                <a href="#">Meu Perfil</a>
+                <a href="{{ route('profile.show')}}">Meu Perfil</a>
                 </li>
                 <li>
-                <a href="#">Configurações</a>
+                {{-- <a href="#">Configurações</a> --}}
+                <div class="dropdown-footer">
+                    <a href="{{ route('usuario.logout') }}">Sair</a>
+                </div>
                 </li>
             </ul>
             
-            <div class="dropdown-footer">
-                <a href="{{ route('usuario.logout') }}">Sair</a>
-            </div>
 
           </div>
         </div>

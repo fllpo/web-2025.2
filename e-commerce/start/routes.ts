@@ -13,6 +13,7 @@ import { middleware } from './kernel.js'
 const ProdutosController = () => import('#controllers/produtos_controller')
 const UsuariosController = () => import('#controllers/usuarios_controller')
 const SessionController = () => import('#controllers/session_controller')
+const PerfilsController = () => import('#controllers/perfils_controller')
 
 router.get('/', [ProdutosController, 'index']).as('produto.listar').use(middleware.auth())
 
@@ -45,3 +46,9 @@ router.group(() => {
   router.post('/login', [SessionController, 'store']).as('usuario.autenticar')
   router.get('/logout', [SessionController, 'destroy']).as('usuario.logout')
 })
+
+router.group(() => {
+  router.get('/perfil', [PerfilsController, 'show']).as('profile.show')
+  router.get('/perfil/edit', [PerfilsController, 'edit']).as('profile.edit')
+  router.post('/perfil;edit', [PerfilsController, 'update']).as('profile.update')
+}).use(middleware.auth())

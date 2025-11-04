@@ -307,102 +307,279 @@ footer a {
   }
 }
 
-/* <style> */
-  /* --- O Contêiner Principal --- */
   .dropdown {
     position: relative;
     display: inline-block;
-    vertical-align: middle; /* Alinha o ícone com os links */
+    vertical-align: middle;
   }
 
-  /* --- O Gatilho (Avatar) --- */
-  .profile-avatar {
-    width: 40px;  /* Equivalente ao 'w-10 h-10' */
-    height: 40px;
-    border-radius: 50%; /* Equivalente ao 'rounded-full' */
-    cursor: pointer;
-  }
-
-  /* --- O Conteúdo (O menu em si) --- */
-  .dropdown-content {
-    display: none; /* Começa escondido ('hidden') */
-    position: absolute;
-    z-index: 10;
-    right: 0;
-    min-width: 176px; /* Equivalente ao 'w-44' */
-    
-    background-color: white;
-    border-radius: 8px; /* Equivalente ao 'rounded-lg' */
-    
-    /* Equivalente ao 'shadow-sm' e 'divide-y' */
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    border: 1px solid #f3f4f6; /* Uma borda leve */
-  }
-
-  /* --- Seção 1: Cabeçalho do Menu (Nome/Email) --- */
-  .dropdown-header {
-    padding: 12px 16px; /* Equivalente ao 'px-4 py-3' */
-    font-size: 0.875rem; /* Equivalente ao 'text-sm' */
-    color: #1f2937; /* 'text-gray-900' */
-  }
+.profile-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.dropdown-content {
+  display: none; 
+  position: absolute;
+  z-index: 10;
+  right: 0;
+  min-width: 176px;
   
-  .dropdown-header-name {
-    font-weight: 500; /* 'font-medium' */
-  }
-
-  .dropdown-header-email {
-    color: #6b7280; /* 'text-gray-600' */
-    /* Para o efeito 'truncate' (corta o texto se for longo) */
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  /* --- Seção 2: Lista de Links --- */
-  .dropdown-links {
-    list-style: none; /* Remove bolinhas da lista */
-    margin: 0;
-    padding: 8px 0; /* Equivalente ao 'py-2' */
-    /* A linha divisória 'divide-y' */
-    border-top: 1px solid #f3f4f6; 
-  }
+  background-color: var(--branco);
+  border-radius: 8px;
   
-  /* --- Seção 3: Rodapé do Menu (Sair) --- */
-  .dropdown-footer {
-    padding: 4px 0; /* Equivalente ao 'py-1' */
-    /* A linha divisória 'divide-y' */
-    border-top: 1px solid #f3f4f6;
-  }
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  border: 1px solid #f3f4f6;
+}
 
-  /* --- Estilo COMUM para todos os links do menu --- */
-  .dropdown-links a,
-  .dropdown-footer a {
-    display: block; /* Ocupa a linha inteira */
-    padding: 8px 16px; /* 'px-4 py-2' */
-    font-size: 0.875rem; /* 'text-sm' */
-    color: #374151; /* 'text-gray-700' */
-    text-decoration: none;
-  }
+.dropdown-header {
+  padding: 12px 16px;
+  font-size: 0.875rem;
+  color: #1f2937;
+}
 
-  /* O Efeito HOVER na linha inteira */
-  .dropdown-links a:hover,
-  .dropdown-footer a:hover {
-    background-color: #f3f4f6; /* 'hover:bg-gray-100' */
-  }
+.dropdown-header-name {
+  font-weight: 500; 
+}
 
-  /* --- A MÁGICA (Escolha UMA) --- */
-  
-  /* Opção 1: Mostrar com HOVER (CSS Puro) */
-  .dropdown:hover .dropdown-content {
-    display: block;
+.dropdown-header-email {
+  color: #6b7280;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+.dropdown-links {
+  list-style: none;
+  margin: 0;
+  padding: 8px 0;
+  border-top: 1px solid #f3f4f6; 
+}
+
+
+.dropdown-footer {
+  padding: 4px 0;
+  border-top: 1px solid #f3f4f6;
+}
+
+.dropdown-links a,
+.dropdown-footer a {
+  display: block; 
+  padding: 8px 16px;
+  font-size: 0.875rem;
+  color: #374151; 
+  text-decoration: none;
+}
+
+.dropdown-links a:hover,
+.dropdown-footer a:hover {
+  background-color: #f3f4f6;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+/* Estilos da Página de Perfil */
+.profile-page {
+  display: flex;
+  justify-content: center; 
+  align-items: flex-start;
+  min-height: calc(100vh - 120px);
+}
+
+.profile-card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  padding: 3rem;
+  width: 100%;
+  max-width: 700px;
+  text-align: center;
+}
+
+.profile-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 2.5rem;
+  text-align:center; 
+}
+
+/* Mensagem de sucesso */
+.alert-success {
+  background-color: #d4edda;
+  border: 1px solid #c3e6cb;
+  color: #155724;
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+  text-align: left;
+  font-size: 0.95rem;
+}
+
+/* Contêiner da Imagem de Perfil */
+.profile-image-container {
+  margin-bottom: 2.5rem;
+  position: relative;
+  display: inline-block;
+}
+
+.profile-avatar-img {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%; /* Imagem circular */
+  object-fit: cover; /* Garante que a imagem preencha o círculo */
+  border: 5px solid #e0e0e0;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+/* Detalhes do Perfil */
+.profile-details {
+  text-align: left;
+  margin-bottom: 3rem;
+  border-top: 1px solid #eee;
+  padding-top: 2.5rem;
+}
+
+.profile-details p {
+  font-size: 1.15rem;
+  line-height: 1.8;
+  margin-bottom: 0.8rem;
+  color: #555;
+}
+
+.profile-details p strong {
+  color: #333;
+  display: inline-block;
+  min-width: 100px; 
+}
+
+/* Ações (Botões) */
+.profile-actions {
+  border-top: 1px solid #eee;
+  padding-top: 2rem;
+  text-align: right; 
+}
+
+.btn {
+  padding: 0.9rem 2rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 1.05rem;
+  font-weight: 600;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  cursor: pointer;
+  border: none;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  color: #ffffff;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+}
+
+/* Responsividade Básica */
+@media (max-width: 768px) {
+  .profile-card {
+    padding: 2rem;
+    margin: 1rem;
   }
-  
-  /* Opção 2: Mostrar com CLIQUE (JS) - RECOMENDADO */
-  /* Para usar esta, adicione a classe 'show' no CSS */
-  /*
-  .dropdown-content.show {
-    display: block;
+  .profile-title {
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 2rem;
   }
-  */
-  
-/* </style> */
+  .profile-avatar-img {
+    width: 250px;
+    height: 250px;
+    margin-bottom: 1.5rem;
+  }
+  .profile-details {
+    padding-top: 1.5rem;
+  }
+  .profile-details p {
+    font-size: 1rem;
+    text-align: center; 
+  }
+  .profile-details p strong {
+    min-width: auto;
+    display: block; 
+    margin-bottom: 0.2rem;
+  }
+  .profile-actions {
+    text-align: center; 
+  }
+}
+
+
+
+/* Estilos do Formulário */
+
+.form-group {
+  margin-bottom: 1.5rem;
+  text-align: left;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #555;
+}
+
+.form-control {
+  width: 100%;
+  padding: 0.9rem 1rem;
+  font-size: 1.1rem;
+  color: #333;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-sizing: border-box; 
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: #007bff;
+  background-color: #fff;
+  box-shadow: 0 0 0 3px rgba(0,123,255,0.1);
+}
+
+.form-section-title {
+  font-size: 1.5rem;
+  color: #333;
+  margin-top: 2.5rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #eee;
+  text-align: left;
+}
+
+.form-group-row {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.profile-actions {
+  margin-top: 2.5rem;
+  padding-top: 2rem;
+  border-top: 1px solid #eee;
+  text-align: right;
+}
