@@ -35,12 +35,6 @@ export default class UsuariosController {
         })
       }
 
-      console.log('🔴 DADOS RECEBIDOS NO CONTROLLER:')
-      console.log('Email:', dados.email)
-      console.log('Senha:', dados.senha)
-      console.log('Tamanho senha:', dados.senha.length)
-      console.log('Começa com $scrypt?', dados.senha.startsWith('$scrypt'))
-
       const usuarioExistente = await this.usuarioService.buscarPorEmail(dados.email)
 
       if (usuarioExistente) {
