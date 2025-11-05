@@ -1,92 +1,42 @@
-{{-- <div class="">
-    @component('components/layout/app', { title: "Perfil" })
-        <main class="container">
-            <h1>Meu Perfil {{ usuario.nome }}</h1>
-
-            {{-- Mostra a mensagem de sucesso após a edição --}}
-            @if(flashMessages.has('success'))
-            <div class="alert alert-success">
-                {{ flashMessages.get('success') }}
-            </div>
-            @endif
-            
-            @if(usuario.fotoPerfil) 
-            <img src="/resources/images/uploads/usuarios/{{ usuario.foto_perfil }}" alt="Imagem de Perfil {{ usuario.nome }}" />
-            @else
-            <img src="https://placehold.co/150" alt="Imagem de Perfil {{ usuario.nome }}"/>
-            @end
-
-
-            <div>
-            <p><strong>Nome:</strong> {{ usuario.nome || 'Não informado' }}</p>
-            <p><strong>Email:</strong> {{ usuario.email }}</p>
-            <p><strong>Telefone:</strong> {{ usuario.telefone }}</p>
-            <p><strong>Logradouro:</strong> {{ usuario.logradouro }}</p>
-            <p><strong>Cidade:</strong> {{ usuario.cidade }}</p>
-            <p><strong>Estado:</strong> {{ usuario.estado }}</p>
-            <p><strong>Bairro:</strong> {{ usuario.bairro }}</p>
-            <p><strong>Cep:</strong> {{ usuario.cep }}</p>
-
-            </div>
-
-            <a href="{{ route('profile.edit') }}" class="btn btn-primary">
-            Editar Perfil
-            </a>
-        </main>
-    @end
-</div> --}}
-
 @component('components/layout/app', { title: "Perfil" })
-  @slot('main')
-  <div class="profile-page">
-    <div class="profile-card">
-      <h1 class="profile-title">{{ usuario.nome }}</h1>
+@slot('main')
+<div class="profile-page">
+  <div class="profile-card">
+    <h1 class="profile-title">{{ usuario.nome }}</h1>
 
-      {{-- Mostra a mensagem de sucesso após a edição --}}
-      @if(flashMessages.has('success'))
-      <div class="alert alert-success">
-          {{ flashMessages.get('success') }}
-      </div>
+    @if(flashMessages.has('success'))
+    <div class="alert alert-success">
+      {{ flashMessages.get('success') }}
+    </div>
+    @endif
+
+    <div class="profile-image-container">
+      @if(usuario.fotoPerfil)
+      <img src="/resources/images/uploads/usuarios/{{ auth.user.fotoPerfil }}" alt="Imagem de Perfil {{ usuario.nome }}"
+        class="profile-avatar-img" />
+      @else
+      <img src="https://placehold.co/150" alt="Imagem de Perfil {{ usuario.nome }}" class="profile-avatar-img" />
       @endif
+    </div>
 
-      <div class="profile-image-container">
-        {{-- @if(usuario.fotoPerfil)
-        <img src="/resources/images/uploads/usuarios/{{ usuario.fotoPerfil }}" alt="Imagem de Perfil {{ usuario.nome }}" class="profile-avatar-img" />
-        @else
-        <img src="https://placehold.co/250" alt="Imagem de Perfil {{ usuario.nome }}" class="profile-avatar-img"/>
-        @end --}}
+    <div class="profile-details">
+      <p><strong>Nome:</strong> {{ usuario.nome || 'Não informado' }}</p>
+      <p><strong>Email:</strong> {{ usuario.email }}</p>
+      <p><strong>Telefone:</strong> {{ usuario.telefone || 'Não informado' }}</p>
+      <p><strong>Logradouro:</strong> {{ usuario.logradouro || 'Não informado' }}</p>
+      <p><strong>Número:</strong> {{ usuario.numero || 'Não informado' }}</p>
+      <p><strong>Cidade:</strong> {{ usuario.cidade || 'Não informado' }}</p>
+      <p><strong>Estado:</strong> {{ usuario.estado || 'Não informado' }}</p>
+      <p><strong>Bairro:</strong> {{ usuario.bairro || 'Não informado' }}</p>
+      <p><strong>Cep:</strong> {{ usuario.cep || 'Não informado' }}</p>
+    </div>
 
-        {{-- 1. Você checa 'fotoPerfil' (camelCase) --}}
-        @if(usuario.fotoPerfil) 
-            {{-- 2. ENTÃO VOCÊ TEM QUE USAR 'fotoPerfil' AQUI TAMBÉM --}}
-            <img src="/uploads/usuarios/{{ usuario.fotoPerfil }}" 
-                alt="Imagem de Perfil {{ usuario.nome }}" 
-                class="profile-avatar-img" />
-        
-        @else
-            <img src="https://placehold.co/150" 
-                alt="Imagem de Perfil {{ usuario.nome }}" 
-                class="profile-avatar-img"/>
-        @endif
-      </div>
-
-      <div class="profile-details">
-        <p><strong>Nome:</strong> {{ usuario.nome || 'Não informado' }}</p>
-        <p><strong>Email:</strong> {{ usuario.email }}</p>
-        <p><strong>Telefone:</strong> {{ usuario.telefone || 'Não informado' }}</p>
-        <p><strong>Logradouro:</strong> {{ usuario.logradouro || 'Não informado' }}</p>
-        <p><strong>Cidade:</strong> {{ usuario.cidade || 'Não informado' }}</p>
-        <p><strong>Estado:</strong> {{ usuario.estado || 'Não informado' }}</p>
-        <p><strong>Bairro:</strong> {{ usuario.bairro || 'Não informado' }}</p>
-        <p><strong>Cep:</strong> {{ usuario.cep || 'Não informado' }}</p>
-      </div>
-
-      <div class="profile-actions">
-        <a href="{{ route('profile.edit') }}" class="btn btn-primary">
-          Editar Perfil
-        </a>
-      </div>
+    <div class="profile-actions">
+      <a href="{{ route('profile.edit') }}" class="btn btn-primary">
+        Editar Perfil
+      </a>
     </div>
   </div>
-  @end
+</div>
+@end
 @end

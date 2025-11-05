@@ -1,147 +1,115 @@
 @component('components/layout/app', { title: "Editar Perfil" })
-  @slot('main')
-  <div class="profile-page">
-    <div class="profile-card">
-      <h1 class="profile-title">Editar Perfil</h1>
+@slot('main')
+<div class="profile-page">
+  <div class="profile-card">
+    <h1 class="profile-title">Editar Perfil</h1>
 
-      <form 
-        method="POST" 
-        action="{{ route('profile.update') }}"
-        enctype="multipart/form-data"
-      >
-        {{-- Campo de segurança obrigatório! --}}
-        {{ csrfField() }}
+    <form method="POST" action="{{ route('profile.update') }}" enctype="multipart/form-data">
 
-        {{-- --- Informações Pessoais --- --}}
-        
-        <div class="form-group">
-          <label for="nome" class="form-label">Nome:</label>
-          <input 
-            type="text" 
-            id="nome" 
-            name="nome"
-            value="{{ usuario.nome || '' }}"
-            class="form-control"
-          >
+      <div class="form-group">
+        <label for="nome" class="form-label">Nome:</label>
+        <input type="text" id="nome" name="nome" value="{{ usuario.nome || '' }}" class="form-control">
+      </div>
+
+      <div class="form-group">
+        <label for="email" class="form-label">Email:</label>
+        <input type="email" id="email" name="email" value="{{ usuario.email || '' }}" class="form-control">
+      </div>
+
+      <div class="form-group">
+        <label for="foto_perfil" class="form-label">Foto de Perfil:</label>
+        <input type="file" id="foto_perfil" name="foto_perfil" {{-- value="{{ usuario.foto_perfil || '' }}" --}}
+          class="form-control" accept="image/png, image/jpeg, image/webp">
+        <div id="preview-container" style="margin-top:10px;">
+          <img id="preview" src="" alt="Preview da imagem"
+            style="display:none; max-width:150px; border:1px solid #ccc; padding:5px;" />
         </div>
+      </div>
 
-        <div class="form-group">
-          <label for="email" class="form-label">Email:</label>
-          <input 
-            type="email" 
-            id="email" 
-            name="email"
-            value="{{ usuario.email || '' }}"
-            class="form-control"
-          >
-        </div>
-        
-        <div class="form-group">
-          <label for="foto_perfil" class="form-label">Foto de Perfil:</label>
-          <input 
-            type="file" 
-            id="foto_perfil" 
-            name="foto_perfil"
-            {{-- value="{{ usuario.foto_perfil || '' }}" --}}
-            class="form-control"
-            accept="image/png, image/jpeg, image/webp"
-          >
+      <div class="form-group">
+        <label for="telefone" class="form-label">Telefone:</label>
+        <input type="text" id="telefone" name="telefone" value="{{ usuario.telefone || '' }}" class="form-control">
+      </div>
 
-          {{-- Mostra a foto atual, se ela existir --}}
-          @if(usuario.foto_perfil)
-            <small>Foto atual:</small>
-            <img 
-              src="/uploads/usuarios/{{ usuario.foto_perfil }}" 
-              alt="Foto atual" 
-              width="60" 
-              style="border-radius: 50%; margin-top: 10px;"
-            >
-          @endif
-        </div>
-        
-        <div class="form-group">
-          <label for="telefone" class="form-label">Telefone:</label>
-          <input 
-            type="text" 
-            id="telefone" 
-            name="telefone"
-            value="{{ usuario.telefone || '' }}"
-            class="form-control"
-          >
+      {{-- --- Endereço --- --}}
+      <h3 class="form-section-title">Endereço</h3>
+
+      <div class="form-group">
+        <label for="logradouro" class="form-label">Logradouro:</label>
+        <input type="text" id="logradouro" name="logradouro" value="{{ usuario.logradouro || '' }}"
+          class="form-control">
+      </div>
+
+      <div class="form-group">
+        <label for="numero" class="form-label">Número:</label>
+        <input type="number" id="numero" name="numero" value="{{ usuario.numero || '' }}" class="form-control">
+      </div>
+
+      <div class="form-group">
+        <label for="bairro" class="form-label">Bairro:</label>
+        <input type="text" id="bairro" name="bairro" value="{{ usuario.bairro || '' }}" class="form-control">
+      </div>
+
+      <div class="form-group-row"> {{-- Linha com 2 campos --}}
+        <div class="form-group" style="flex: 2;">
+          <label for="cidade" class="form-label">Cidade:</label>
+          <input type="text" id="cidade" name="cidade" value="{{ usuario.cidade || '' }}" class="form-control">
         </div>
 
-        {{-- --- Endereço --- --}}
-        <h3 class="form-section-title">Endereço</h3>
-        
-        <div class="form-group">
-          <label for="logradouro" class="form-label">Logradouro:</label>
-          <input 
-            type="text" 
-            id="logradouro" 
-            name="logradouro"
-            value="{{ usuario.logradouro || '' }}"
-            class="form-control"
-          >
+        <div class="form-group" style="flex: 1;">
+          <label for="estado" class="form-label">Estado (UF):</label>
+          <input type="text" id="estado" name="estado" value="{{ usuario.estado || '' }}" class="form-control"
+            maxlength="2">
         </div>
-        
-        <div class="form-group">
-          <label for="bairro" class="form-label">Bairro:</label>
-          <input 
-            type="text" 
-            id="bairro" 
-            name="bairro"
-            value="{{ usuario.bairro || '' }}"
-            class="form-control"
-          >
-        </div>
+      </div>
 
-        <div class="form-group-row"> {{-- Linha com 2 campos --}}
-          <div class="form-group" style="flex: 2;">
-            <label for="cidade" class="form-label">Cidade:</label>
-            <input 
-              type="text" 
-              id="cidade" 
-              name="cidade"
-              value="{{ usuario.cidade || '' }}"
-              class="form-control"
-            >
-          </div>
-          
-          <div class="form-group" style="flex: 1;">
-            <label for="estado" class="form-label">Estado (UF):</label>
-            <input 
-              type="text" 
-              id="estado" 
-              name="estado"
-              value="{{ usuario.estado || '' }}"
-              class="form-control"
-              maxlength="2"
-            >
-          </div>
-        </div>
+      <div class="form-group">
+        <label for="cep" class="form-label">CEP:</label>
+        <input type="text" id="cep" name="cep" value="{{ usuario.cep || '' }}" class="form-control">
+      </div>
 
-        <div class="form-group">
-          <label for="cep" class="form-label">CEP:</label>
-          <input 
-            type="text" 
-            id="cep" 
-            name="cep"
-            value="{{ usuario.cep || '' }}"
-            class="form-control"
-          >
-        </div>
-        
-        {{-- --- Ação --- --}}
-        <div class="profile-actions">
-          @!button({
-            text: "Salvar Alterações",
-            type: "submit",
-            classes: "btn btn-primary"
-          })
-        </div>
+      {{-- --- Ação --- --}}
+      <div class="profile-actions">
+        @!button({
+        text: "Salvar Alterações",
+        type: "submit",
+        classes: "btn btn-primary"
+        })
+      </div>
 
-      </form>
-    </div>
+    </form>
   </div>
-  @end
+</div>
 @end
+@end
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+  const imagemInput = document.getElementById('foto_perfil');
+  const preview = document.getElementById('preview');
+
+  imagemInput.addEventListener('change', function () {
+    const file = this.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        preview.src = e.target.result;
+        preview.style.display = 'block';
+      }
+      reader.readAsDataURL(file);
+    } else {
+      preview.src = '';
+      preview.style.display = 'none';
+    }
+  });
+</script>

@@ -34,7 +34,7 @@
         @!button({
         text: "Editar Produto",
         style: "background-color:orange; color:white;",
-        onclick: `editarProduto('${produto.id}')`
+        //onclick: `editarProduto('${produto.id}')`
         })
 
         @!button({
@@ -53,6 +53,7 @@
 
     function editarProduto(id) {
         window.location.href = `/produtos/${id}/editar`;
+
     }
 
     async function deletarProduto(id) {

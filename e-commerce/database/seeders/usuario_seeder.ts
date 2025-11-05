@@ -15,7 +15,7 @@ export default class extends BaseSeeder {
       email: 'admin@admin.com',
       senha: '7%uj0#5&AQu8$0',
       isAdmin: true,
-      fotoPerfil: null,
+      fotoPerfil: 'rgtn7fkep5f970z8yo8d6r9i.jpg',
     })
   }
 }

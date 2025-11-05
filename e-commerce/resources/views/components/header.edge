@@ -3,64 +3,51 @@
     <a href="{{ route('produto.listar')}}"><span class="logo">PetBuy</span></a>
     <div class="nav-links">
       <a href="{{ route('produto.listar') }}">Produtos</a>
-      
+
       @if(auth.isAuthenticated && auth.user.isAdmin)
-        <a href="{{ route('produto.novo') }}">Cadastrar novo produto</a>
+      <a href="{{ route('produto.novo') }}">Cadastrar novo produto</a>
       @endif
 
       @if(!auth.isAuthenticated)
-        <a href="{{ route('usuario.login') }}">Entre</a>
-        <a href="{{ route('usuario.login') }}">Cadastre-se</a>
+      <a href="{{ route('usuario.login') }}">Entre</a>
+      <a href="{{ route('usuario.login') }}">Cadastre-se</a>
       @else
-        <a href="#">Carrinho</a>
+      <a href="#">Carrinho</a>
 
-        <div class="dropdown">
-          
-          {{-- /uploads/usuarios/{{ usuario.fotoPerfil }} --}}
-          {{-- <img src="{{asset('resources/images/uploads/usuario/') + usuario.foto_perfilS }}" --}}
+      <div class="dropdown">
 
-            @if(auth.user)
-                {{-- @if(auth.user.foto_perfil) 
-                <img src="/uploads/usuarios/{{ usuario.fotoPerfil }}" 
-                    alt="Imagem do Usuário {{ usuario.nome }}" /> --}}
-                @if(auth.user.fotoPerfil) 
-                <img 
-                  class="profile-avatar dropdown-trigger" {{-- Mantendo sua classe --}}
-                  src="/uploads/usuarios/{{ auth.user.fotoPerfil }}" 
-                  alt="Imagem do Usuário {{ auth.user.nome }}" 
-                />
-                @else
-                <img 
-                    class="profile-avatar dropdown-trigger" 
-                    src="https://placehold.co/40" 
-                    alt="Menu do usuário"
-                >
-                @end
-            @end
+        @if(auth.user.fotoPerfil)
+        <img class="profile-avatar dropdown-trigger" src="/resources/images/uploads/usuarios/{{ auth.user.fotoPerfil }}"
+          alt="Imagem do Usuário {{ auth.user.nome }}" />
 
-            <div class="dropdown-content">
-            
-            <div class="dropdown-header">
-                <div class="dropdown-header-name">{{ auth.user.nome }}</div>
-                <div class="dropdown-header-email">{{ auth.user.email }}</div>
-            </div>
-            
-            <ul class="dropdown-links">
-                <li>
-                <a href="{{ route('profile.show')}}">Meu Perfil</a>
-                </li>
-                <li>
-                {{-- <a href="#">Configurações</a> --}}
-                <div class="dropdown-footer">
-                    <a href="{{ route('usuario.logout') }}">Sair</a>
-                </div>
-                </li>
-            </ul>
-            
-
-          </div>
-        </div>
+        @else
+        <img class="profile-avatar dropdown-trigger" src="https://placehold.co/40" alt="Menu do usuário">
         @end
+
+
+        <div class="dropdown-content">
+
+          <div class="dropdown-header">
+            <div class="dropdown-header-name">{{ auth.user.nome }}</div>
+            <div class="dropdown-header-email">{{ auth.user.email }}</div>
+          </div>
+
+          <ul class="dropdown-links">
+            <li>
+              <a href="{{ route('profile.show')}}">Meu Perfil</a>
+            </li>
+            <li>
+
+              <div class="dropdown-footer">
+                <a href="{{ route('usuario.logout') }}">Sair</a>
+              </div>
+            </li>
+          </ul>
+
+
+        </div>
+      </div>
+      @end
     </div>
   </nav>
 </header>

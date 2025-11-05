@@ -10,6 +10,7 @@ export default class extends BaseSeeder {
         quantidade: 100,
         preco_pix: 82.9,
         preco_cartao: 85.0,
+        imagem: 'xcn3ahp3lqrfryetvkwaz4bx.webp',
       },
       {
         nome: 'Chacal',
@@ -18,6 +19,7 @@ export default class extends BaseSeeder {
         quantidade: 80,
         preco_pix: 71.9,
         preco_cartao: 75.0,
+        imagem: 't1y6r9pq9wj97dhfhj538p86.webp',
       },
       {
         nome: 'Tuko',
@@ -26,6 +28,7 @@ export default class extends BaseSeeder {
         quantidade: 120,
         preco_pix: 64.9,
         preco_cartao: 69.9,
+        imagem: 'ych7mf6611ot8rkgdop3n20g.webp',
       },
       {
         nome: 'Multidog',
@@ -35,6 +38,7 @@ export default class extends BaseSeeder {
         quantidade: 90,
         preco_pix: 98.9,
         preco_cartao: 102.0,
+        imagem: 'sftp6ukkf8g92ecjtwgfvgvy.webp',
       },
       {
         nome: 'Multidog',
@@ -44,6 +48,7 @@ export default class extends BaseSeeder {
         quantidade: 90,
         preco_pix: 98.9,
         preco_cartao: 102.0,
+        imagem: 'k9kc031c3zl1cjjq56l80mcd.webp',
       },
       {
         nome: 'Multidog',
@@ -53,6 +58,7 @@ export default class extends BaseSeeder {
         quantidade: 90,
         preco_pix: 98.9,
         preco_cartao: 102.0,
+        imagem: 'uix6p2gmvnm62kbr69t42vqv.webp',
       },
       {
         nome: 'Golden',
@@ -62,6 +68,7 @@ export default class extends BaseSeeder {
         quantidade: 60,
         preco_pix: 168.0,
         preco_cartao: 170.0,
+        imagem: 'l44wdylgpdsc3sy1giw7r1qr.webp',
       },
       {
         nome: 'Golden',
@@ -76,10 +83,11 @@ export default class extends BaseSeeder {
         nome: 'Golden',
         tipo: 'Filhote',
         animal: 'Cachorro',
-        peso_saco: 15,
+        peso_saco: 10,
         quantidade: 50,
         preco_pix: 138.0,
         preco_cartao: 140.0,
+        imagem: 'yfwx79oje5ds1kicy5jro9lz.webp',
       },
       {
         nome: 'Golden',
@@ -89,6 +97,7 @@ export default class extends BaseSeeder {
         quantidade: 50,
         preco_pix: 158.0,
         preco_cartao: 162.0,
+        imagem: 'qh0zr4ojudkqa2r4spy2zocz.webp',
       },
       {
         nome: 'Finotrato',
@@ -98,6 +107,7 @@ export default class extends BaseSeeder {
         quantidade: 70,
         preco_pix: 178.0,
         preco_cartao: 180.0,
+        imagem: 'vzk5nci73c08e0to79yiyewy.webp',
       },
       {
         nome: 'Finotrato',
@@ -107,6 +117,7 @@ export default class extends BaseSeeder {
         quantidade: 70,
         preco_pix: 202.0,
         preco_cartao: 205.0,
+        imagem: 'elrqftog4ja0762eb4iy1h5o.webp',
       },
       {
         nome: 'Finotrato ',
@@ -116,6 +127,7 @@ export default class extends BaseSeeder {
         quantidade: 70,
         preco_pix: 162.0,
         preco_cartao: 162.0,
+        imagem: 'n3wci5bxhjtdqifwwf16adw6.webp',
       },
       {
         nome: 'Finotrato ',
@@ -151,6 +163,7 @@ export default class extends BaseSeeder {
         quantidade: 110,
         preco_pix: 170.0,
         preco_cartao: 170.0,
+        imagem: 'qcf0w5x0jfp4asijqonckjcy.webp',
       },
       {
         nome: 'Multicat',
@@ -160,6 +173,7 @@ export default class extends BaseSeeder {
         quantidade: 130,
         preco_pix: 89.9,
         preco_cartao: 92.0,
+        imagem: 'a1t2ev0lq2tsmnbifchnlm9j.webp',
       },
       {
         nome: 'Multicat',
@@ -169,6 +183,7 @@ export default class extends BaseSeeder {
         quantidade: 95,
         preco_pix: 119.0,
         preco_cartao: 123.0,
+        imagem: 'dx59ye1aktqcvh53uhk7nba9.webp',
       },
       {
         nome: 'Golden',
@@ -177,6 +192,7 @@ export default class extends BaseSeeder {
         quantidade: 95,
         preco_pix: 160.0,
         preco_cartao: 162.0,
+        imagem: 'f4fdaglg27glfq6z81jujwgc.webp',
       },
       {
         nome: 'Golden',
@@ -186,6 +202,7 @@ export default class extends BaseSeeder {
         quantidade: 95,
         preco_pix: 176.0,
         preco_cartao: 178.0,
+        imagem: 'bs8lysn2hrbqdt8fonkzarhw.webp',
       },
       {
         nome: 'Crescimento',
@@ -194,6 +211,7 @@ export default class extends BaseSeeder {
         quantidade: 150,
         preco_pix: 81.0,
         preco_cartao: 81.0,
+        imagem: 'elfaxbn6lvakq0y0lef1baun.webp',
       },
       {
         nome: 'Milho',
@@ -203,6 +221,7 @@ export default class extends BaseSeeder {
         quantidade: 160,
         preco_pix: 44.0,
         preco_cartao: 44.0,
+        imagem: 'auuxoilaprhlmuaxhwbqupuf.webp',
       },
       {
         nome: 'Milho',
@@ -212,6 +231,7 @@ export default class extends BaseSeeder {
         quantidade: 160,
         preco_pix: 47.0,
         preco_cartao: 47.0,
+        imagem: 'auuxoilaprhlmuaxhwbqupuf.webp',
       },
       {
         nome: 'Coelho',
@@ -220,6 +240,7 @@ export default class extends BaseSeeder {
         quantidade: 80,
         preco_pix: 86.0,
         preco_cartao: 86.0,
+        imagem: 'ladzi8wkilikt3hycon1dng5.webp',
       },
     ])
   }

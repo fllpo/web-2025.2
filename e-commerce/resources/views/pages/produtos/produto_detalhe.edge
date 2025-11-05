@@ -19,14 +19,12 @@
             @end
         </h2>
 
-
         <p class="preco">R$ {{ produto.preco_pix }}</p>
 
         @!button({
         text:"Adicionar ao carrinho"
         })
 
-        <!-- Botão  aparece quando usuário é admin -->
         @if(auth.user && auth.user.is_admin)
         <a href="{{ route('produto.editar', { id: produto.id }) }}">
             @!button({
