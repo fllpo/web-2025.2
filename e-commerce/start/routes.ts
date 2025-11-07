@@ -10,13 +10,17 @@ const PerfilsController = () => import('#controllers/perfils_controller')
 // ROTAS - PRODUTOS
 // ========================================================================
 
-router.get('/', [ProdutosController, 'index']).as('produto.listar').use(middleware.auth())
+router.get('/', [ProdutosController, 'index']).as('produto.listar').use(middleware.silentAuth())
+router
+  .get('produto/:id', [ProdutosController, 'show'])
+  .as('produto.detalhe')
+  .use(middleware.silentAuth())
+
 router
   .group(() => {
     router.get('/novo', [ProdutosController, 'create']).as('produto.novo')
     router.post('/novo', [ProdutosController, 'store']).as('produto.criar')
 
-    router.get('/:id', [ProdutosController, 'show']).as('produto.detalhe')
     router.get('/:id/editar', [ProdutosController, 'edit']).as('produto.editar')
     router.put('/:id', [ProdutosController, 'update']).as('produto.atualizar')
     router.delete('/:id', [ProdutosController, 'destroy']).as('produto.deletar')

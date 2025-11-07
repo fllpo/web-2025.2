@@ -1,0 +1,18 @@
+@if(produtos.hasPages)
+<div class="paginacao">
+
+    @if(produtos.currentPage > 1)
+    <a href="{{ route('produto.listar', {}, { qs: { page: produtos.currentPage - 1 } }) }}"
+        class="btn-paginacao">Anterior</a>
+    @else
+    <span class="btn-paginacao disabled">Anterior</span>
+    @endif
+
+    @if(produtos.hasMorePages)
+    <a href="{{ route('produto.listar', {}, { qs: { page: produtos.currentPage + 1 } }) }}"
+        class="btn-paginacao">Próximo</a>
+    @else
+    <span class="btn-paginacao disabled">Próximo</span>
+    @endif
+</div>
+@endif

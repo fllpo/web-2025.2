@@ -3,13 +3,9 @@
 @slot('main')
 
 @if(produtos && produtos.length > 0)
-@include('components/produto_card')
-@else
 
-<div class="lista-vazia">
-    <p>Nenhum produto cadastrado no momento.</p>
-    <a href="{{ route('produto.novo') }}">Cadastrar primeiro produto</a>
-</div>
+@include('components/produto_card')
+@include ('components/produto_paginacao')
 
 @endif
 

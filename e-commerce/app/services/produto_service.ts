@@ -10,7 +10,7 @@ export class ProdutoService {
     return await Produto.all()
   }
 
-  async listarPaginado(pagina: number = 1, limite: number = 8) {
+  async listarPaginado(pagina: number, limite: number) {
     return await Produto.query().paginate(pagina, limite)
   }
 

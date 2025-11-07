@@ -1,13 +1,17 @@
 import type { HttpContext } from '@adonisjs/core/http'
 import { ProdutoService } from '#services/produto_service'
 import { criarProdutoValidator } from '#validators/produto'
+
 export default class ProdutosController {
   private produtoService = new ProdutoService()
 
-  async index({ view }: HttpContext) {
+  async index({ view, request }: HttpContext) {
     try {
-      const produtos = await this.produtoService.listarTodos()
-      //const produtos = await this.produtoService.listarPaginado()
+      //const produtos = await this.produtoService.listarTodos()
+      const pagina = request.input('page', 1)
+      const limite = 8
+      const produtos = await this.produtoService.listarPaginado(pagina, limite)
+
       return view.render('pages/produtos/produtos', { produtos })
     } catch (error) {
       return view.render('pages/produtos/produtos', { produtos: [] })
