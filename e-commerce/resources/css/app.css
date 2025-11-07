@@ -9,6 +9,7 @@
   --azul-sombra: #2563eb33;
   --laranja-principal: #f97415;
   --laranja-secundario: #c75605;
+  --verde: rgb(127, 182, 127);
   --branco: #ffffff;
   --cinza-claro: #f8fafc;
   --cinza-borda: #e2e8f0;
@@ -622,6 +623,164 @@ footer a {
 
 
 
+/* Pagina do produto */
+.pagina-produto-container {
+  max-width: 1100px;
+  margin: 2rem auto; 
+  padding: 1rem;
+}
+
+.produto-detalhe {
+  display: flex;
+  flex-wrap: wrap;
+  background-color: var(--branco);
+  border-radius: var(--radius);
+  box-shadow: 0 4px 12px var(--sombra);
+  overflow: hidden;
+}
+
+.produto-imagem-wrapper {
+  flex: 1 1 400px;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.produto-imagem-wrapper img {
+  width: 100%;
+  height: auto;
+  max-width: 500px;
+  border-radius: var(--radius);
+  object-fit: cover;
+}
+
+.produto-info-wrapper {
+  flex: 1 1 500px;
+  padding: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.produto-info-wrapper h2 {
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--texto-principal);
+  line-height: 1.2;
+  margin-bottom: 1rem;
+}
+
+.product-info {
+  margin: 0;
+  padding: 0;
+  background-color: transparent;
+}
+
+.product-info .preco {
+  font-size: 1.80rem;
+  font-weight: bold;
+  color: var(--azul-principal);
+  margin-bottom: 0.5rem;
+}
+.product-info .preco-cartao {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: var(--texto-principal);
+  margin-bottom: 0.5rem;
+}
+
+.quantidade {
+  display: flex;
+  flex-direction: column;
+}
+
+.quantidade p {
+  margin-bottom: 0.5rem;
+}
+
+.product-info .quant {
+  font-size: 1rem;
+  color: #000000;
+  font-weight: 500;
+}
+
+.product-info .tipo {
+  font-size: 0.9rem;
+  background-color: var(--cinza-claro);
+  color: #555;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+/* Botões */
+.produto-acoes {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--cinza-borda);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.btn-comprar {
+  padding: 1rem 1.5rem;
+  font-size: 1.1rem;
+  width: 100%;
+}
+
+.btn-editar {
+  background-color: var(--laranja-principal);
+  padding: 0.75rem 1.5rem;
+  width: 100%;
+  font-size: 1rem;
+}
+
+.btn-editar:hover {
+  background-color: var(--laranja-secundario);
+}
+
+.info{
+  display: flex;
+  flex-direction: row;
+}
+
+.info p {
+  margin-right: 10px;
+  color: #000000;
+}
 
 
+/* Responsividade para Tablets e Celulares
+*/
+@media (max-width: 900px) {
+  .produto-detalhe {
+    flex-direction: column;
+  }
+
+  .produto-info-wrapper {
+    padding: 2rem;
+  }
+
+  .produto-info-wrapper h2 {
+    font-size: 2rem;
+    text-align: center;
+  }
+  
+  .product-info .preco {
+    text-align: center;
+    margin: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .pagina-produto-container {
+    padding: 0.5rem;
+    margin: 1rem auto;
+  }
+  .produto-info-wrapper {
+    padding: 1.5rem;
+  }
+}
 

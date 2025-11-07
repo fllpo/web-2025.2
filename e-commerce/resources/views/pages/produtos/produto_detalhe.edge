@@ -1,39 +1,60 @@
 @layout.app({title: produto.nome})
 
 @slot('main')
-<div class="produto-container">
-    <div class="item-produto">
+<div class="pagina-produto-container">
+    
+    <div class="produto-detalhe">
 
-        @if(produto.imagem)
-        <img src="{{asset('resources/images/uploads/produtos/') + produto.imagem }}"
-            alt="Imagem do Produto {{ produto.nome }}" />
-        @else
-        <img src="https://placehold.co/150" alt="Imagem do Produto {{ produto.nome }}" />
-        @endif
+        <div class="produto-imagem-wrapper">
+            @if(produto.imagem)
+            <img src="{{asset('resources/images/uploads/produtos/') + produto.imagem }}"
+                alt="Imagem do Produto {{ produto.nome }}" />
+            @else
+            <img src="https://placehold.co/600x600" alt="Imagem do Produto {{ produto.nome }}" />
+            @endif
+        </div>
 
+        <div class="produto-info-wrapper">
+            <h2>
+                {{ produto.nome }}
+            </h2>
 
-        <h2>
-            {{ produto.nome }}
-            @if(produto.tipo)
-            {{ produto.tipo }}
-            @end
-        </h2>
+            <div class="product-info">
+                <p class="preco">R$ {{ produto.preco_pix }} à vista</p>
+                <p class="preco-cartao">R$ {{ produto.preco_cartao }} cartão</p>
+                <div class="quantidade">
+                    <p class="quant"><strong>Disponível: </strong>{{ produto.quantidade}}</p>
+                    <div class="info">
+                        @if(produto.tipo)
+                        <p class="tipo">Tipo: {{ produto.tipo }}</p>
+                        @endif
+                        @if(produto.animal)
+                        <p><strong>Animal:</strong> {{produto.animal}}</p>
+                        @endif
+                        @if(produto.peso_saco)
+                        <p><strong>Peso do Saco:</strong> {{produto.peso_saco}} KG</p>
+                        @endif
+                    </div>
+                </div>
+            </div>
 
-        <p class="preco">R$ {{ produto.preco_pix }}</p>
+            <div class="produto-acoes">
+                @!button({
+                text: "Adicionar ao carrinho",
+                class: "btn-comprar"
+                })
 
-        @!button({
-        text:"Adicionar ao carrinho"
-        })
+                @if(auth.user && auth.user.is_admin)
+                <a href="{{ route('produto.editar', { id: produto.id }) }}">
+                    @!button({
+                    text: "Editar Produto",
+                    class: "btn-editar"
+                    })
+                </a>
+                @endif
+            </div>
 
-        @if(auth.user && auth.user.is_admin)
-        <a href="{{ route('produto.editar', { id: produto.id }) }}">
-            @!button({
-            text:"Editar Produto",
-            style:"background-color:orange;",
-            })
-        </a>
-        @endif
-
+        </div>
     </div>
 </div>
 
