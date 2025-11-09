@@ -1,6 +1,8 @@
 <div class="produtos-container">
     @each(produto in produtos)
+
     <div class="produto-item" id="produto-{{ produto.id }}">
+        @if(produto.quantidade>0)
 
 
         @if(produto.imagem)
@@ -11,17 +13,15 @@
 
 
         <a href="{{ route('produto.detalhe', { id: produto.id }) }}">
-            <h2>
-                {{ produto.nome }}
-                @if(produto.tipo)
-                {{ produto.tipo }}
-                @end
-            </h2>
+            <h2> {{ produto.nome }} </h2>
+
+            @if(produto.tipo)
+            <h3> {{ produto.tipo }}</h3>
+            @else
+            <h3>&nbsp;</h3>
+            @end
+            <p class="preco">R$ {{ produto.preco_pix }}</p>
         </a>
-
-
-        <p class="preco">R$ {{ produto.preco_pix }}</p>
-
 
         @!button({
         text:"Adicionar ao carrinho"
@@ -47,8 +47,8 @@
 
     </div>
     @end
+    @end
 </div>
-
 <script>
 
     function editarProduto(id) {

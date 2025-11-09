@@ -2,7 +2,7 @@
 
 @slot('main')
 <div class="pagina-produto-container">
-    
+
     <div class="produto-detalhe">
 
         <div class="produto-imagem-wrapper">
@@ -18,23 +18,23 @@
             <h2>
                 {{ produto.nome }}
             </h2>
+            <h3>
+                @if(produto.tipo)
 
+                <p class="tipo">{{ produto.tipo }}</p>
+                @end
+            </h3>
             <div class="product-info">
-                <p class="preco">R$ {{ produto.preco_pix }} à vista</p>
-                <p class="preco-cartao">R$ {{ produto.preco_cartao }} cartão</p>
-                <div class="quantidade">
-                    <p class="quant"><strong>Disponível: </strong>{{ produto.quantidade}}</p>
-                    <div class="info">
-                        @if(produto.tipo)
-                        <p class="tipo">Tipo: {{ produto.tipo }}</p>
-                        @endif
-                        @if(produto.animal)
-                        <p><strong>Animal:</strong> {{produto.animal}}</p>
-                        @endif
-                        @if(produto.peso_saco)
-                        <p><strong>Peso do Saco:</strong> {{produto.peso_saco}} KG</p>
-                        @endif
-                    </div>
+                <p class="preco">R$ {{ produto.preco_pix }}</p>
+                <div class="info">
+                    @if(produto.tipo)
+                    @endif
+                    @if(produto.animal)
+                    <p><strong>Animal:</strong> {{produto.animal}}</p>
+                    @endif
+                    @if(produto.peso_saco)
+                    <p><strong>Peso do Saco:</strong> {{produto.peso_saco}} KG</p>
+                    @endif
                 </div>
             </div>
 
