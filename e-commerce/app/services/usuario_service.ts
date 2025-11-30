@@ -36,10 +36,7 @@ export class UsuarioService {
 
   private async deletarImagemPerfil(nomeArquivo: string): Promise<void> {
     try {
-      const caminhoImagem = path.join(
-        app.makePath('resources/images/uploads/usuario'),
-        nomeArquivo
-      )
+      const caminhoImagem = path.join(app.makePath('resources/images/uploads/usuario'), nomeArquivo)
       await fs.unlink(caminhoImagem)
     } catch (error) {
       console.error(`Erro ao deletar imagem ${nomeArquivo}:`, error)
@@ -76,7 +73,9 @@ export class UsuarioService {
   ) {
     const usuario = await Usuario.find(id)
 
-    if (!usuario) {return null}
+    if (!usuario) {
+      return null
+    }
 
     usuario.merge(dados)
     await usuario.save()

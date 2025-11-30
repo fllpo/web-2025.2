@@ -1,0 +1,140 @@
+<!-- resources/views/pages/carrinho/index.edge -->
+<div>
+    <h1>Meu Carrinho</h1>
+
+    @if(carrinho.length === 0)
+    <div>
+        <p>Seu carrinho está vazio</p>
+        <a href="/">Continuar comprando</a>
+    </div>
+    @else
+    <div>
+        <!-- Itens do Carrinho -->
+        @each(item in carrinho)
+        <div id="item-{{ item.produto_id }}">
+            <!-- Imagem -->
+            <div>
+                @if(item.imagem)
+                <img src="/resources/images/uploads/produtos/{{ item.imagem }}" alt="{{ item.nome }}" />
+                @else
+                <img src="https://placehold.co/100" alt="{{ item.nome }}" />
+                @end
+            </div>
+
+            <!-- Informações -->
+            <div>
+                <h3>{{ item.nome }}</h3>
+                <p>R$ {{ item.preco }}</p>
+            </div>
+
+            <!-- Quantidade -->
+            <div>
+                <button onclick="diminuirQuantidade('{{ item.produto_id }}', {{ item.quantidade }})">-</button>
+                <input type="number" id="quantidade-{{ item.produto_id }}" value="{{ item.quantidade }}" min="1"
+                    onchange="atualizarQuantidade('{{ item.produto_id }}', this.value)" />
+                <button onclick="aumentarQuantidade('{{ item.produto_id }}', {{ item.quantidade }})">+</button>
+            </div>
+
+            <!-- Subtotal -->
+            <div>
+                <p>R$ {{ item.subtotal.toFixed(2) }}</p>
+            </div>
+
+            <!-- Remover -->
+            <div>
+                <button onclick="removerItem('{{ item.produto_id }}')">🗑️ Remover</button>
+            </div>
+        </div>
+        @end
+
+        <!-- Resumo -->
+        <div>
+            <h2>Resumo do Pedido</h2>
+            <p>Total de itens: {{ totalItens }}</p>
+            <p>Total: <strong>R$ {{ total.toFixed(2) }}</strong></p>
+
+            <button onclick="finalizarCompra()">Finalizar Compra</button>
+            <button onclick="limparCarrinho()">Limpar Carrinho</button>
+            <a href="/">Continuar Comprando</a>
+        </div>
+    </div>
+    @end
+</div>
+
+<script>
+    async function atualizarQuantidade(produtoId, quantidade) {
+        try {
+            const response = await fetch('/carrinho/atualizar', {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ produto_id: produtoId, quantidade: parseInt(quantidade) })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                location.reload(); // Recarrega pra atualizar valores
+            } else {
+                alert(data.message);
+            }
+        } catch (error) {
+            alert('Erro ao atualizar quantidade');
+        }
+    }
+
+    function aumentarQuantidade(produtoId, quantidadeAtual) {
+        atualizarQuantidade(produtoId, quantidadeAtual + 1);
+    }
+
+    function diminuirQuantidade(produtoId, quantidadeAtual) {
+        if (quantidadeAtual > 1) {
+            atualizarQuantidade(produtoId, quantidadeAtual - 1);
+        }
+    }
+
+    async function removerItem(produtoId) {
+        if (!confirm('Remover este item do carrinho?')) return;
+
+        try {
+            const response = await fetch(`/carrinho/${produtoId}`, {
+                method: 'DELETE'
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                document.getElementById(`item-${produtoId}`).remove();
+                location.reload();
+            } else {
+                alert(data.message);
+            }
+        } catch (error) {
+            alert('Erro ao remover item');
+        }
+    }
+
+    async function limparCarrinho() {
+        if (!confirm('Limpar todo o carrinho?')) return;
+
+        try {
+            const response = await fetch('/carrinho/limpar/tudo', {
+                method: 'DELETE'
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                location.reload();
+            } else {
+                alert(data.message);
+            }
+        } catch (error) {
+            alert('Erro ao limpar carrinho');
+        }
+    }
+
+    function finalizarCompra() {
+        // Por enquanto só alerta, depois você implementa o checkout
+        alert('Função de finalizar compra será implementada em breve!');
+    }
+</script>

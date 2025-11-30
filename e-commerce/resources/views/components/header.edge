@@ -11,7 +11,13 @@
       @if(!auth.isAuthenticated)
       <a href="{{ route('usuario.login') }}">Entre</a>
       @else
-      <a href="#">Carrinho</a>
+      <a href="{{ route('carrinho.index') }}" data-carrinho-total>
+        Carrinho
+        @if(carrinhoItens > 0)
+        ({{ carrinhoItens }})
+        @endif
+      </a>
+
 
       <div class="dropdown">
 
@@ -42,11 +48,9 @@
               </div>
             </li>
           </ul>
-
-
         </div>
       </div>
-      @end
     </div>
+    @endif
   </nav>
 </header>

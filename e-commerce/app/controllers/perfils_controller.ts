@@ -1,7 +1,7 @@
 import type { HttpContext } from '@adonisjs/core/http'
 import { UsuarioService } from '#services/usuario_service'
 import { inject } from '@adonisjs/core'
-import app from '@adonisjs/core/services/app' // 1. Importe 'app'
+import app from '@adonisjs/core/services/app'
 import { cuid } from '@adonisjs/core/helpers'
 
 @inject()

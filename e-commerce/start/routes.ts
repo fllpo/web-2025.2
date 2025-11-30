@@ -5,7 +5,7 @@ const ProdutosController = () => import('#controllers/produtos_controller')
 const UsuariosController = () => import('#controllers/usuarios_controller')
 const SessionController = () => import('#controllers/session_controller')
 const PerfilsController = () => import('#controllers/perfils_controller')
-
+const CarrinhoController = () => import('#controllers/carrinho_controller')
 // ========================================================================
 // ROTAS - PRODUTOS
 // ========================================================================
@@ -47,8 +47,25 @@ router.group(() => {
 
 router
   .group(() => {
-    router.get('/perfil', [PerfilsController, 'show']).as('profile.show')
-    router.get('/perfil/edit', [PerfilsController, 'edit']).as('profile.edit')
-    router.post('/perfil;edit', [PerfilsController, 'update']).as('profile.update')
+    router.get('/', [PerfilsController, 'show']).as('profile.show')
+    router.get('/edit', [PerfilsController, 'edit']).as('profile.edit')
+    router.post('/edit', [PerfilsController, 'update']).as('profile.update')
   })
+  .prefix('/perfil')
+  .use(middleware.auth())
+
+// ========================================================================
+// ROTAS - CARRINHO
+// ========================================================================
+
+router
+  .group(() => {
+    router.get('/', [CarrinhoController, 'index']).as('carrinho.index')
+    router.post('/adicionar', [CarrinhoController, 'adicionar']).as('carrinho.adicionar')
+    router.put('/atualizar', [CarrinhoController, 'atualizar']).as('carrinho.atualizar')
+    router.delete('/:produto_id', [CarrinhoController, 'remover']).as('carrinho.remover')
+    router.delete('/limpar/tudo', [CarrinhoController, 'limpar']).as('carrinho.limpar')
+    router.get('/total', [CarrinhoController, 'total']).as('carrinho.total')
+  })
+  .prefix('/carrinho')
   .use(middleware.auth())
