@@ -1,0 +1,82 @@
+@layout.app({ title: "Meus Pedidos" })
+
+@slot('main')
+
+<div class="container">
+    <a href="{{ route('pedidos.meus') }}">← Voltar</a>
+
+    <h1>Pedido #{{ pedido.id.substring(0, 8) }}</h1>
+
+    <div class="pedido-itens-box">
+        <p><strong>Data:</strong> {{ pedido.createdAt.toFormat('dd/MM/yyyy HH:mm') }}</p>
+        <p><strong>Status:</strong>
+            @if(pedido.status === 'pendente')
+            <span class="pedido-status status-pendente">Pendente</span>
+            @elseif(pedido.status === 'em_separacao')
+            <span class="pedido-status status-em-separacao">Em Separação</span>
+            @elseif(pedido.status === 'em_transito')
+            <span class="pedido-status status-em-transito">Em Trânsito</span>
+            @elseif(pedido.status === 'entregue')
+            <span class="pedido-status status-entregue">Entregue</span>
+            @elseif(pedido.status === 'cancelado')
+            <span class="pedido-status status-cancelado">Cancelado</span>
+            @end
+        </p>
+    </div>
+
+    <h2>Endereço de Entrega</h2>
+    <div class="endereco-box">
+        <p>{{ pedido.enderecoLogradouro }}, {{ pedido.enderecoNumero }}</p>
+        <p>{{ pedido.enderecoBairro }}</p>
+        <p>{{ pedido.enderecoCidade }}/{{ pedido.enderecoEstado }}</p>
+        <p>CEP: {{ pedido.enderecoCep }}</p>
+        @if(pedido.enderecoComplemento)
+        <p>Complemento: {{ pedido.enderecoComplemento }}</p>
+        @end
+    </div>
+
+    <h2>Itens do Pedido</h2>
+    @each(item in pedido.itens)
+    <div class="pedido-card">
+        <div class="pedido-footer">
+            <div>
+                <h3>{{ item.produtoNome }}</h3>
+                <p>Quantidade: {{ item.quantidade }}</p>
+                <p>Preço unitário: R$ {{ item.precoUnitario }}</p>
+            </div>
+            <div>
+                <p><strong>R$ {{ item.subtotal }}</strong></p>
+            </div>
+        </div>
+    </div>
+    @end
+
+    @if(pedido.observacoes)
+    <h2>Observações</h2>
+    <div class="pedido-itens-box">
+        <p>{{ pedido.observacoes }}</p>
+    </div>
+    @end
+
+    <div class="resumo-card">
+        <h2>Resumo</h2>
+
+        <div class="resumo-linha">
+            <span>Subtotal:</span>
+            <span>R$ {{ pedido.subtotal }}</span>
+        </div>
+
+        <div class="resumo-linha">
+            <span>Frete:</span>
+            <span>R$ {{ pedido.frete }}</span>
+        </div>
+
+        <div class="resumo-total">
+            <span>Total:</span>
+            <span>R$ {{ pedido.total }}</span>
+        </div>
+    </div>
+</div>
+
+@end
+@end

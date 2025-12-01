@@ -1,0 +1,82 @@
+@layout.app({ title: "Meus Pedidos" })
+
+@slot('main')
+
+<div class="container">
+    <h1>Finalizar Pedido</h1>
+
+    <div class="checkout-grid">
+        <div>
+            <h2>Itens do Pedido</h2>
+
+            @each(item in carrinho)
+            <div class="item-carrinho">
+                @if(item.imagem)
+                <img src="/resources/images/uploads/produtos/{{ item.imagem }}" alt="{{ item.nome }}"
+                    class="produto-item img">
+                @else
+                <div class="produto-item img">📦</div>
+                @end
+
+                <div>
+                    <h3>{{ item.nome }}</h3>
+                    <p>Quantidade: {{ item.quantidade }}</p>
+                    <p>R$ {{ item.preco }} cada</p>
+                    <p><strong>Subtotal: R$ {{ item.subtotal.toFixed(2) }}</strong></p>
+                </div>
+            </div>
+            @end
+
+            <h2>Endereço de Entrega</h2>
+            <div class="endereco-box">
+                <p><strong>{{ usuario.nome }}</strong></p>
+                <p>{{ usuario.logradouro }}, {{ usuario.numero }}</p>
+                <p>{{ usuario.bairro }} - {{ usuario.cidade }}/{{ usuario.estado }}</p>
+                <p>CEP: {{ usuario.cep }}</p>
+            </div>
+
+            <form action="{{ route('pedidos.finalizar') }}" method="POST" id="formCheckout">
+                <h3>Observações (opcional)</h3>
+                <textarea name="observacoes" rows="4" placeholder="Ex: Deixar com porteiro, bater palmas..."></textarea>
+
+                <button type="submit">✓ Finalizar Pedido</button>
+            </form>
+        </div>
+
+        <div class="sticky-sidebar">
+            <div class="resumo-card">
+                <h2>Resumo</h2>
+
+                <div class="resumo-linha">
+                    <span>Subtotal:</span>
+                    <span><strong>R$ {{ subtotal.toFixed(2) }}</strong></span>
+                </div>
+
+                <div class="resumo-linha">
+                    <span>Frete:</span>
+                    <span><strong>R$ {{ frete.toFixed(2) }}</strong></span>
+                </div>
+
+                @if(prazoEntrega > 0)
+                <p>📦 Prazo: {{ prazoEntrega }} dias úteis</p>
+                @end
+
+                <div class="resumo-total">
+                    <span>Total:</span>
+                    <span>R$ {{ total.toFixed(2) }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('formCheckout').addEventListener('submit', (e) => {
+        if (!confirm('Confirmar pedido?')) {
+            e.preventDefault();
+        }
+    });
+</script>
+
+@end
+@end

@@ -1,4 +1,5 @@
-<!-- resources/views/pages/carrinho/index.edge -->
+@layout.app({title:"Meu Carrinho"})
+@slot('main')
 <div>
     <h1>Meu Carrinho</h1>
 
@@ -53,7 +54,10 @@
             <p>Total de itens: {{ totalItens }}</p>
             <p>Total: <strong>R$ {{ total.toFixed(2) }}</strong></p>
 
-            <button onclick="finalizarCompra()">Finalizar Compra</button>
+            <a href="{{ route('pedidos.checkout') }}"
+                style="background: green; color: white; padding: 1rem 2rem; text-decoration: none; border-radius: 8px; display: inline-block;">
+                Finalizar Compra
+            </a>
             <button onclick="limparCarrinho()">Limpar Carrinho</button>
             <a href="/">Continuar Comprando</a>
         </div>
@@ -134,7 +138,9 @@
     }
 
     function finalizarCompra() {
-        // Por enquanto só alerta, depois você implementa o checkout
+
         alert('Função de finalizar compra será implementada em breve!');
     }
 </script>
+@end
+@end

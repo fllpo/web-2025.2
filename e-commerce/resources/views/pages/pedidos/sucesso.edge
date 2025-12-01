@@ -1,0 +1,52 @@
+@layout.app({ title: "Meus Pedidos" })
+
+@slot('main')
+
+<div style="max-width: 600px; margin: 3rem auto; text-align: center;">
+    <h1 style="color: green;">Pedido Realizado com Sucesso!</h1>
+
+    <p style="font-size: 1.2rem; margin: 2rem 0;">
+        Seu pedido <strong>#{{ pedido.id.substring(0, 8) }}</strong> foi confirmado!
+    </p>
+
+    <div style="background: #f5f5f5; padding: 2rem; border-radius: 8px; margin: 2rem 0;">
+        <h2>Resumo do Pedido</h2>
+
+        <div style="display: flex; justify-content: space-between; margin: 1rem 0;">
+            <span>Subtotal:</span>
+            <span>R$ {{ pedido.subtotal }}</span>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; margin: 1rem 0;">
+            <span>Frete:</span>
+            <span>R$ {{ pedido.frete }}</span>
+        </div>
+
+        <hr>
+
+        <div
+            style="display: flex; justify-content: space-between; font-size: 1.3rem; font-weight: bold; margin: 1rem 0;">
+            <span>Total:</span>
+            <span>R$ {{ pedido.total }}</span>
+        </div>
+    </div>
+
+    <div style="background: #e3f2fd; padding: 1.5rem; border-radius: 8px; margin: 2rem 0;">
+        <p><strong>Endereço de Entrega:</strong></p>
+        <p>{{ pedido.enderecoLogradouro }}, {{ pedido.enderecoNumero }}</p>
+        <p>{{ pedido.enderecoBairro }} - {{ pedido.enderecoCidade }}/{{ pedido.enderecoEstado }}</p>
+        <p>CEP: {{ pedido.enderecoCep }}</p>
+    </div>
+
+    <p>Acompanhe seu pedido em <a href="{{ route('pedidos.meus') }}">Meus Pedidos</a></p>
+
+    <div style="margin-top: 2rem;">
+        <a href="/"
+            style="background: #2463eb; color: white; padding: 1rem 2rem; text-decoration: none; border-radius: 8px; display: inline-block;">
+            Continuar Comprando
+        </a>
+    </div>
+</div>
+
+@end
+@end

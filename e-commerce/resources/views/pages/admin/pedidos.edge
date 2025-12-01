@@ -1,0 +1,81 @@
+@layout.app({title:"Pedidos"})
+@slot('main')
+<div>
+    <h1>Gerenciar Pedidos</h1>
+
+    @if(pedidos.length === 0)
+    <p style="text-align: center; padding: 3rem; color: #666;">Nenhum pedido cadastrado</p>
+    @else
+    <table style="width: 100%; border-collapse: collapse;">
+        <thead>
+            <tr style="background: #f5f5f5;">
+                <th style="padding: 1rem; text-align: left; border: 1px solid #ddd;">Pedido</th>
+                <th style="padding: 1rem; text-align: left; border: 1px solid #ddd;">Data</th>
+                <th style="padding: 1rem; text-align: left; border: 1px solid #ddd;">Cliente</th>
+                <th style="padding: 1rem; text-align: left; border: 1px solid #ddd;">Total</th>
+                <th style="padding: 1rem; text-align: left; border: 1px solid #ddd;">Status</th>
+                <th style="padding: 1rem; text-align: left; border: 1px solid #ddd;">Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @each(pedido in pedidos)
+            <tr id="pedido-{{ pedido.id }}">
+                <td style="padding: 1rem; border: 1px solid #ddd;">#{{ pedido.id.substring(0, 8) }}</td>
+                <td style="padding: 1rem; border: 1px solid #ddd;">{{ pedido.createdAt.toFormat('dd/MM/yyyy') }}</td>
+                <td style="padding: 1rem; border: 1px solid #ddd;">{{ pedido.usuarioId.substring(0, 8) }}</td>
+                <td style="padding: 1rem; border: 1px solid #ddd;">R$ {{ pedido.total }}</td>
+                <td style="padding: 1rem; border: 1px solid #ddd;">
+                    <select onchange="atualizarStatus('{{ pedido.id }}', this.value)"
+                        style="padding: 0.5rem; border-radius: 4px;">
+                        <option value="pendente" {{ pedido.status==='pendente' ? 'selected' : '' }}>Pendente</option>
+                        <option value="em_separacao" {{ pedido.status==='em_separacao' ? 'selected' : '' }}>Em Separação
+                        </option>
+                        <option value="em_transito" {{ pedido.status==='em_transito' ? 'selected' : '' }}>Em Trânsito
+                        </option>
+                        <option value="entregue" {{ pedido.status==='entregue' ? 'selected' : '' }}>Entregue</option>
+                        <option value="cancelado" {{ pedido.status==='cancelado' ? 'selected' : '' }}>Cancelado</option>
+                    </select>
+                </td>
+                <td style="padding: 1rem; border: 1px solid #ddd;">
+                    <a href="{{ route('pedidos.detalhes', { id: pedido.id }) }}"
+                        style="background: #2463eb; color: white; padding: 0.5rem 1rem; text-decoration: none; border-radius: 4px;">
+                        Ver Detalhes
+                    </a>
+                </td>
+            </tr>
+            @end
+        </tbody>
+    </table>
+    @end
+</div>
+
+<script>
+    async function atualizarStatus(pedidoId, novoStatus) {
+        if (!confirm('Confirmar alteração de status?')) {
+            location.reload();
+            return;
+        }
+
+        try {
+            const response = await fetch(`/admin/pedidos/${pedidoId}/status`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ status: novoStatus })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                alert(data.message);
+            } else {
+                alert(data.message);
+                location.reload();
+            }
+        } catch (error) {
+            alert('Erro ao atualizar status');
+            location.reload();
+        }
+    }
+</script>
+@end
+@end

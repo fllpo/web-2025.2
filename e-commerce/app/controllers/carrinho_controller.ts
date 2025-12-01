@@ -36,7 +36,6 @@ export default class CarrinhoController {
   async adicionar({ request, response, session }: HttpContext) {
     try {
       const { produtoId, quantidade } = request.only(['produtoId', 'quantidade'])
-      console.log('produto_id:', produtoId, 'quantidade:', quantidade)
 
       await this.carrinhoService.adicionar(session, produtoId, Number(quantidade) || 1)
 
