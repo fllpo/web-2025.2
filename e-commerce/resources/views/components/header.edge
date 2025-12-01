@@ -6,18 +6,22 @@
 
       @if(auth.isAuthenticated && auth.user.isAdmin)
       <a href="{{ route('produto.novo') }}">Cadastrar novo produto</a>
+      <a href="{{ route('admin.pedidos') }}">Gerenciar Pedidos</a>
       @endif
-
       @if(!auth.isAuthenticated)
       <a href="{{ route('usuario.login') }}">Entre</a>
       @else
+      @if(auth.isAuthenticated && !auth.user.isAdmin)
+      <a href="{{ route('pedidos.meus') }}">
+        Meus Pedidos
+      </a>
       <a href="{{ route('carrinho.index') }}" data-carrinho-total>
         Carrinho
         @if(carrinhoItens > 0)
         ({{ carrinhoItens }})
         @endif
       </a>
-
+      @endif
 
       <div class="dropdown">
 

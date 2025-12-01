@@ -6,6 +6,8 @@ const UsuariosController = () => import('#controllers/usuarios_controller')
 const SessionController = () => import('#controllers/session_controller')
 const PerfilsController = () => import('#controllers/perfils_controller')
 const CarrinhoController = () => import('#controllers/carrinho_controller')
+const PedidosController = () => import('#controllers/pedidos_controller')
+
 // ========================================================================
 // ROTAS - PRODUTOS
 // ========================================================================
@@ -68,4 +70,33 @@ router
     router.get('/total', [CarrinhoController, 'total']).as('carrinho.total')
   })
   .prefix('/carrinho')
+  .use(middleware.auth())
+// Adicione no seu start/routes.ts
+
+// ========================================================================
+// ROTAS - PEDIDOS (Usuário precisa estar logado)
+// ========================================================================
+router
+  .group(() => {
+    router.get('/checkout', [PedidosController, 'checkout']).as('pedidos.checkout')
+    router.post('/finalizar', [PedidosController, 'finalizar']).as('pedidos.finalizar')
+    router.get('/sucesso/:id', [PedidosController, 'sucesso']).as('pedidos.sucesso')
+    router.get('/meus-pedidos', [PedidosController, 'meusPedidos']).as('pedidos.meus')
+    router.get('/:id', [PedidosController, 'show']).as('pedidos.detalhes')
+    router.delete('/:id/cancelar', [PedidosController, 'cancelar']).as('pedidos.cancelar')
+  })
+  .prefix('/pedidos')
+  .use(middleware.auth())
+
+// ========================================================================
+// ROTAS - ADMIN (Gerenciar pedidos)
+// ========================================================================
+router
+  .group(() => {
+    router.get('/pedidos', [PedidosController, 'listarTodos']).as('admin.pedidos')
+    router
+      .put('/pedidos/:id/status', [PedidosController, 'atualizarStatus'])
+      .as('admin.pedidos.status')
+  })
+  .prefix('/admin')
   .use(middleware.auth())

@@ -1,0 +1,80 @@
+@layout.app({ title: "Meus Pedidos" })
+
+@slot('main')
+
+
+<div class="container">
+    <h1>Meus Pedidos</h1>
+
+    @if(pedidos.length === 0)
+    <div class="sucesso-container">
+        <p>Você ainda não fez nenhum pedido</p>
+    </div>
+    @else
+    @each(pedido in pedidos)
+    <div class="pedido-card">
+        <div class="pedido-header">
+            <div>
+                <h3>Pedido #{{ pedido.id.substring(0, 8) }}</h3>
+                <p>{{ pedido.createdAt.toFormat('dd/MM/yyyy HH:mm') }}</p>
+            </div>
+
+            <div>
+                @if(pedido.status === 'pendente')
+                <span class="pedido-status status-pendente">Pendente</span>
+                @elseif(pedido.status === 'em_separacao')
+                <span class="pedido-status status-em-separacao">Em Separação</span>
+                @elseif(pedido.status === 'em_transito')
+                <span class="pedido-status status-em-transito">Em Trânsito</span>
+                @elseif(pedido.status === 'entregue')
+                <span class="pedido-status status-entregue">✓ Entregue</span>
+                @elseif(pedido.status === 'cancelado')
+                <span class="pedido-status status-cancelado">✗ Cancelado</span>
+                @end
+            </div>
+        </div>
+
+        <div class="pedido-itens-box">
+            <p><strong>{{ pedido.itens.length }} item(ns)</strong></p>
+            @each(item in pedido.itens)
+            <p>{{ item.quantidade }}x {{ item.produtoNome }} - R$ {{ item.subtotal }}</p>
+            @end
+        </div>
+
+        <div class="pedido-footer">
+            <p><strong>Total: R$ {{ pedido.total }}</strong></p>
+
+            <div>
+                <a href="{{ route('pedidos.detalhes', { id: pedido.id }) }}" class="btn btn-primary">Ver Detalhes</a>
+
+                @if(pedido.status !== 'entregue' && pedido.status !== 'cancelado')
+                <button onclick="cancelarPedido('{{ pedido.id }}')">Cancelar</button>
+                @end
+            </div>
+        </div>
+    </div>
+    @end
+    @end
+</div>
+
+<script>
+    async function cancelarPedido(pedidoId) {
+        if (!confirm('Tem certeza que deseja cancelar este pedido?')) return;
+
+        try {
+            const response = await fetch(`/pedidos/${pedidoId}/cancelar`, { method: 'DELETE' });
+            const data = await response.json();
+
+            if (response.ok) {
+                alert(data.message);
+                location.reload();
+            } else {
+                alert(data.message);
+            }
+        } catch (error) {
+            alert('Erro ao cancelar pedido');
+        }
+    }
+</script>
+@end
+@end
