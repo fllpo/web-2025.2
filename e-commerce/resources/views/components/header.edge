@@ -21,6 +21,13 @@
         ({{ carrinhoItens }})
         @endif
       </a>
+<<<<<<< HEAD
+=======
+      @if(auth.isAuthenticated && !auth.user.isAdmin)
+      <a href="{{ route('pedidos.meus') }}">
+        Meus Pedidos
+      </a>
+>>>>>>> 7483687ba2cf8abf2416977f1308c9ed9670ffc0
       @endif
 
       <div class="dropdown">
