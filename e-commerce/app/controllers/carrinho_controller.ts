@@ -32,7 +32,7 @@ export default class CarrinhoController {
     }
   }
 
-  // Adicionar produto ao carrinho
+  // Adicionar produto ao carrinho ok
   async adicionar({ request, response, session }: HttpContext) {
     try {
       const { produtoId, quantidade } = request.only(['produtoId', 'quantidade'])
@@ -53,17 +53,18 @@ export default class CarrinhoController {
   }
 
   // Atualizar quantidade
-  async atualizar({ request, response, session }: HttpContext) {
+  async atualizar({ params, request, response, session }: HttpContext) {
     try {
-      const { produtoId, quantidade } = request.only(['produtoId', 'quantidade'])
+      const quantidade = request.input('quantidade')
 
-      await this.carrinhoService.atualizarQuantidade(session, produtoId, Number(quantidade))
+      await this.carrinhoService.atualizarQuantidade(session, params.produto_id, Number(quantidade))
 
       return response.status(200).json({
         status: 'success',
         message: 'Quantidade atualizada',
       })
     } catch (error: any) {
+      console.error(error)
       return response.status(400).json({
         status: 'error',
         message: error.message,
@@ -71,10 +72,10 @@ export default class CarrinhoController {
     }
   }
 
-  // Remover item
+  // Remover item ok
   async remover({ params, response, session }: HttpContext) {
     try {
-      this.carrinhoService.remover(session, params.produtoId)
+      this.carrinhoService.remover(session, params.produto_id)
 
       return response.status(200).json({
         status: 'success',
@@ -88,7 +89,7 @@ export default class CarrinhoController {
     }
   }
 
-  // Limpar carrinho
+  // Limpar carrinho ok
   async limpar({ response, session }: HttpContext) {
     try {
       this.carrinhoService.limpar(session)

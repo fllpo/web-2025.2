@@ -1,6 +1,6 @@
 <form action="{{ route('produto.criar') }}" method="POST" enctype="multipart/form-data">
 
-
+    {{ csrfField() }}
 
     <h2>Cadastrar Novo Produto</h2>
 

@@ -1,128 +1,226 @@
 @layout.app({title:"Meu Carrinho"})
 @slot('main')
-<div>
-    <h1>Meu Carrinho</h1>
+<div class="container">
+    <h1 class="titulo-pagina">Meu Carrinho</h1>
 
     @if(carrinho.length === 0)
-    <div>
-        <p>Seu carrinho está vazio</p>
-        <a href="/">Continuar comprando</a>
+    <div class="carrinho-vazio">
+        <svg class="carrinho-vazio-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+        </svg>
+        <p class="carrinho-vazio-texto">Seu carrinho está vazio</p>
+        <a href="/" class="btn btn-primary">Continuar comprando</a>
     </div>
     @else
-    <div>
-        <!-- Itens do Carrinho -->
-        @each(item in carrinho)
-        <div id="item-{{ item.produto_id }}">
-            <!-- Imagem -->
-            <div>
-                @if(item.imagem)
-                <img src="/resources/images/uploads/produtos/{{ item.imagem }}" alt="{{ item.nome }}" />
-                @else
-                <img src="https://placehold.co/100" alt="{{ item.nome }}" />
-                @end
-            </div>
+    <div class="checkout-grid">
 
-            <!-- Informações -->
-            <div>
-                <h3>{{ item.nome }}</h3>
-                <p>R$ {{ item.preco }}</p>
-            </div>
+        <div class="carrinho-itens">
+            @each(item in carrinho)
+            <div class="item-carrinho" id="item-{{ item.produto_id }}">
 
-            <!-- Quantidade -->
-            <div>
-                <button onclick="diminuirQuantidade('{{ item.produto_id }}', {{ item.quantidade }})">-</button>
-                <input type="number" id="quantidade-{{ item.produto_id }}" value="{{ item.quantidade }}" min="1"
-                    onchange="atualizarQuantidade('{{ item.produto_id }}', this.value)" />
-                <button onclick="aumentarQuantidade('{{ item.produto_id }}', {{ item.quantidade }})">+</button>
-            </div>
+                <div class="item-imagem">
+                    @if(item.imagem)
+                    <img src="/resources/images/uploads/produtos/{{ item.imagem }}" alt="{{ item.nome }}" />
+                    @else
+                    <img src="https://placehold.co/120x120/e5e7eb/9ca3af?text=Produto" alt="{{ item.nome }}" />
+                    @end
+                </div>
 
-            <!-- Subtotal -->
-            <div>
-                <p>R$ {{ item.subtotal.toFixed(2) }}</p>
-            </div>
+                <div class="item-info">
+                    <h3 class="item-nome">{{ item.nome }}</h3>
+                    <p class="item-preco">R$ {{ item.preco }}</p>
 
-            <!-- Remover -->
-            <div>
-                <button onclick="removerItem('{{ item.produto_id }}')">🗑️ Remover</button>
+                    <div class="item-quantidade-wrapper">
+                        <label for="quantidade-{{ item.produto_id }}" class="quantidade-label">Quantidade:</label>
+                        <div class="quantidade-input-wrapper">
+                            <input type="number" id="quantidade-{{ item.produto_id }}" class="quantidade-input"
+                                value="{{ item.quantidade }}" min="1" max="999" data-preco="{{ item.preco }}"
+                                oninput="debouncedAtualizarQuantidade('{{ item.produto_id }}', this.value, {{ item.preco }})" />
+
+                        </div>
+                    </div>
+
+                    <div class="item-subtotal-wrapper">
+                        <span class="subtotal-label">Subtotal:</span>
+                        <p id="subtotal-{{ item.produto_id }}" class="item-subtotal">
+                            R$ {{ item.subtotal }}
+                        </p>
+                    </div>
+                </div>
+
+                <div class="item-acoes">
+                    <button onclick="removerItem('{{ item.produto_id }}')" class="btn-remover">
+                        <svg class="btn-remover-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                        </svg>
+                        <span>Remover</span>
+                    </button>
+                </div>
             </div>
+            @end
         </div>
-        @end
 
-        <!-- Resumo -->
-        <div>
-            <h2>Resumo do Pedido</h2>
-            <p>Total de itens: {{ totalItens }}</p>
-            <p>Total: <strong>R$ {{ total.toFixed(2) }}</strong></p>
+        <!-- Resumo do Pedido -->
+        <div class="sticky-sidebar">
+            <div class="resumo-card">
+                <h2 class="resumo-titulo">Resumo do Pedido</h2>
 
-            <a href="{{ route('pedidos.checkout') }}"
-                style="background: green; color: white; padding: 1rem 2rem; text-decoration: none; border-radius: 8px; display: inline-block;">
-                Finalizar Compra
-            </a>
-            <button onclick="limparCarrinho()">Limpar Carrinho</button>
-            <a href="/">Continuar Comprando</a>
+                <div class="resumo-linha">
+                    <span>Total de itens:</span>
+                    <span id="total-itens" class="resumo-valor">{{ totalItens }}</span>
+                </div>
+
+                <div class="resumo-total">
+                    <span>Total:</span>
+                    <span id="valor-total">R$ {{ total.toFixed(2) }}</span>
+                </div>
+
+                <div class="resumo-acoes">
+                    <a href="{{ route('pedidos.checkout') }}" class="btn btn-finalizar">Finalizar Compra</a>
+                    <button onclick="limparCarrinho()" class="btn btn-limpar">Limpar Carrinho</button>
+                    <a href="/" class="btn btn-continuar">Continuar Comprando</a>
+                </div>
+            </div>
         </div>
     </div>
     @end
 </div>
 
+
+
 <script>
-    async function atualizarQuantidade(produtoId, quantidade) {
+
+
+    function atualizarVisualizacao(produtoId, novaQuantidade, preco) {
+        const subtotalElement = document.getElementById(`subtotal-${produtoId}`);
+        const novoSubtotal = novaQuantidade * preco;
+
+        if (subtotalElement) {
+            subtotalElement.textContent = `R$ ${novoSubtotal.toFixed(2)}`;
+        }
+
+        let totalGeral = 0;
+        let totalItens = 0;
+
+        document.querySelectorAll('.quantidade-input').forEach(input => {
+            const qtd = parseInt(input.value) || 0;
+            const preco = parseFloat(input.dataset.preco) || 0;
+            totalGeral += qtd * preco;
+            totalItens += qtd;
+        });
+
+        document.getElementById('valor-total').textContent = `R$ ${totalGeral.toFixed(2)}`;
+        document.getElementById('total-itens').textContent = totalItens;
+    }
+
+    function debouncedAtualizarQuantidade(produtoId, quantidade, preco) {
+        const quantidadeNum = parseInt(quantidade);
+
+        if (isNaN(quantidadeNum) || quantidadeNum < 1) {
+            return;
+        }
+
+        atualizarVisualizacao(produtoId, quantidadeNum, preco);
+        atualizarQuantidadeBackend(produtoId, quantidadeNum);
+
+    }
+
+    async function atualizarQuantidadeBackend(produtoId, quantidade) {
         try {
-            const response = await fetch('/carrinho/atualizar', {
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+            const response = await fetch(`/carrinho/${produtoId}`, {
                 method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ produto_id: produtoId, quantidade: parseInt(quantidade) })
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken
+                },
+                body: JSON.stringify({ quantidade: parseInt(quantidade) })
             });
 
             const data = await response.json();
 
-            if (response.ok) {
-                location.reload(); // Recarrega pra atualizar valores
-            } else {
-                alert(data.message);
+            if (!response.ok) {
+                alert(data.message || 'Erro ao atualizar quantidade');
+                location.reload();
             }
         } catch (error) {
+            console.error('Erro:', error);
+
+            const loadingIndicator = document.getElementById(`loading-${produtoId}`);
+            if (loadingIndicator) {
+                loadingIndicator.classList.add('hidden');
+            }
+
             alert('Erro ao atualizar quantidade');
-        }
-    }
-
-    function aumentarQuantidade(produtoId, quantidadeAtual) {
-        atualizarQuantidade(produtoId, quantidadeAtual + 1);
-    }
-
-    function diminuirQuantidade(produtoId, quantidadeAtual) {
-        if (quantidadeAtual > 1) {
-            atualizarQuantidade(produtoId, quantidadeAtual - 1);
+            location.reload();
         }
     }
 
     async function removerItem(produtoId) {
-        if (!confirm('Remover este item do carrinho?')) return;
+        if (!confirm('Deseja remover este item do carrinho?')) return;
 
         try {
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
             const response = await fetch(`/carrinho/${produtoId}`, {
-                method: 'DELETE'
+                method: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken
+                }
             });
 
             const data = await response.json();
 
             if (response.ok) {
-                document.getElementById(`item-${produtoId}`).remove();
-                location.reload();
+                const elemento = document.getElementById(`item-${produtoId}`);
+                if (elemento) {
+                    elemento.classList.add('removing');
+
+                    setTimeout(() => {
+                        elemento.remove();
+
+                        const itensRestantes = document.querySelectorAll('.item-carrinho');
+                        if (itensRestantes.length === 0) {
+                            location.reload();
+                        } else {
+                            let totalGeral = 0;
+                            let totalItens = 0;
+
+                            document.querySelectorAll('.quantidade-input').forEach(input => {
+                                const qtd = parseInt(input.value) || 0;
+                                const preco = parseFloat(input.dataset.preco) || 0;
+                                totalGeral += qtd * preco;
+                                totalItens += qtd;
+                            });
+
+                            document.getElementById('valor-total').textContent = `R$ ${totalGeral.toFixed(2)}`;
+                            document.getElementById('total-itens').textContent = totalItens;
+                        }
+                    }, 300);
+                }
             } else {
-                alert(data.message);
+                alert(data.message || 'Erro ao remover item');
             }
         } catch (error) {
+            console.error('Erro:', error);
             alert('Erro ao remover item');
         }
     }
 
     async function limparCarrinho() {
-        if (!confirm('Limpar todo o carrinho?')) return;
+        if (!confirm('Deseja limpar todo o carrinho?')) return;
 
         try {
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
             const response = await fetch('/carrinho/limpar/tudo', {
-                method: 'DELETE'
+                method: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken
+                }
             });
 
             const data = await response.json();
@@ -130,16 +228,12 @@
             if (response.ok) {
                 location.reload();
             } else {
-                alert(data.message);
+                alert(data.message || 'Erro ao limpar carrinho');
             }
         } catch (error) {
+            console.error('Erro:', error);
             alert('Erro ao limpar carrinho');
         }
-    }
-
-    function finalizarCompra() {
-
-        alert('Função de finalizar compra será implementada em breve!');
     }
 </script>
 @end

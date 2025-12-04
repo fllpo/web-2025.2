@@ -1,5 +1,6 @@
 <div>
     <form action="{{ route('usuario.autenticar') }}" method="POST">
+        {{ csrfField() }}
         <h1>Login</h1>
 
         @label({

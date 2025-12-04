@@ -36,6 +36,7 @@
             </div>
 
             <form action="{{ route('pedidos.finalizar') }}" method="POST" id="formCheckout">
+                {{ csrfField() }}
                 <h3>Observações (opcional)</h3>
                 <textarea name="observacoes" rows="4" placeholder="Ex: Deixar com porteiro, bater palmas..."></textarea>
 
