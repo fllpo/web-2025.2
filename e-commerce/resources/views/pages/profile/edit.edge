@@ -5,7 +5,7 @@
     <h1 class="profile-title">Editar Perfil</h1>
 
     <form method="POST" action="{{ route('profile.update') }}" enctype="multipart/form-data">
-
+      {{ csrfField() }}
       <div class="form-group">
         <label for="nome" class="form-label">Nome:</label>
         <input type="text" id="nome" name="nome" value="{{ usuario.nome || '' }}" disabled class="form-control">
@@ -68,7 +68,7 @@
         <input type="text" id="cep" name="cep" value="{{ usuario.cep || '' }}" class="form-control">
       </div>
 
-      {{-- --- Ação --- --}}
+
       <div class="profile-actions">
         @!button({
         text: "Salvar Alterações",

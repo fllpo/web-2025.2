@@ -57,9 +57,10 @@
         }
 
         try {
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
             const response = await fetch(`/admin/pedidos/${pedidoId}/status`, {
                 method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': csrfToken },
                 body: JSON.stringify({ status: novoStatus })
             });
 
