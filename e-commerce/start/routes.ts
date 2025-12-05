@@ -64,14 +64,13 @@ router
   .group(() => {
     router.get('/', [CarrinhoController, 'index']).as('carrinho.index')
     router.post('/adicionar', [CarrinhoController, 'adicionar']).as('carrinho.adicionar')
-    router.put('/atualizar', [CarrinhoController, 'atualizar']).as('carrinho.atualizar')
+    router.put('/:produto_id', [CarrinhoController, 'atualizar']).as('carrinho.atualizar')
     router.delete('/:produto_id', [CarrinhoController, 'remover']).as('carrinho.remover')
     router.delete('/limpar/tudo', [CarrinhoController, 'limpar']).as('carrinho.limpar')
     router.get('/total', [CarrinhoController, 'total']).as('carrinho.total')
   })
   .prefix('/carrinho')
   .use(middleware.auth())
-// Adicione no seu start/routes.ts
 
 // ========================================================================
 // ROTAS - PEDIDOS (Usuário precisa estar logado)

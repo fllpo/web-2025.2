@@ -62,7 +62,9 @@
         if (!confirm('Tem certeza que deseja cancelar este pedido?')) return;
 
         try {
-            const response = await fetch(`/pedidos/${pedidoId}/cancelar`, { method: 'DELETE' });
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+            const response = await fetch(`/pedidos/${pedidoId}/cancelar`, { method: 'DELETE', headers: { 'X-CSRF-TOKEN': csrfToken } });
             const data = await response.json();
 
             if (response.ok) {

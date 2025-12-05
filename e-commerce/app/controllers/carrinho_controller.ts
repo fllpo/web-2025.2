@@ -47,9 +47,9 @@ export default class CarrinhoController {
 
   async atualizar({ request, response, session }: HttpContext) {
     try {
-      const { produtoId, quantidade } = request.only(['produtoId', 'quantidade'])
+      const quantidade = request.input('quantidade')
 
-      await this.carrinhoService.atualizarQuantidade(session, produtoId, Number(quantidade))
+      await this.carrinhoService.atualizarQuantidade(session, params.produto_id, Number(quantidade))
 
       session.flash('success', 'Carrinho atualizado!')
       return response.redirect().back()

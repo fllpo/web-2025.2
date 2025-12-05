@@ -28,7 +28,6 @@
         onclick:`adicionarAoCarrinho('${produto.id}')`
         })
 
-
         @if(auth.isAuthenticated && auth.user.isAdmin)
         @!button({
         text: "Editar Produto",
@@ -59,7 +58,17 @@
         if (!confirm('Tem certeza que deseja deletar este produto?')) return;
 
         try {
-            const response = await fetch(`/produtos/${id}`, { method: 'DELETE' });
+            const csrfToken = document
+                .querySelector('meta[name="csrf-token"]')
+                .getAttribute('content');
+
+
+            const response = await fetch(`/produtos/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken
+                }
+            });
             const data = await response.json();
 
             if (response.ok) {
@@ -74,12 +83,19 @@
         }
     }
 
-    // No seu produtos.edge, no botão "Adicionar ao Carrinho"
     async function adicionarAoCarrinho(produtoId) {
+
         try {
+            const csrfToken = document
+                .querySelector('meta[name="csrf-token"]')
+                .getAttribute('content');
+
             const response = await fetch('/carrinho/adicionar', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken
+                },
                 body: JSON.stringify({ produtoId, quantidade: 1 })
             });
             console.log(produtoId);
@@ -101,7 +117,6 @@
             const response = await fetch('/carrinho/total');
             const data = await response.json();
 
-            // Atualiza o elemento no header
             const carrinhoElement = document.querySelector('[data-carrinho-total]');
             if (carrinhoElement) {
                 carrinhoElement.textContent = `Carrinho (${data.total})`;

@@ -62,7 +62,7 @@ export class CarrinhoService {
     if (quantidade <= 0) {
       throw new Error('Quantidade deve ser maior que zero')
     }
-
+    console.log('Atualizando quantidade no carrinho:', produto_id, quantidade)
     const produto = await this.produtoService.buscarPorID(produto_id)
 
     if (!produto) {
@@ -90,6 +90,7 @@ export class CarrinhoService {
   // Remover item do carrinho
   remover(session: any, produto_id: string) {
     const carrinho = this.obterCarrinho(session)
+
     const novoCarrinho = carrinho.filter((item) => item.produto_id !== produto_id)
 
     session.put('carrinho', novoCarrinho)
