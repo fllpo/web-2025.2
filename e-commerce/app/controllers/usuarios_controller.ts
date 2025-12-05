@@ -9,7 +9,7 @@ export default class UsuariosController {
     return view.render('pages/usuario/cadastrar')
   }
 
-  async store({ request, response }: HttpContext) {
+  async store({ request, response, session }: HttpContext) {
     try {
       const dados = await request.validateUsing(criarUsuarioValidator)
 
@@ -18,27 +18,26 @@ export default class UsuariosController {
         extnames: ['jpg', 'jpeg', 'png', 'webp'],
       })
 
-      if (imagem && !imagem.isValid)
-        return response.status(422).json({
-          status: 'error',
-          message: 'Arquivo inválido',
-          erros: imagem.errors,
-        })
+      if (imagem && !imagem.isValid){
+        session.flash('error', `Imagem inválida: ${imagem.errors[0].message}`)
+        return response.redirect().back()
+      }
+        
 
       let nomeImagem
       try {
         nomeImagem = await this.usuarioService.salvarImagem(imagem)
       } catch (error) {
-        return response.status(500).json({
-          status: 'error',
-          message: 'Erro ao fazer upload da imagem',
-        })
+        console.error(error)
+        session.flash('error', 'Erro ao salvar a imagem. Tente novamente.')
+        return response.redirect().back()
       }
 
       const usuarioExistente = await this.usuarioService.buscarPorEmail(dados.email)
 
       if (usuarioExistente) {
-        return response.badRequest('Usuário já cadastrado.')
+        session.flash('error', 'Este e-mail já está cadastrado.')
+        return response.redirect().back()
       }
 
       await this.usuarioService.criar({
@@ -54,14 +53,13 @@ export default class UsuariosController {
         bairro: dados.bairro,
         fotoPerfil: nomeImagem || undefined,
       })
+      session.flash('success', 'Cadastro realizado com sucesso! Faça login.')
       return response.redirect().toRoute('usuario.login')
+
     } catch (error) {
-      if (error.messages) {
-        console.error(error)
-        return response.badRequest('Erro ao criar usuário.')
-      }
       console.error(error)
+      session.flash('error', 'Ocorreu um erro interno. Tente novamente mais tarde.')
+      return response.redirect().back()
     }
-    return response.internalServerError('Erro no servidor.')
   }
 }

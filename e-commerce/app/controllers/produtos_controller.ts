@@ -1,19 +1,26 @@
 import type { HttpContext } from '@adonisjs/core/http'
 import { ProdutoService } from '#services/produto_service'
 import { criarProdutoValidator } from '#validators/produto'
+import { Session } from '@adonisjs/session'
 
 export default class ProdutosController {
   private produtoService = new ProdutoService()
 
   async index({ view, request }: HttpContext) {
     try {
-      //const produtos = await this.produtoService.listarTodos()
       const pagina = request.input('page', 1)
       const limite = 8
-      const produtos = await this.produtoService.listarPaginado(pagina, limite)
+      
+      const busca = request.input('busca')
 
-      return view.render('pages/produtos/produtos', { produtos })
+      const produtos = await this.produtoService.listarPaginado(pagina, limite, busca)
+
+      produtos.baseUrl('/produtos')
+      produtos.queryString({ busca: busca })
+
+      return view.render('pages/produtos/produtos', { produtos, busca })
     } catch (error) {
+      console.log(error)
       return view.render('pages/produtos/produtos', { produtos: [] })
     }
   }
@@ -23,7 +30,7 @@ export default class ProdutosController {
   }
 
   // Cria um novo produto OK
-  async store({ request, response }: HttpContext) {
+  async store({ request, response, session}: HttpContext) {
     try {
       const dados = await request.validateUsing(criarProdutoValidator)
 
@@ -59,6 +66,8 @@ export default class ProdutosController {
         quantidade: Number(dados.quantidade),
         imagem: nomeImagem || undefined,
       })
+
+      session.flash('success', 'Produto criado com sucesso!')
 
       return response.redirect().toRoute('produto.listar')
     } catch (error) {
@@ -99,15 +108,13 @@ export default class ProdutosController {
   }
 
   //TODO Atualiza um produto
-  async update({ params, request, response }: HttpContext) {
+  async update({ params, request, response, session }: HttpContext) {
     try {
       const produto = await this.produtoService.buscarPorID(params.id)
 
       if (!produto) {
-        return response.status(404).json({
-          status: 'error',
-          message: 'Produto não encontrado',
-        })
+        session.flash('error', 'Produto não encontrado.')
+        return response.redirect().toRoute('produto.listar')
       }
 
       const dados = request.only([
@@ -136,12 +143,9 @@ export default class ProdutosController {
         extnames: ['jpg', 'jpeg', 'png', 'webp'],
       })
 
-      if (imagem && imagem.isValid) {
-        return response.status(422).json({
-          status: 'error',
-          message: 'Arquivo inválido',
-          erros: imagem.errors,
-        })
+      if (imagem && !imagem.isValid) {
+        session.flash('error', `Imagem inválida: ${imagem.errors[0].message}`)
+        return response.redirect().back()
       }
 
       let nomeImagem: string | null | undefined = produto.imagem
@@ -151,8 +155,12 @@ export default class ProdutosController {
           if (produto.imagem) {
             nomeImagem = await this.produtoService.substituirImagemProduto(produto.imagem, imagem)
           }
+          else {
+            nomeImagem = await this.produtoService.salvarImagem(imagem)
+          }
         } catch (error) {
           console.log(error)
+          session.flash('error', 'Erro ao processar a nova imagem.')
           return response.redirect().back()
         }
       }
@@ -168,34 +176,33 @@ export default class ProdutosController {
         imagem: nomeImagem || undefined,
       })
 
-      response.redirect().toRoute('produto.detalhe', { id: params.id })
+      session.flash('success', 'Produto atualizado com sucesso!')
+
+      return response.redirect().toRoute('produto.detalhe', { id: params.id })
+
     } catch (error) {
       console.log(error)
+      session.flash('error', 'Erro inesperado ao atualizar produto.')
       return response.redirect().back()
     }
   }
 
-  async destroy({ params, response }: HttpContext) {
+  async destroy({ params, response, session }: HttpContext) {
     try {
       const deletado = await this.produtoService.deletarProduto(params.id)
 
       if (!deletado) {
-        return response.status(404).json({
-          status: 'error',
-          message: 'Produto não encontrado',
-        })
+        session.flash('error', 'Produto não encontrado')
+        return response.redirect().back()
       }
 
-      return response.status(200).json({
-        status: 'success',
-        message: 'Produto deletado com sucesso',
-      })
+      session.flash('success', 'Produto deletado com sucesso')
+      return response.redirect().toRoute('produto.listar')
+
     } catch (error) {
       console.log(error)
-      return response.status(500).json({
-        status: 'error',
-        message: 'Erro ao deletar produto',
-      })
+      session.flash('error', 'Erro ao deletar produto.')
+      return response.redirect().back()
     }
   }
 }

@@ -5,9 +5,13 @@
     <h1 class="profile-title">{{ usuario.nome }}</h1>
 
     @if(flashMessages.has('success'))
-    <div class="alert alert-success">
-      {{ flashMessages.get('success') }}
-    </div>
+      <div class="alert-success">
+        {{ flashMessages.get('success') }}
+      </div>
+    @elseif(flashMessages.has('error'))
+        <div class="alert-error"> 
+            {{ flashMessages.get('error') }}
+        </div>
     @endif
 
     <div class="profile-image-container">

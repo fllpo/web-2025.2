@@ -61,22 +61,36 @@
 @end
 @end
 
-
 <script>
 
-    async function adicionarAoCarrinho(produtoId) {
+    function editarProduto(id) {
+        window.location.href = `/produtos/${id}/editar`;
+    }
+
+    async function deletarProduto(id) {
+        if (!confirm('Tem certeza que deseja deletar este produto?')) return;
 
         try {
-            const csrfToken = document
-                .querySelector('meta[name="csrf-token"]')
-                .getAttribute('content');
+            const response = await fetch(`/produtos/${id}`, { method: 'DELETE' });
+            const data = await response.json();
 
+            if (response.ok) {
+                const produtoDiv = document.getElementById(`produto-${id}`);
+                if (produtoDiv) produtoDiv.remove();
+            } else {
+                alert(data.message || 'Erro ao deletar produto');
+            }
+        } catch (error) {
+            console.error('Erro na requisição:', error);
+            alert('Erro ao deletar produto');
+        }
+    }
+
+    async function adicionarAoCarrinho(produtoId) {
+        try {
             const response = await fetch('/carrinho/adicionar', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': csrfToken
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ produtoId, quantidade: 1 })
             });
             console.log(produtoId);
@@ -92,6 +106,7 @@
             alert('Erro ao adicionar ao carrinho');
         }
     }
+
     async function atualizarCarrinho() {
         try {
             const response = await fetch('/carrinho/total');
@@ -105,8 +120,4 @@
             console.error('Erro ao atualizar carrinho:', error);
         }
     }
-
-
-
-
 </script>

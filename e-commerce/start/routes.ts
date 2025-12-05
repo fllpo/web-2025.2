@@ -24,7 +24,7 @@ router
     router.post('/novo', [ProdutosController, 'store']).as('produto.criar')
 
     router.get('/:id/editar', [ProdutosController, 'edit']).as('produto.editar')
-    router.put('/:id', [ProdutosController, 'update']).as('produto.atualizar')
+    router.post('/:id', [ProdutosController, 'update']).as('produto.atualizar')
     router.delete('/:id', [ProdutosController, 'destroy']).as('produto.deletar')
   })
   .prefix('/produtos')
