@@ -1,4 +1,15 @@
 <form action="{{ route('usuario.criar') }}" method="POST">
+    
+    @if(flashMessages.has('success'))
+        <div class="alert-success">
+        {{ flashMessages.get('success') }}
+        </div>
+    @elseif(flashMessages.has('error'))
+        <div class="alert-error"> 
+            {{ flashMessages.get('error') }}
+        </div>
+    @endif
+    
     <div>
         <h1>Crie sua conta</h1>
         <h3>Dados pessoais</h3>

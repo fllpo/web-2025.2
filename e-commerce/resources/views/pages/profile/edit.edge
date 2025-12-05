@@ -31,7 +31,6 @@
         <input type="text" id="telefone" name="telefone" value="{{ usuario.telefone || '' }}" class="form-control">
       </div>
 
-      {{-- --- Endereço --- --}}
       <h3 class="form-section-title">Endereço</h3>
 
       <div class="form-group">
@@ -68,8 +67,8 @@
         <input type="text" id="cep" name="cep" value="{{ usuario.cep || '' }}" class="form-control">
       </div>
 
-      {{-- --- Ação --- --}}
       <div class="profile-actions">
+        <a href="{{ route('profile.show') }}" class="btn btn-secondary">Cancelar</a>
         @!button({
         text: "Salvar Alterações",
         type: "submit",
@@ -82,17 +81,6 @@
 </div>
 @end
 @end
-
-
-
-
-
-
-
-
-
-
-
 
 <script>
   const imagemInput = document.getElementById('foto_perfil');

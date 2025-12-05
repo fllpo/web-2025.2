@@ -10,8 +10,14 @@ export class ProdutoService {
     return await Produto.all()
   }
 
-  async listarPaginado(pagina: number, limite: number) {
-    return await Produto.query().paginate(pagina, limite)
+  async listarPaginado(pagina: number, limite: number, busca?: string) {
+    const query = Produto.query()
+
+    if (busca) {
+      query.where('nome', 'ILIKE', `%${busca}%`)
+    }
+
+    return await query.paginate(pagina, limite)
   }
 
   async buscarPorID(id: string) {
@@ -127,4 +133,5 @@ export class ProdutoService {
 
     return produto
   }
+
 }

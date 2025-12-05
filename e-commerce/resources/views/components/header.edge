@@ -1,6 +1,21 @@
 <header>
   <nav>
+    
     <a href="{{ route('produto.listar')}}"><span class="logo">PetBuy</span></a>
+
+    <form action="{{ route('produto.listar') }}" method="GET" class="search-box">
+        <input 
+          type="text" 
+          name="busca" 
+          placeholder="O que você procura?" 
+          class="search-input"
+          value="{{ request.input('busca', '') }}" 
+      >
+      <button type="submit" class="search-btn">
+        🔍
+      </button>
+    </form>
+    
     <div class="nav-links">
       <a href="{{ route('produto.listar') }}">Produtos</a>
 
@@ -15,19 +30,22 @@
       <a href="{{ route('pedidos.meus') }}">
         Meus Pedidos
       </a>
-      <a href="{{ route('carrinho.index') }}" data-carrinho-total>
+      {{-- <a href="{{ route('carrinho.index') }}" data-carrinho-total>
         Carrinho
         @if(carrinhoItens > 0)
         ({{ carrinhoItens }})
         @endif
+      </a> --}}
+      {{-- Link do Carrinho no Header --}}
+      <a href="{{ route('carrinho.index') }}" class="carrinho-link">
+        🛒
+        {{-- Só mostra a bolinha se tiver itens --}}
+        @if(totalItensGlobal > 0)
+          <span class="badge-contador">
+            {{ totalItensGlobal }}
+          </span>
+        @endif
       </a>
-<<<<<<< HEAD
-=======
-      @if(auth.isAuthenticated && !auth.user.isAdmin)
-      <a href="{{ route('pedidos.meus') }}">
-        Meus Pedidos
-      </a>
->>>>>>> 7483687ba2cf8abf2416977f1308c9ed9670ffc0
       @endif
 
       <div class="dropdown">

@@ -40,8 +40,8 @@
 
             <div class="produto-acoes">
                 @!button({
-                text: "Adicionar ao carrinho",
-                class: "btn-comprar"
+                text:"Adicionar ao carrinho",
+                onclick:`adicionarAoCarrinho('${produto.id}')`
                 })
 
                 @if(auth.user && auth.user.is_admin)
@@ -60,3 +60,64 @@
 
 @end
 @end
+
+<script>
+
+    function editarProduto(id) {
+        window.location.href = `/produtos/${id}/editar`;
+    }
+
+    async function deletarProduto(id) {
+        if (!confirm('Tem certeza que deseja deletar este produto?')) return;
+
+        try {
+            const response = await fetch(`/produtos/${id}`, { method: 'DELETE' });
+            const data = await response.json();
+
+            if (response.ok) {
+                const produtoDiv = document.getElementById(`produto-${id}`);
+                if (produtoDiv) produtoDiv.remove();
+            } else {
+                alert(data.message || 'Erro ao deletar produto');
+            }
+        } catch (error) {
+            console.error('Erro na requisição:', error);
+            alert('Erro ao deletar produto');
+        }
+    }
+
+    async function adicionarAoCarrinho(produtoId) {
+        try {
+            const response = await fetch('/carrinho/adicionar', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ produtoId, quantidade: 1 })
+            });
+            console.log(produtoId);
+            const data = await response.json();
+
+            if (response.ok) {
+                alert('Produto adicionado ao carrinho!');
+                atualizarCarrinho();
+            } else {
+                alert(data.message);
+            }
+        } catch (error) {
+            alert('Erro ao adicionar ao carrinho');
+        }
+    }
+
+    async function atualizarCarrinho() {
+        try {
+            const response = await fetch('/carrinho/total');
+            const data = await response.json();
+
+            const carrinhoElement = document.querySelector('[data-carrinho-total]');
+            if (carrinhoElement) {
+                carrinhoElement.textContent = `Carrinho (${data.total})`;
+            }
+        } catch (error) {
+            console.error('Erro ao atualizar carrinho:', error);
+        }
+    }
+</script>

@@ -6,7 +6,15 @@
 
 @include('components/produto_card')
 @include ('components/produto_paginacao')
-
+    @if(flashMessages.has('success'))
+        <div class="alert-success">
+        {{ flashMessages.get('success') }}
+        </div>
+    @elseif(flashMessages.has('error'))
+        <div class="alert-error"> 
+            {{ flashMessages.get('error') }}
+        </div>
+    @endif
 @endif
 
 @endslot

@@ -6,7 +6,7 @@ export default class SessionController {
     return view.render('pages/usuario/login')
   }
 
-  async store({ request, auth, response }: HttpContext) {
+  async store({ request, auth, response, session }: HttpContext) {
     const { email, senha } = request.only(['email', 'senha'])
 
     try {
@@ -14,12 +14,14 @@ export default class SessionController {
       await auth.use('web').login(usuario)
       response.redirect().toRoute('produto.listar')
     } catch (error) {
-      return response.unauthorized('Credenciais inválidas.')
+      session.flash('error', 'Email ou senha inválidos.')
+      response.redirect().back()
     }
   }
 
-  async destroy({ auth, response }: HttpContext) {
+  async destroy({ auth, response, session }: HttpContext) {
     await auth.use('web').logout()
+    session.flash('success', 'Você saiu do sistema com segurança.')
     response.redirect().toRoute('usuario.login')
   }
 }

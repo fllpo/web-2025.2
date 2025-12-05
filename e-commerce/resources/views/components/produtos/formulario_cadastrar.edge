@@ -1,6 +1,14 @@
 <form action="{{ route('produto.criar') }}" method="POST" enctype="multipart/form-data">
 
-
+    @if(flashMessages.has('success'))
+        <div class="alert-success">
+        {{ flashMessages.get('success') }}
+        </div>
+    @elseif(flashMessages.has('error'))
+        <div class="alert-error"> 
+            {{ flashMessages.get('error') }}
+        </div>
+    @endif
 
     <h2>Cadastrar Novo Produto</h2>
 
